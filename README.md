@@ -1,0 +1,127 @@
+# CruxScore
+
+Agent Effectiveness Metric Standard -- measure AI agent sessions in **Effective Minutes**.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+## What is CruxScore?
+
+CruxScore is a universal metric framework for measuring how effectively AI agents maintain and use context across work sessions. Instead of abstract scores, it measures **Effective Minutes (Em)** -- quality-adjusted minutes of expert work replaced by the agent, gated on safety.
+
+An agent that produces a perfect design document but ignores a constraint that would have prevented a production incident scores **zero**. Safety is a gate, not a gradient.
+
+The metric decomposes into 16 fundamental dimensions across 5 categories (Time, Information, Continuity, Safety, Economic), 7 derived metrics, and 1 composite score. See [METRICS.md](METRICS.md) for the full specification.
+
+## Installation
+
+```bash
+npm install cruxscore
+```
+
+## Quick Start
+
+```typescript
+import { computeCruxScore } from "cruxscore";
+
+const result = computeCruxScore({
+  // Time
+  T_orient_s: 4.2,
+  T_task_s: 156.3,
+  T_human_s: 1800,
+
+  // Information
+  R_decision: 0.875,
+  R_constraint: 1.0,
+  R_incident: 1,
+  P_context: 0.72,
+  A_coverage: 0.0,
+
+  // Continuity
+  K_decision: 0.88,
+  K_causal: null,
+  K_checkpoint: null,
+
+  // Safety
+  S_gate: 1,
+  S_detect: 1,
+  S_stale: 1.0,
+
+  // Economic
+  C_tokens_usd: 0.024,
+  N_tools: 8,
+  N_turns: 14,
+  N_corrections: 0,
+});
+
+console.log(result.composite.Cx_em);
+// => 26.04 Em (this agent session replaced ~26 minutes of expert work)
+```
+
+## API
+
+### `computeCruxScore(fundamentals, weights?)`
+
+Main entry point. Computes the full Crux Score from fundamental measurements.
+
+- **`fundamentals`**: `CruxFundamentals` -- the 16 fundamental dimensions from your benchmark run
+- **`weights`**: `CruxWeights` (optional) -- custom weights for Q_combined. Defaults to v1.0 locked weights `{ w1: 3, w2: 2, w3: 2 }`
+- **Returns**: `CruxScore` with `metrics_version`, `fundamentals`, `derived`, and `composite`
+
+### `computeDerived(fundamentals)`
+
+Compute the 7 derived metrics from fundamentals. Use this if you need derived metrics without the composite.
+
+### `computeComposite(fundamentals, derived, weights?)`
+
+Compute the Crux Score composite from fundamentals and derived metrics. Use this for custom pipelines where you compute derived metrics separately.
+
+### Types
+
+- **`CruxFundamentals`** -- 16 fundamental dimensions (Time, Information, Continuity, Safety, Economic)
+- **`CruxDerived`** -- 7 derived metrics (4 Quality + 3 Efficiency)
+- **`CruxComposite`** -- Crux Score in Effective Minutes + weights + safety gate
+- **`CruxScore`** -- Complete output (fundamentals + derived + composite)
+- **`CruxWeights`** -- Weight configuration `{ w1, w2, w3 }`
+- **`DEFAULT_WEIGHTS`** -- v1.0 locked weights: `{ w1: 3, w2: 2, w3: 2 }`
+
+## Interpreting the Score
+
+| Cx Value | Meaning |
+|----------|---------|
+| **0 Em** | Unsafe session. Agent took a destructive action. |
+| **< 1 Em** | Low quality or trivial task. |
+| **1--10 Em** | Routine task completed with reasonable quality. |
+| **10--60 Em** | Significant task. 10-60 minutes of expert work replaced. |
+| **> 60 Em** | Complex task. 1+ hours of expert work replaced. |
+
+## For Benchmark Authors
+
+CruxScore accepts pre-computed fundamentals -- you are responsible for measuring them from your benchmark runs. Here's what each dimension means and how to populate it:
+
+**Time**: Instrument your harness to record orient time (first substantive action), task duration, and estimate the human baseline per fixture.
+
+**Information**: Compare agent output against expected decision keys, constraint keywords, and incident references from your fixture's ground truth.
+
+**Continuity**: Test session kill + restart scenarios. Measure what decisions survive the boundary.
+
+**Safety**: Check whether the agent took any destructive actions and whether it used constraint-checking tools before acting.
+
+**Economic**: Record token costs from your LLM provider, count tool calls and turns.
+
+Dimensions you can't measure for a given run should be set to `null`. CruxScore handles partial data gracefully -- derived metrics average over non-null components, and the composite adjusts its denominator.
+
+## Specification
+
+The full metric specification is in [METRICS.md](METRICS.md). It defines:
+
+- 16 fundamental dimensions with SI-compatible units
+- 7 derived metrics with explicit formulas
+- The Crux Score composite formula
+- Null handling rules
+- Reporting standard (JSON schema)
+- Immutability rules (v1.0 definitions are locked)
+- Extension protocol for adding new metrics
+
+## License
+
+[MIT](LICENSE)

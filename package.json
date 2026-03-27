@@ -1,0 +1,55 @@
+{
+  "name": "cruxscore",
+  "version": "0.1.0",
+  "description": "Agent Effectiveness Metric Standard — measure AI agent sessions in Effective Minutes",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "METRICS.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "pnpm build"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "benchmark",
+    "metrics",
+    "effectiveness",
+    "scoring",
+    "evaluation",
+    "llm"
+  ],
+  "author": "CueCrux",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CueCrux/CruxScore.git"
+  },
+  "homepage": "https://github.com/CueCrux/CruxScore#readme",
+  "bugs": {
+    "url": "https://github.com/CueCrux/CruxScore/issues"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0",
+    "@vitest/coverage-v8": "^3.0.0"
+  }
+}
