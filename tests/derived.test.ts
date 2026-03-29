@@ -9,6 +9,9 @@ import {
   FULL_CONTINUITY,
   ZERO_TURNS,
   SLOW_AGENT,
+  WITH_ABSTENTION,
+  ABSTENTION_ZERO_COVERAGE,
+  WITH_SYNTHESIS,
 } from "./fixtures.js";
 
 describe("computeDerived", () => {
@@ -161,6 +164,84 @@ describe("computeDerived", () => {
     it("returns null when Q_info is null", () => {
       const d = computeDerived(ALL_NULL);
       expect(d.V_cost).toBeNull();
+    });
+  });
+
+  describe("Q_abstention (§2.1 Q5)", () => {
+    it("computes harmonic mean of A_abstention and A_coverage", () => {
+      const d = computeDerived(WITH_ABSTENTION);
+      // 2 × 0.9 × 0.8 / (0.9 + 0.8) = 1.44 / 1.7 = 0.8470...
+      expect(d.Q_abstention).toBeCloseTo(
+        (2 * 0.9 * 0.8) / (0.9 + 0.8),
+        3,
+      );
+    });
+
+    it("returns null when A_abstention is null", () => {
+      const d = computeDerived(SPEC_EXAMPLE);
+      expect(d.Q_abstention).toBeNull();
+    });
+
+    it("returns null when A_coverage is null", () => {
+      const d = computeDerived({
+        ...SPEC_EXAMPLE,
+        A_coverage: null,
+        A_abstention: 0.9,
+      });
+      expect(d.Q_abstention).toBeNull();
+    });
+
+    it("returns null when both are null", () => {
+      const d = computeDerived(ALL_NULL);
+      expect(d.Q_abstention).toBeNull();
+    });
+
+    it("returns 0 when both are near zero (clamped denominator)", () => {
+      const d = computeDerived({
+        ...SPEC_EXAMPLE,
+        A_coverage: 0.0,
+        A_abstention: 0.0,
+      });
+      expect(d.Q_abstention).toBe(0);
+    });
+
+    it("handles zero coverage with nonzero abstention", () => {
+      const d = computeDerived(ABSTENTION_ZERO_COVERAGE);
+      // 2 × 0.9 × 0.0 / max(0.9, 0.01) = 0
+      expect(d.Q_abstention).toBe(0);
+    });
+
+    it("returns perfect score when both are 1.0", () => {
+      const d = computeDerived({
+        ...SPEC_EXAMPLE,
+        A_coverage: 1.0,
+        A_abstention: 1.0,
+      });
+      // 2 × 1 × 1 / 2 = 1.0
+      expect(d.Q_abstention).toBeCloseTo(1.0, 3);
+    });
+  });
+
+  describe("V_retrieval (§2.2 V4)", () => {
+    it("computes R_retrieval / N_tools", () => {
+      const d = computeDerived(WITH_ABSTENTION);
+      // R_retrieval=0.75, N_tools=8 → 0.75/8 = 0.09375
+      expect(d.V_retrieval).toBeCloseTo(0.75 / 8, 4);
+    });
+
+    it("returns null when R_retrieval is null", () => {
+      const d = computeDerived(SPEC_EXAMPLE);
+      expect(d.V_retrieval).toBeNull();
+    });
+
+    it("uses max(N_tools, 1) to avoid division by zero", () => {
+      const d = computeDerived({
+        ...SPEC_EXAMPLE,
+        R_retrieval: 0.5,
+        N_tools: 0,
+      });
+      // 0.5 / max(0, 1) = 0.5
+      expect(d.V_retrieval).toBeCloseTo(0.5, 3);
     });
   });
 

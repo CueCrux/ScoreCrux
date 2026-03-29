@@ -3,9 +3,9 @@ import { computeCruxScore } from "../src/score.js";
 import { SPEC_EXAMPLE, ALL_NULL, UNSAFE_SESSION } from "./fixtures.js";
 
 describe("computeCruxScore", () => {
-  it("returns metrics_version 1.0", () => {
+  it("returns metrics_version 1.1", () => {
     const result = computeCruxScore(SPEC_EXAMPLE);
-    expect(result.metrics_version).toBe("1.0");
+    expect(result.metrics_version).toBe("1.1");
   });
 
   it("includes fundamentals passthrough", () => {
@@ -21,6 +21,8 @@ describe("computeCruxScore", () => {
     expect(result.derived.Q_safety).toBeCloseTo(1.0, 3);
     expect(result.derived.V_time).toBeCloseTo(1800 / 156.3, 1);
     expect(result.derived.V_orient).toBeCloseTo(4.2 / 156.3, 3);
+    expect(result.derived.Q_abstention).toBeNull();
+    expect(result.derived.V_retrieval).toBeNull();
   });
 
   it("computes composite Crux Score", () => {
@@ -47,6 +49,8 @@ describe("computeCruxScore", () => {
     expect(result.derived.V_time).toBeNull();
     expect(result.derived.V_cost).toBeNull();
     expect(result.derived.V_orient).toBeNull();
+    expect(result.derived.Q_abstention).toBeNull();
+    expect(result.derived.V_retrieval).toBeNull();
   });
 
   it("accepts custom weights", () => {

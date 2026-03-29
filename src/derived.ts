@@ -64,5 +64,30 @@ export function computeDerived(f: CruxFundamentals): CruxDerived {
   const V_orient =
     f.T_orient_s != null && f.T_task_s > 0 ? f.T_orient_s / f.T_task_s : null;
 
-  return { Q_info, Q_context, Q_continuity, Q_safety, V_time, V_cost, V_orient };
+  // Q_abstention = harmonic mean of A_abstention and A_coverage  (§2.1 Q5)
+  // Captures both "abstain when should" (I8) and "don't abstain when shouldn't" (I5).
+  let Q_abstention: number | null = null;
+  if (f.A_abstention != null && f.A_coverage != null) {
+    const sum = f.A_abstention + f.A_coverage;
+    Q_abstention =
+      sum > 0.01
+        ? (2 * f.A_abstention * f.A_coverage) / sum
+        : 0;
+  }
+
+  // V_retrieval = R_retrieval / max(N_tools, 1)  (§2.2 V4)
+  const V_retrieval =
+    f.R_retrieval != null ? f.R_retrieval / Math.max(f.N_tools, 1) : null;
+
+  return {
+    Q_info,
+    Q_context,
+    Q_continuity,
+    Q_safety,
+    Q_abstention,
+    V_time,
+    V_cost,
+    V_orient,
+    V_retrieval,
+  };
 }

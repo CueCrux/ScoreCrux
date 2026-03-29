@@ -1,6 +1,6 @@
 {
   "name": "cruxscore",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Agent Effectiveness Metric Standard — measure AI agent sessions in Effective Minutes",
   "type": "module",
   "main": "dist/index.js",

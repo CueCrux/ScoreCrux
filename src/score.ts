@@ -23,7 +23,7 @@ export function computeCruxScore(
   const composite = computeComposite(fundamentals, derived, weights);
 
   return {
-    metrics_version: "1.0",
+    metrics_version: "1.1",
     fundamentals,
     derived,
     composite,

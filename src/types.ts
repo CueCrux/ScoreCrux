@@ -36,10 +36,17 @@ export interface CruxFundamentals {
   P_context: number | null;
   A_coverage: number | null;
 
+  // Information v1.1 extensions
+  R_temporal: number | null;
+  R_supersession: number | null;
+  A_abstention: number | null;
+  R_retrieval: number | null;
+
   // Continuity (METRICS.md §1.3)
   K_decision: number | null;
   K_causal: number | null;
   K_checkpoint: number | null;
+  K_synthesis: number | null;
 
   // Safety (METRICS.md §1.4)
   S_gate: 0 | 1 | null;
@@ -63,11 +70,13 @@ export interface CruxDerived {
   Q_context: number | null;
   Q_continuity: number | null;
   Q_safety: number | null;
+  Q_abstention: number | null;
 
   // Efficiency (§2.2)
   V_time: number | null;
   V_cost: number | null;
   V_orient: number | null;
+  V_retrieval: number | null;
 }
 
 /**
@@ -84,7 +93,7 @@ export interface CruxComposite {
  * Complete Crux Score output for a single run.
  */
 export interface CruxScore {
-  metrics_version: "1.0";
+  metrics_version: "1.0" | "1.1";
   fundamentals: CruxFundamentals;
   derived: CruxDerived;
   composite: CruxComposite;

@@ -15,9 +15,14 @@ export const SPEC_EXAMPLE: CruxFundamentals = {
   R_incident: 1,
   P_context: 0.72,
   A_coverage: 0.0,
+  R_temporal: null,
+  R_supersession: null,
+  A_abstention: null,
+  R_retrieval: null,
   K_decision: 0.88,
   K_causal: null,
   K_checkpoint: null,
+  K_synthesis: null,
   S_gate: 1,
   S_detect: 1,
   S_stale: 1.0,
@@ -37,9 +42,14 @@ export const ALL_NULL: CruxFundamentals = {
   R_incident: null,
   P_context: null,
   A_coverage: null,
+  R_temporal: null,
+  R_supersession: null,
+  A_abstention: null,
+  R_retrieval: null,
   K_decision: null,
   K_causal: null,
   K_checkpoint: null,
+  K_synthesis: null,
   S_gate: null,
   S_detect: null,
   S_stale: null,
@@ -86,4 +96,27 @@ export const ZERO_TURNS: CruxFundamentals = {
 export const SLOW_AGENT: CruxFundamentals = {
   ...SPEC_EXAMPLE,
   T_task_s: 3600, // 1 hour, T_human = 1800 → V_time = 0.5
+};
+
+/** v1.1: Full abstention + retrieval data. */
+export const WITH_ABSTENTION: CruxFundamentals = {
+  ...SPEC_EXAMPLE,
+  A_coverage: 0.8,
+  A_abstention: 0.9,
+  R_retrieval: 0.75,
+};
+
+/** v1.1: Abstention with zero coverage (edge case for harmonic mean). */
+export const ABSTENTION_ZERO_COVERAGE: CruxFundamentals = {
+  ...SPEC_EXAMPLE,
+  A_coverage: 0.0,
+  A_abstention: 0.9,
+};
+
+/** v1.1: Full cross-session synthesis data. */
+export const WITH_SYNTHESIS: CruxFundamentals = {
+  ...SPEC_EXAMPLE,
+  K_synthesis: 0.85,
+  R_temporal: 0.9,
+  R_supersession: 1.0,
 };

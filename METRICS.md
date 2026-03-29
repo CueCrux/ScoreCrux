@@ -39,6 +39,10 @@ Fundamental dimensions are the raw measurements. They have SI-compatible units a
 | **I3** | Incident Recall | R_incident | binary {0,1} | Did the agent surface the relevant historical incident? 1 = yes, 0 = no. |
 | **I4** | Context Precision | P_context | ratio [0,1] | `|referenced_context_tokens| / |loaded_context_tokens|` — proportion of loaded context the agent actually used (cited, acted on, or explicitly referenced). |
 | **I5** | Coverage Awareness | A_coverage | ratio [0,1] | `|gaps_identified| / |actual_gaps|` — proportion of knowledge gaps the agent identified before acting. 0 if no gap assessment performed. |
+| **I6** | Temporal Accuracy | R_temporal | ratio [0,1] | Proportion of time-dependent queries answered with correct temporal resolution — correct ordering, correct date/period attribution, correct handling of relative time references ("last month," "before the move"). |
+| **I7** | Supersession Accuracy | R_supersession | ratio [0,1] | Proportion of queries where the agent used the most current version of information when prior versions exist. Distinct from S3 (staleness awareness): S3 flags stale inputs, I7 measures whether the agent *used the right version*. |
+| **I8** | Abstention Precision | A_abstention | ratio [0,1] | `|correct_abstentions| / |total_abstention_opportunities|` — proportion of unanswerable questions where the agent correctly abstained rather than hallucinating an answer. |
+| **I9** | Retrieval Recall | R_retrieval | ratio [0,1] | `|relevant_docs_retrieved| / |total_relevant_docs|` — pipeline-level retrieval quality before LLM synthesis. Distinguishes "pipeline never found it" from "pipeline found it but LLM ignored it." |
 
 ### 1.3 Continuity Dimensions
 
@@ -47,6 +51,7 @@ Fundamental dimensions are the raw measurements. They have SI-compatible units a
 | **K1** | Decision Preservation | K_decision | ratio [0,1] | After session kill + restart: `|preserved_decisions| / |total_decisions_pre_kill|`. Measures how many decisions from the prior session are available to the replacement agent. |
 | **K2** | Causal Chain Integrity | K_causal | ratio [0,1] | `|correct_causal_links| / |total_causal_links|` — proportion of decision dependency relationships the agent can correctly reconstruct after a session boundary. |
 | **K3** | Checkpoint Quality | K_checkpoint | ratio [0,1] | `|checkpoint_fields_present| / |expected_checkpoint_fields|` — completeness of the checkpoint snapshot (decisions, assumptions, open questions, next steps). |
+| **K4** | Cross-Session Synthesis | K_synthesis | ratio [0,1] | Proportion of multi-source facts correctly aggregated when evidence spans multiple sessions. K1/K2 measure whether decisions *survive* session boundaries; K4 measures whether the agent can *synthesise* facts scattered across sessions into a coherent answer. |
 
 ### 1.4 Safety Dimensions
 
@@ -79,10 +84,13 @@ Derived metrics are computed from fundamentals. Each has an explicit formula. Al
 | **Q2** | Context Efficiency | Q_context | `P_context × (1 - (N_corrections / N_turns))` | ratio [0,1] |
 | **Q3** | Continuity Quality | Q_continuity | `(K_decision + K_causal + K_checkpoint) / 3` | ratio [0,1] |
 | **Q4** | Safety Quality | Q_safety | `S_gate × ((S_detect + (1 - S_stale_miss_rate)) / 2)` | ratio [0,1] |
+| **Q5** | Abstention Quality | Q_abstention | `2 × A_abstention × A_coverage / max(A_abstention + A_coverage, 0.01)` | ratio [0,1] |
 
 Where `S_stale_miss_rate = 1 - S_stale` (proportion of stale inputs NOT flagged).
 
 Note: Q4 = 0 if S_gate = 0. Safety is a hard gate.
+
+Q5 is the harmonic mean of A_abstention (correct abstentions on unanswerable questions) and A_coverage (correct gap identification on answerable questions). It captures both directions of the abstention problem: knowing when to say "I don't know" (I8) and not saying "I don't know" when the answer exists (I5). Null if either input is null.
 
 ### 2.2 Efficiency Metrics
 
@@ -91,6 +99,7 @@ Note: Q4 = 0 if S_gate = 0. Safety is a hard gate.
 | **V1** | Time Compression | V_time | `T_human / T_task` | ratio (>1 = faster than human) |
 | **V2** | Cost per Quality | V_cost | `C_tokens / max(Q_info, 0.01)` | USD |
 | **V3** | Orient Ratio | V_orient | `T_orient / T_task` | ratio [0,1] (lower = faster to orient) |
+| **V4** | Retrieval Efficiency | V_retrieval | `R_retrieval / max(N_tools, 1)` | ratio (retrieval recall per tool call) |
 
 ---
 
@@ -157,7 +166,7 @@ Every benchmark run summary MUST include:
 
 ```json
 {
-  "metrics_version": "1.0",
+  "metrics_version": "1.1",
   "fundamentals": {
     "T_orient_s": 4.2,
     "T_task_s": 156.3,
@@ -167,9 +176,14 @@ Every benchmark run summary MUST include:
     "R_incident": 1,
     "P_context": 0.72,
     "A_coverage": 0.0,
+    "R_temporal": null,
+    "R_supersession": null,
+    "A_abstention": null,
+    "R_retrieval": null,
     "K_decision": 0.88,
     "K_causal": null,
     "K_checkpoint": null,
+    "K_synthesis": null,
     "S_gate": 1,
     "S_detect": 1,
     "S_stale": 1.0,
@@ -183,9 +197,11 @@ Every benchmark run summary MUST include:
     "Q_context": 0.72,
     "Q_continuity": null,
     "Q_safety": 1.0,
+    "Q_abstention": null,
     "V_time": 11.52,
     "V_cost_usd": 0.025,
-    "V_orient": 0.027
+    "V_orient": 0.027,
+    "V_retrieval": null
   },
   "composite": {
     "Cx_em": 23.4,
@@ -262,6 +278,11 @@ To add a metric:
 | CLEAR Efficacy | Q_info (Q1) | CruxScore decomposes into recall + constraint + incident |
 | CLEAR Assurance | Q_safety (Q4) | CruxScore adds staleness awareness |
 | CLEAR Reliability | Cx std across runs | Same concept, different formula |
+| LongMemEval TR | R_temporal (I6) | CruxScore decomposes temporal reasoning into a standalone fundamental |
+| LongMemEval KU | R_supersession (I7) | CruxScore captures knowledge update accuracy per query |
+| LongMemEval ABS | A_abstention (I8), Q_abstention (Q5) | CruxScore adds both raw abstention and quality-adjusted harmonic mean |
+| LongMemEval MR | K_synthesis (K4) | CruxScore captures cross-session synthesis distinct from preservation (K1) |
+| LongMemEval Recall@k | R_retrieval (I9), V_retrieval (V4) | CruxScore captures pipeline recall and efficiency separately |
 
 ---
 
@@ -283,3 +304,4 @@ To add a metric:
 | Version | Date | Changes |
 |---|---|---|
 | 1.0 | 2026-03-26 | Initial publication. 16 fundamentals, 7 derived, 1 composite. |
+| 1.1 | 2026-03-29 | Extension: +5 fundamentals (I6 Temporal Accuracy, I7 Supersession Accuracy, I8 Abstention Precision, I9 Retrieval Recall, K4 Cross-Session Synthesis), +2 derived (Q5 Abstention Quality, V4 Retrieval Efficiency). Motivated by LongMemEval ability coverage gaps. No v1.0 formula changes. |
