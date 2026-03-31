@@ -79,12 +79,21 @@ export function computeDerived(f: CruxFundamentals): CruxDerived {
   const V_retrieval =
     f.R_retrieval != null ? f.R_retrieval / Math.max(f.N_tools, 1) : null;
 
+  // Q_proposition = R_proposition × (1 - C_contradiction)  (§2.1 Q6)
+  // Partial credit adjusted for contradictions. Null if R_proposition is null.
+  let Q_proposition: number | null = null;
+  if (f.R_proposition != null) {
+    const contradictionPenalty = f.C_contradiction != null ? f.C_contradiction : 0;
+    Q_proposition = f.R_proposition * (1 - contradictionPenalty);
+  }
+
   return {
     Q_info,
     Q_context,
     Q_continuity,
     Q_safety,
     Q_abstention,
+    Q_proposition,
     V_time,
     V_cost,
     V_orient,

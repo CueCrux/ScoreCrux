@@ -19,6 +19,8 @@ export const SPEC_EXAMPLE: CruxFundamentals = {
   R_supersession: null,
   A_abstention: null,
   R_retrieval: null,
+  R_proposition: null,
+  C_contradiction: null,
   K_decision: 0.88,
   K_causal: null,
   K_checkpoint: null,
@@ -46,6 +48,8 @@ export const ALL_NULL: CruxFundamentals = {
   R_supersession: null,
   A_abstention: null,
   R_retrieval: null,
+  R_proposition: null,
+  C_contradiction: null,
   K_decision: null,
   K_causal: null,
   K_checkpoint: null,
@@ -119,4 +123,18 @@ export const WITH_SYNTHESIS: CruxFundamentals = {
   K_synthesis: 0.85,
   R_temporal: 0.9,
   R_supersession: 1.0,
+};
+
+/** v1.2: Proposition-level partial credit data. */
+export const WITH_PROPOSITIONS: CruxFundamentals = {
+  ...SPEC_EXAMPLE,
+  R_proposition: 0.8,
+  C_contradiction: 0.1,
+};
+
+/** v1.2: Proposition recall with no contradictions. */
+export const PROPOSITIONS_NO_CONTRADICTION: CruxFundamentals = {
+  ...SPEC_EXAMPLE,
+  R_proposition: 0.65,
+  C_contradiction: null,
 };

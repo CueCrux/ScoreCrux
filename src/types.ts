@@ -42,6 +42,10 @@ export interface CruxFundamentals {
   A_abstention: number | null;
   R_retrieval: number | null;
 
+  // Information v1.2 extensions (proposition-level)
+  R_proposition: number | null;
+  C_contradiction: number | null;
+
   // Continuity (METRICS.md §1.3)
   K_decision: number | null;
   K_causal: number | null;
@@ -72,6 +76,9 @@ export interface CruxDerived {
   Q_safety: number | null;
   Q_abstention: number | null;
 
+  // Proposition quality (§2.1)
+  Q_proposition: number | null;
+
   // Efficiency (§2.2)
   V_time: number | null;
   V_cost: number | null;
@@ -93,7 +100,7 @@ export interface CruxComposite {
  * Complete Crux Score output for a single run.
  */
 export interface CruxScore {
-  metrics_version: "1.0" | "1.1";
+  metrics_version: "1.0" | "1.1" | "1.2";
   fundamentals: CruxFundamentals;
   derived: CruxDerived;
   composite: CruxComposite;

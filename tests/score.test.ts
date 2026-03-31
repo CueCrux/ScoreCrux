@@ -3,9 +3,9 @@ import { computeCruxScore } from "../src/score.js";
 import { SPEC_EXAMPLE, ALL_NULL, UNSAFE_SESSION } from "./fixtures.js";
 
 describe("computeCruxScore", () => {
-  it("returns metrics_version 1.1", () => {
+  it("returns metrics_version 1.2", () => {
     const result = computeCruxScore(SPEC_EXAMPLE);
-    expect(result.metrics_version).toBe("1.1");
+    expect(result.metrics_version).toBe("1.2");
   });
 
   it("includes fundamentals passthrough", () => {

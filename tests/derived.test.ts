@@ -12,6 +12,8 @@ import {
   WITH_ABSTENTION,
   ABSTENTION_ZERO_COVERAGE,
   WITH_SYNTHESIS,
+  WITH_PROPOSITIONS,
+  PROPOSITIONS_NO_CONTRADICTION,
 } from "./fixtures.js";
 
 describe("computeDerived", () => {
@@ -255,6 +257,39 @@ describe("computeDerived", () => {
     it("returns null when T_orient is null", () => {
       const d = computeDerived(ALL_NULL);
       expect(d.V_orient).toBeNull();
+    });
+  });
+
+  describe("Q_proposition (§2.1 Q6)", () => {
+    it("computes R_proposition × (1 - C_contradiction)", () => {
+      const d = computeDerived(WITH_PROPOSITIONS);
+      // 0.8 × (1 - 0.1) = 0.72
+      expect(d.Q_proposition).toBeCloseTo(0.72, 3);
+    });
+
+    it("treats null C_contradiction as 0", () => {
+      const d = computeDerived(PROPOSITIONS_NO_CONTRADICTION);
+      // 0.65 × (1 - 0) = 0.65
+      expect(d.Q_proposition).toBeCloseTo(0.65, 3);
+    });
+
+    it("returns null when R_proposition is null", () => {
+      const d = computeDerived(SPEC_EXAMPLE);
+      expect(d.Q_proposition).toBeNull();
+    });
+
+    it("returns null when both are null", () => {
+      const d = computeDerived(ALL_NULL);
+      expect(d.Q_proposition).toBeNull();
+    });
+
+    it("returns 0 when C_contradiction is 1.0", () => {
+      const d = computeDerived({
+        ...SPEC_EXAMPLE,
+        R_proposition: 0.9,
+        C_contradiction: 1.0,
+      });
+      expect(d.Q_proposition).toBeCloseTo(0, 3);
     });
   });
 });

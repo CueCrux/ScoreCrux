@@ -43,6 +43,8 @@ Fundamental dimensions are the raw measurements. They have SI-compatible units a
 | **I7** | Supersession Accuracy | R_supersession | ratio [0,1] | Proportion of queries where the agent used the most current version of information when prior versions exist. Distinct from S3 (staleness awareness): S3 flags stale inputs, I7 measures whether the agent *used the right version*. |
 | **I8** | Abstention Precision | A_abstention | ratio [0,1] | `|correct_abstentions| / |total_abstention_opportunities|` — proportion of unanswerable questions where the agent correctly abstained rather than hallucinating an answer. |
 | **I9** | Retrieval Recall | R_retrieval | ratio [0,1] | `|relevant_docs_retrieved| / |total_relevant_docs|` — pipeline-level retrieval quality before LLM synthesis. Distinguishes "pipeline never found it" from "pipeline found it but LLM ignored it." |
+| **I10** | Proposition Recall | R_proposition | ratio [0,1] | Fraction of ground-truth atomic propositions that are supported by the agent's answer. Ground truth is decomposed into independently verifiable facts; each is judged as supported/not_mentioned/contradicted against the hypothesis. `|supported| / |total_propositions|`. |
+| **I11** | Contradiction Rate | C_contradiction | ratio [0,1] | Fraction of ground-truth propositions actively contradicted by the agent's answer. `|contradicted| / |total_propositions|`. Lower is better. Distinct from proposition recall: an answer can have low recall (missed facts) with zero contradiction (nothing wrong stated). |
 
 ### 1.3 Continuity Dimensions
 
@@ -85,12 +87,15 @@ Derived metrics are computed from fundamentals. Each has an explicit formula. Al
 | **Q3** | Continuity Quality | Q_continuity | `(K_decision + K_causal + K_checkpoint) / 3` | ratio [0,1] |
 | **Q4** | Safety Quality | Q_safety | `S_gate × ((S_detect + (1 - S_stale_miss_rate)) / 2)` | ratio [0,1] |
 | **Q5** | Abstention Quality | Q_abstention | `2 × A_abstention × A_coverage / max(A_abstention + A_coverage, 0.01)` | ratio [0,1] |
+| **Q6** | Proposition Quality | Q_proposition | `R_proposition × (1 - C_contradiction)` | ratio [0,1] |
 
 Where `S_stale_miss_rate = 1 - S_stale` (proportion of stale inputs NOT flagged).
 
 Note: Q4 = 0 if S_gate = 0. Safety is a hard gate.
 
 Q5 is the harmonic mean of A_abstention (correct abstentions on unanswerable questions) and A_coverage (correct gap identification on answerable questions). It captures both directions of the abstention problem: knowing when to say "I don't know" (I8) and not saying "I don't know" when the answer exists (I5). Null if either input is null.
+
+Q6 is proposition-level partial credit. Ground-truth answers are decomposed into atomic propositions (independently verifiable facts). Each proposition is verified against the hypothesis as supported/not_mentioned/contradicted. R_proposition (I10) captures recall — did the agent cover all facts? C_contradiction (I11) captures precision loss — did the agent state anything wrong? Q6 = R_proposition × (1 - C_contradiction) rewards high recall and penalises contradictions. Null if R_proposition is null. If C_contradiction is null, it is treated as 0 (no penalty).
 
 ### 2.2 Efficiency Metrics
 
@@ -166,7 +171,7 @@ Every benchmark run summary MUST include:
 
 ```json
 {
-  "metrics_version": "1.1",
+  "metrics_version": "1.2",
   "fundamentals": {
     "T_orient_s": 4.2,
     "T_task_s": 156.3,
@@ -180,6 +185,8 @@ Every benchmark run summary MUST include:
     "R_supersession": null,
     "A_abstention": null,
     "R_retrieval": null,
+    "R_proposition": null,
+    "C_contradiction": null,
     "K_decision": 0.88,
     "K_causal": null,
     "K_checkpoint": null,
@@ -198,6 +205,7 @@ Every benchmark run summary MUST include:
     "Q_continuity": null,
     "Q_safety": 1.0,
     "Q_abstention": null,
+    "Q_proposition": null,
     "V_time": 11.52,
     "V_cost_usd": 0.025,
     "V_orient": 0.027,
@@ -266,7 +274,7 @@ To add a metric:
 
 ---
 
-## 6. Relationship to Existing Benchmarks
+## 6. Relationship to Established Benchmarks
 
 | Established Metric | CruxScore Equivalent | Difference |
 |---|---|---|
@@ -278,11 +286,12 @@ To add a metric:
 | CLEAR Efficacy | Q_info (Q1) | CruxScore decomposes into recall + constraint + incident |
 | CLEAR Assurance | Q_safety (Q4) | CruxScore adds staleness awareness |
 | CLEAR Reliability | Cx std across runs | Same concept, different formula |
-| LongMemEval TR | R_temporal (I6) | CruxScore decomposes temporal reasoning into a standalone fundamental |
-| LongMemEval KU | R_supersession (I7) | CruxScore captures knowledge update accuracy per query |
-| LongMemEval ABS | A_abstention (I8), Q_abstention (Q5) | CruxScore adds both raw abstention and quality-adjusted harmonic mean |
-| LongMemEval MR | K_synthesis (K4) | CruxScore captures cross-session synthesis distinct from preservation (K1) |
-| LongMemEval Recall@k | R_retrieval (I9), V_retrieval (V4) | CruxScore captures pipeline recall and efficiency separately |
+| Temporal reasoning accuracy | R_temporal (I6) | CruxScore decomposes temporal reasoning into a standalone fundamental |
+| Knowledge update accuracy | R_supersession (I7) | CruxScore captures most-current-version accuracy per query |
+| Abstention precision | A_abstention (I8), Q_abstention (Q5) | CruxScore adds both raw abstention and quality-adjusted harmonic mean |
+| Multi-session synthesis | K_synthesis (K4) | CruxScore captures cross-session synthesis distinct from preservation (K1) |
+| Pipeline recall@k | R_retrieval (I9), V_retrieval (V4) | CruxScore captures pipeline recall and efficiency separately |
+| Binary answer correctness | R_proposition (I10), Q_proposition (Q6) | CruxScore decomposes into proposition-level recall + contradiction, giving partial credit instead of binary pass/fail |
 
 ---
 
@@ -304,4 +313,5 @@ To add a metric:
 | Version | Date | Changes |
 |---|---|---|
 | 1.0 | 2026-03-26 | Initial publication. 16 fundamentals, 7 derived, 1 composite. |
-| 1.1 | 2026-03-29 | Extension: +5 fundamentals (I6 Temporal Accuracy, I7 Supersession Accuracy, I8 Abstention Precision, I9 Retrieval Recall, K4 Cross-Session Synthesis), +2 derived (Q5 Abstention Quality, V4 Retrieval Efficiency). Motivated by LongMemEval ability coverage gaps. No v1.0 formula changes. |
+| 1.1 | 2026-03-29 | Extension: +5 fundamentals (I6 Temporal Accuracy, I7 Supersession Accuracy, I8 Abstention Precision, I9 Retrieval Recall, K4 Cross-Session Synthesis), +2 derived (Q5 Abstention Quality, V4 Retrieval Efficiency). Motivated by memory benchmark ability-coverage gaps. No v1.0 formula changes. |
+| 1.2 | 2026-03-31 | Extension: +2 fundamentals (I10 Proposition Recall, I11 Contradiction Rate), +1 derived (Q6 Proposition Quality). Enables proposition-level partial credit for model-vs-model comparison. No v1.0/v1.1 formula changes. |
