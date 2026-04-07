@@ -1,8 +1,8 @@
-# Contributing to CruxScore
+# Contributing to ScoreCrux
 
 ## Spec Immutability
 
-CruxScore follows strict immutability rules defined in [METRICS.md](METRICS.md) section 5:
+ScoreCrux follows strict immutability rules defined in [METRICS.md](METRICS.md) section 5:
 
 - **Existing metric formulas cannot change.** If a formula needs updating, create a new metric with a new ID.
 - **Default weights are v1.0-locked.** New weight sets get new version IDs.
@@ -22,8 +22,8 @@ Follow the Extension Protocol (METRICS.md section 5.2):
 ## Development Setup
 
 ```bash
-git clone https://github.com/CueCrux/CruxScore.git
-cd CruxScore
+git clone https://github.com/CueCrux/ScoreCrux.git
+cd ScoreCrux
 pnpm install
 ```
 
@@ -53,4 +53,4 @@ pnpm install
 
 ## Questions?
 
-Open an issue at [github.com/CueCrux/CruxScore/issues](https://github.com/CueCrux/CruxScore/issues).
+Open an issue at [github.com/CueCrux/ScoreCrux/issues](https://github.com/CueCrux/ScoreCrux/issues).

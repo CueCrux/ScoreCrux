@@ -1,4 +1,4 @@
-// CruxScore measurability proof — Nate's agent evaluation rubric
+// ScoreCrux measurability proof — Nate's agent evaluation rubric
 //
 // Nate's 3 questions for real outcome agents:
 //   Q1: Does the agent have persistent memory?
@@ -7,9 +7,9 @@
 // Plus the fourth question none of them ask:
 //   Q4: Can you prove the agent did what it says it did?
 //
-// This test proves all four are measurable via CruxScore fundamentals.
+// This test proves all four are measurable via ScoreCrux fundamentals.
 // Each test constructs two agents — one with the capability, one without —
-// and asserts that the CruxScore differentiates them structurally.
+// and asserts that the ScoreCrux differentiates them structurally.
 
 import { describe, it, expect } from "vitest";
 import { computeCruxScore } from "../src/score.js";
@@ -167,7 +167,7 @@ describe("Q3: Context compounding is measurable", () => {
     expect(WITH_COMPOUNDING.R_supersession).toBe(1.0);
   });
 
-  it("context stuffing degrades CruxScore at scale (Delta empirical finding)", () => {
+  it("context stuffing degrades ScoreCrux at scale (Delta empirical finding)", () => {
     // Delta benchmark proved: C2 (full context) scores LOWER than C0 (bare) at 2M tokens
     // This is the structural refutation of "just throw it all in the context window"
     const stuffedScore = computeCruxScore(CONTEXT_STUFFED);
@@ -236,7 +236,7 @@ describe("Q4: Provability is measurable (the fourth question)", () => {
 
   it("provability metrics are orthogonal to recall (high recall != proven)", () => {
     // This is the key insight Nate misses: an agent can score high recall
-    // while having zero provability. CruxScore measures both independently.
+    // while having zero provability. ScoreCrux measures both independently.
     expect(SELF_REPORTED.R_decision).toBe(0.9);   // High recall
     expect(SELF_REPORTED.I_provenance).toBe(0);     // Zero provability
     expect(WITH_PROOF.I_provenance).toBe(1.0);      // Full provability

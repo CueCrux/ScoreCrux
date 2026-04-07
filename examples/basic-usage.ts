@@ -1,4 +1,4 @@
-// Basic CruxScore usage — compute agent effectiveness from benchmark fundamentals.
+// Basic ScoreCrux usage — compute agent effectiveness from benchmark fundamentals.
 //
 // Run with: npx tsx examples/basic-usage.ts
 

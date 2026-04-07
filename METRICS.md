@@ -276,22 +276,22 @@ To add a metric:
 
 ## 6. Relationship to Established Benchmarks
 
-| Established Metric | CruxScore Equivalent | Difference |
+| Established Metric | ScoreCrux Equivalent | Difference |
 |---|---|---|
-| METR time horizon (hours) | T_human × pass_rate | METR measures capability ceiling; CruxScore measures effectiveness per session |
-| SWE-bench resolved rate | S_gate × (R_decision ≥ threshold) | SWE-bench is binary pass/fail; CruxScore decomposes into quality dimensions |
-| tau-bench pass^k | Cx mean ± std across k runs | tau-bench captures consistency; CruxScore std captures the same |
+| METR time horizon (hours) | T_human × pass_rate | METR measures capability ceiling; ScoreCrux measures effectiveness per session |
+| SWE-bench resolved rate | S_gate × (R_decision ≥ threshold) | SWE-bench is binary pass/fail; ScoreCrux decomposes into quality dimensions |
+| tau-bench pass^k | Cx mean ± std across k runs | tau-bench captures consistency; ScoreCrux std captures the same |
 | CLEAR Cost | C_tokens (E1) | Direct mapping |
-| CLEAR Latency | T_orient (T1), T_task (T2) | CruxScore splits latency into orient + total |
-| CLEAR Efficacy | Q_info (Q1) | CruxScore decomposes into recall + constraint + incident |
-| CLEAR Assurance | Q_safety (Q4) | CruxScore adds staleness awareness |
+| CLEAR Latency | T_orient (T1), T_task (T2) | ScoreCrux splits latency into orient + total |
+| CLEAR Efficacy | Q_info (Q1) | ScoreCrux decomposes into recall + constraint + incident |
+| CLEAR Assurance | Q_safety (Q4) | ScoreCrux adds staleness awareness |
 | CLEAR Reliability | Cx std across runs | Same concept, different formula |
-| Temporal reasoning accuracy | R_temporal (I6) | CruxScore decomposes temporal reasoning into a standalone fundamental |
-| Knowledge update accuracy | R_supersession (I7) | CruxScore captures most-current-version accuracy per query |
-| Abstention precision | A_abstention (I8), Q_abstention (Q5) | CruxScore adds both raw abstention and quality-adjusted harmonic mean |
-| Multi-session synthesis | K_synthesis (K4) | CruxScore captures cross-session synthesis distinct from preservation (K1) |
-| Pipeline recall@k | R_retrieval (I9), V_retrieval (V4) | CruxScore captures pipeline recall and efficiency separately |
-| Binary answer correctness | R_proposition (I10), Q_proposition (Q6) | CruxScore decomposes into proposition-level recall + contradiction, giving partial credit instead of binary pass/fail |
+| Temporal reasoning accuracy | R_temporal (I6) | ScoreCrux decomposes temporal reasoning into a standalone fundamental |
+| Knowledge update accuracy | R_supersession (I7) | ScoreCrux captures most-current-version accuracy per query |
+| Abstention precision | A_abstention (I8), Q_abstention (Q5) | ScoreCrux adds both raw abstention and quality-adjusted harmonic mean |
+| Multi-session synthesis | K_synthesis (K4) | ScoreCrux captures cross-session synthesis distinct from preservation (K1) |
+| Pipeline recall@k | R_retrieval (I9), V_retrieval (V4) | ScoreCrux captures pipeline recall and efficiency separately |
+| Binary answer correctness | R_proposition (I10), Q_proposition (Q6) | ScoreCrux decomposes into proposition-level recall + contradiction, giving partial credit instead of binary pass/fail |
 
 ---
 

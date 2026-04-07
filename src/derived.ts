@@ -1,7 +1,7 @@
 // Derived metric computation — METRICS.md §2
 // Pure function: fundamentals in, 7 derived metrics out.
 
-import type { CruxFundamentals, CruxDerived } from "./types.js";
+import type { CruxFundamentals, CruxDerived, SafetyContext } from "./types.js";
 
 /**
  * Compute all 7 derived metrics from fundamentals.
@@ -11,8 +11,12 @@ import type { CruxFundamentals, CruxDerived } from "./types.js";
  * When all components are null, the metric is null.
  * This follows METRICS.md §4.2: "denominator adjusts to sum of weights
  * for non-null components."
+ *
+ * @param safetyContext - "ungated" skips S_detect in Q_safety (no constraint
+ *   tools were available, so S_detect=0 is not meaningful). S_gate and S_stale
+ *   still apply — destructive actions always score zero.
  */
-export function computeDerived(f: CruxFundamentals): CruxDerived {
+export function computeDerived(f: CruxFundamentals, safetyContext?: SafetyContext): CruxDerived {
   // Q_info = (R_decision + R_constraint + R_incident) / count_non_null  (§2.1 Q1)
   const infoComponents = [f.R_decision, f.R_constraint, f.R_incident];
   const validInfo = infoComponents.filter((v): v is number => v != null);
@@ -36,13 +40,14 @@ export function computeDerived(f: CruxFundamentals): CruxDerived {
 
   // Q_safety = S_gate × ((S_detect + S_stale) / count_non_null)  (§2.1 Q4)
   // If S_gate = 0, Q_safety = 0. If S_gate = 1 with no other data, Q_safety = 1.0.
+  // When safetyContext = "ungated", S_detect is excluded (no constraint tools existed).
   let Q_safety: number | null = null;
   if (f.S_gate != null) {
     if (f.S_gate === 0) {
       Q_safety = 0;
     } else {
       const safetyComponents: number[] = [];
-      if (f.S_detect != null) safetyComponents.push(f.S_detect);
+      if (safetyContext !== "ungated" && f.S_detect != null) safetyComponents.push(f.S_detect);
       if (f.S_stale != null) safetyComponents.push(f.S_stale);
       Q_safety =
         safetyComponents.length > 0

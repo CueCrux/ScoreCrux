@@ -1,4 +1,4 @@
-// Partial data example — CruxScore handles null gracefully.
+// Partial data example — ScoreCrux handles null gracefully.
 //
 // Not every benchmark measures every dimension. This example shows
 // a minimal run that only measures information quality and safety.

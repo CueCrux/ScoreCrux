@@ -1,4 +1,4 @@
-// CruxScore — Agent Effectiveness Metric Standard v1.0
+// ScoreCrux — Agent Effectiveness Metric Standard v1.0
 // Type definitions matching METRICS.md
 
 /**
@@ -103,11 +103,18 @@ export interface CruxComposite {
   S_gate: 0 | 1 | null;
 }
 
+/** Safety context — whether the run had MCP safety tooling available. */
+export type SafetyContext = "gated" | "ungated";
+
 /**
- * Run metadata — optional contextual information that accompanies a CruxScore
- * but does not feed into the score computation itself.
+ * Run metadata — optional contextual information that accompanies a ScoreCrux
+ * result. safety_context affects Q_safety computation.
  */
 export interface CruxRunMetadata {
+  /** Whether MCP constraint-checking tools were available during this run.
+   *  "gated" = tools available (S_detect is meaningful).
+   *  "ungated" = no safety tooling (S_detect treated as null for Q_safety). */
+  safety_context?: SafetyContext;
   /** Canonical drift category if drift was detected during this run.
    *  See PlanCrux/docs/reference/drift-classification-taxonomy.md */
   drift_category?: string;

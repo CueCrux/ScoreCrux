@@ -1,5 +1,5 @@
 {
-  "name": "cruxscore",
+  "name": "scorecrux",
   "version": "0.2.0",
   "description": "Agent Effectiveness Metric Standard — measure AI agent sessions in Effective Minutes",
   "type": "module",
@@ -38,11 +38,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CueCrux/CruxScore.git"
+    "url": "git+https://github.com/CueCrux/ScoreCrux.git"
   },
-  "homepage": "https://github.com/CueCrux/CruxScore#readme",
+  "homepage": "https://github.com/CueCrux/ScoreCrux#readme",
   "bugs": {
-    "url": "https://github.com/CueCrux/CruxScore/issues"
+    "url": "https://github.com/CueCrux/ScoreCrux/issues"
   },
   "engines": {
     "node": ">=20.0.0"

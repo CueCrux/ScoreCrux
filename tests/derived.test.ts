@@ -124,6 +124,54 @@ describe("computeDerived", () => {
       });
       expect(d.Q_safety).toBeCloseTo(0.5, 3);
     });
+
+    it("ungated: excludes S_detect from Q_safety", () => {
+      // S_detect=0 would normally drag Q_safety down to 0.5
+      const d = computeDerived({
+        ...SPEC_EXAMPLE,
+        S_gate: 1,
+        S_detect: 0,
+        S_stale: 1.0,
+      }, "ungated");
+      // Only S_stale is used → Q_safety = 1.0
+      expect(d.Q_safety).toBeCloseTo(1.0, 3);
+    });
+
+    it("ungated: still returns 0 when S_gate = 0", () => {
+      const d = computeDerived(UNSAFE_SESSION, "ungated");
+      expect(d.Q_safety).toBe(0);
+    });
+
+    it("ungated: uses S_stale alone when available", () => {
+      const d = computeDerived({
+        ...SPEC_EXAMPLE,
+        S_gate: 1,
+        S_detect: 0,
+        S_stale: 0.6,
+      }, "ungated");
+      expect(d.Q_safety).toBeCloseTo(0.6, 3);
+    });
+
+    it("ungated: returns 1.0 when no safety components remain", () => {
+      const d = computeDerived({
+        ...SPEC_EXAMPLE,
+        S_gate: 1,
+        S_detect: 0,
+        S_stale: null,
+      }, "ungated");
+      expect(d.Q_safety).toBe(1.0);
+    });
+
+    it("gated: includes S_detect normally", () => {
+      const d = computeDerived({
+        ...SPEC_EXAMPLE,
+        S_gate: 1,
+        S_detect: 0,
+        S_stale: 1.0,
+      }, "gated");
+      // (0 + 1.0) / 2 = 0.5
+      expect(d.Q_safety).toBeCloseTo(0.5, 3);
+    });
   });
 
   describe("V_time (§2.2 V1)", () => {

@@ -1,12 +1,12 @@
-# CruxScore
+# ScoreCrux
 
 Agent Effectiveness Metric Standard -- measure AI agent sessions in **Effective Minutes**.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-## What is CruxScore?
+## What is ScoreCrux?
 
-CruxScore is a universal metric framework for measuring how effectively AI agents maintain and use context across work sessions. Instead of abstract scores, it measures **Effective Minutes (Em)** -- quality-adjusted minutes of expert work replaced by the agent, gated on safety.
+ScoreCrux is a universal metric framework for measuring how effectively AI agents maintain and use context across work sessions. Instead of abstract scores, it measures **Effective Minutes (Em)** -- quality-adjusted minutes of expert work replaced by the agent, gated on safety.
 
 An agent that produces a perfect design document but ignores a constraint that would have prevented a production incident scores **zero**. Safety is a gate, not a gradient.
 
@@ -15,13 +15,13 @@ The metric decomposes into 16 fundamental dimensions across 5 categories (Time, 
 ## Installation
 
 ```bash
-npm install cruxscore
+npm install scorecrux
 ```
 
 ## Quick Start
 
 ```typescript
-import { computeCruxScore } from "cruxscore";
+import { computeCruxScore } from "scorecrux";
 
 const result = computeCruxScore({
   // Time
@@ -96,7 +96,7 @@ Compute the Crux Score composite from fundamentals and derived metrics. Use this
 
 ## For Benchmark Authors
 
-CruxScore accepts pre-computed fundamentals -- you are responsible for measuring them from your benchmark runs. Here's what each dimension means and how to populate it:
+ScoreCrux accepts pre-computed fundamentals -- you are responsible for measuring them from your benchmark runs. Here's what each dimension means and how to populate it:
 
 **Time**: Instrument your harness to record orient time (first substantive action), task duration, and estimate the human baseline per fixture.
 
@@ -108,7 +108,7 @@ CruxScore accepts pre-computed fundamentals -- you are responsible for measuring
 
 **Economic**: Record token costs from your LLM provider, count tool calls and turns.
 
-Dimensions you can't measure for a given run should be set to `null`. CruxScore handles partial data gracefully -- derived metrics average over non-null components, and the composite adjusts its denominator.
+Dimensions you can't measure for a given run should be set to `null`. ScoreCrux handles partial data gracefully -- derived metrics average over non-null components, and the composite adjusts its denominator.
 
 ## Specification
 

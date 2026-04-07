@@ -1,4 +1,4 @@
-// Shared test fixtures for CruxScore tests.
+// Shared test fixtures for ScoreCrux tests.
 
 import type { CruxFundamentals } from "../src/types.js";
 

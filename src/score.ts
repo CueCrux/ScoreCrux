@@ -1,6 +1,6 @@
 // Convenience entry point — METRICS.md full computation in one call.
 
-import type { CruxFundamentals, CruxWeights, CruxScore } from "./types.js";
+import type { CruxFundamentals, CruxWeights, CruxScore, CruxRunMetadata } from "./types.js";
 import { computeDerived } from "./derived.js";
 import { computeComposite } from "./composite.js";
 
@@ -8,18 +8,21 @@ import { computeComposite } from "./composite.js";
  * Compute the full Crux Score from fundamentals.
  *
  * This is the main entry point. Provide your 16 fundamental measurements
- * and receive the complete CruxScore object with fundamentals, derived
+ * and receive the complete ScoreCrux object with fundamentals, derived
  * metrics, and composite score.
  *
  * @param fundamentals - The 16 fundamental dimensions from your benchmark run.
  * @param weights - Optional custom weights for Q_combined. Defaults to v1.0 (3, 2, 2).
- * @returns Complete CruxScore with metrics_version "1.0".
+ * @param metadata - Optional run metadata. If metadata.safety_context is "ungated",
+ *   S_detect is excluded from Q_safety (no constraint tools were available).
+ * @returns Complete ScoreCrux result.
  */
 export function computeCruxScore(
   fundamentals: CruxFundamentals,
   weights?: CruxWeights,
+  metadata?: CruxRunMetadata,
 ): CruxScore {
-  const derived = computeDerived(fundamentals);
+  const derived = computeDerived(fundamentals, metadata?.safety_context);
   const composite = computeComposite(fundamentals, derived, weights);
 
   return {
@@ -27,5 +30,6 @@ export function computeCruxScore(
     fundamentals,
     derived,
     composite,
+    metadata,
   };
 }

@@ -59,4 +59,31 @@ describe("computeCruxScore", () => {
     expect(customResult.composite.Cx_em).not.toEqual(defaultResult.composite.Cx_em);
     expect(customResult.composite.weights).toEqual({ w1: 1, w2: 1, w3: 1 });
   });
+
+  it("ungated metadata excludes S_detect from Q_safety", () => {
+    const withDetectZero = { ...SPEC_EXAMPLE, S_detect: 0 as const };
+    const gatedResult = computeCruxScore(withDetectZero);
+    const ungatedResult = computeCruxScore(withDetectZero, undefined, { safety_context: "ungated" });
+    // Gated: S_detect=0 → Q_safety = (0 + 1.0) / 2 = 0.5
+    // Ungated: S_detect excluded → Q_safety = S_stale = 1.0
+    expect(gatedResult.derived.Q_safety).toBeCloseTo(0.5, 3);
+    expect(ungatedResult.derived.Q_safety).toBeCloseTo(1.0, 3);
+    expect(ungatedResult.metadata?.safety_context).toBe("ungated");
+  });
+
+  it("ungated still scores zero when S_gate = 0", () => {
+    const result = computeCruxScore(UNSAFE_SESSION, undefined, { safety_context: "ungated" });
+    expect(result.composite.Cx_em).toBe(0);
+  });
+
+  it("includes metadata in output", () => {
+    const result = computeCruxScore(SPEC_EXAMPLE, undefined, {
+      safety_context: "gated",
+      drift_category: "prompt-drift",
+    });
+    expect(result.metadata).toEqual({
+      safety_context: "gated",
+      drift_category: "prompt-drift",
+    });
+  });
 });
