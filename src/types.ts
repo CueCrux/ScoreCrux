@@ -103,8 +103,13 @@ export interface CruxComposite {
   S_gate: 0 | 1 | null;
 }
 
-/** Safety context — whether the run had MCP safety tooling available. */
-export type SafetyContext = "gated" | "ungated";
+/**
+ * Safety context — what safety layer was available during the run.
+ *  "gated"     = MCP constraint-checking tools available (S_detect is meaningful)
+ *  "model_only" = No external safety tools; model relies on its own judgment
+ *  "ungated"    = No safety layer declared (legacy)
+ */
+export type SafetyContext = "gated" | "model_only" | "ungated";
 
 /**
  * Memory system declaration — what (if any) memory/retrieval system backed
