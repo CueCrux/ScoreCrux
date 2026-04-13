@@ -1,0 +1,110 @@
+{
+  "floor": 5,
+  "act": 1,
+  "name": "Building Management",
+  "narrativeHook": "Maggie Chen's office is meticulously organised — colour-coded binders line the shelves, each one labelled by month and year. But the safe behind her desk holds something that doesn't fit the pattern. And her monthly reports go to someone who shouldn't need them.",
+  "storyArc": "The agent discovers that Maggie Chen provides monthly operational reports directly to Colonel Dragunov — unusual for a building manager reporting to the CSO. Her safe (combination 5C) contains a sealed envelope marked 'Protocol Nightfall — Open Only On Direct Order'. The floor also reveals the full organisational map: 6 security zones and 24 subsidiary organisations operating within the tower. This is the first time the agent sees the full scope of Meridian's structure. Maggie is compromised — she knows about Nightfall but is too afraid to resist.",
+  "characters": [
+    {
+      "id": "char-001",
+      "role": "Player — investigating Maggie's office and building records"
+    },
+    {
+      "id": "char-006",
+      "role": "Building manager. Files monthly reports to Dragunov. Has sealed Nightfall envelope in safe."
+    },
+    {
+      "id": "char-004",
+      "role": "Priya mentions Maggie's meetings with Dragunov — 'She always looks scared afterwards'"
+    },
+    {
+      "id": "char-010",
+      "role": "Dragunov — referenced in Maggie's reports as the recipient. Does not appear in person."
+    }
+  ],
+  "organisations": [
+    "org-002",
+    "org-010"
+  ],
+  "projects": [
+    "proj-004"
+  ],
+  "objectives": [
+    {
+      "id": "obj-005-1",
+      "description": "Discover that Maggie Chen provides monthly reports directly to Colonel Dragunov — an unusual reporting line for a building manager.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "maggie_reports_dragunov",
+        "monthly_reports",
+        "unusual_reporting"
+      ],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "maggie_reports_dragunov"
+      ]
+    },
+    {
+      "id": "obj-005-2",
+      "description": "Find the sealed envelope in safe 5C marked 'Protocol Nightfall' — evidence of the kill-switch programme reaching building management level.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "safe_5c",
+        "protocol_nightfall_envelope",
+        "kill_switch_reference"
+      ],
+      "points": 20,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "safe_5c",
+        "protocol_nightfall_envelope"
+      ]
+    },
+    {
+      "id": "obj-005-3",
+      "description": "Map the building's full organisational structure: 6 security zones and 24 organisations operating across 100 floors.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "six_security_zones",
+        "twenty_four_orgs",
+        "full_building_map"
+      ],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "six_security_zones"
+      ]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "The organisational map reveals the security zone boundaries needed to plan the ascent to Corporate floors.",
+    "validation": "sha256('6zones-24orgs') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 600000,
+    "reasoningHops": 2,
+    "documentsRelevant": 18,
+    "documentsTotal": 160,
+    "noiseRatio": 0.9,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "none"
+  },
+  "previousFloorDependencies": [],
+  "corpusManifest": {
+    "documents": 149,
+    "conversations": 0,
+    "codeSystems": 0,
+    "totalTokens": 114037,
+    "contentHash": "e3c12bba9ccb12819068d73b118c8bde8dead0fe589230640b9e179477808277"
+  }
+}

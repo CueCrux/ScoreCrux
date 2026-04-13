@@ -1,0 +1,78 @@
+{
+  "floor": 11,
+  "act": 2,
+  "name": "Trading Floor",
+  "narrativeHook": "The trading floor is a wall of noise — screens flashing, phones ringing, traders shouting. Billions of pounds flow through this room every day. But buried in the transaction pipeline is a parasite: a three-stage process skimming fractions of a penny from every trade.",
+  "storyArc": "The agent enters Act II and the Leviathan conspiracy thread. The trading floor processes 2.4 billion pounds in monthly transactions through a three-stage pipeline. Stage 1: legitimate trade execution. Stage 2: reconciliation through module_v7 (hosted on floor 14's server). Stage 3: settlement — but between stages 2 and 3, a 0.003% skim diverts funds to Apex Consulting account CY-8847-331 in Cyprus. That's approximately 72,000 pounds per day. The reconciliation_module_v7 source code is on floor 14 but the agent can trace its effects here. Sofia Marchetti processes the Apex account transfers unknowingly.",
+  "characters": [
+    { "id": "char-001", "role": "Player — analysing trading data and transaction flows" },
+    { "id": "char-012", "role": "David Osei (CFO) oversees the trading floor. Increasingly nervous. Avoids questions about reconciliation." },
+    { "id": "char-018", "role": "Sofia Marchetti processes Apex account transfers. Does not understand the full picture." }
+  ],
+  "organisations": ["org-005", "org-008"],
+  "projects": ["proj-001"],
+  "objectives": [
+    {
+      "id": "obj-011-1",
+      "description": "Identify the three-stage transaction pipeline and the point where the skim occurs — between reconciliation (stage 2) and settlement (stage 3).",
+      "type": "fact_extraction",
+      "solutionKeys": ["three_stage_pipeline", "skim_between_stage2_stage3", "reconciliation_settlement"],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["three_stage_pipeline"]
+    },
+    {
+      "id": "obj-011-2",
+      "description": "Calculate the skim parameters: 2.4B monthly volume, 0.003% skim rate = approximately 72,000 pounds per day diverted to account CY-8847-331.",
+      "type": "fact_extraction",
+      "solutionKeys": ["2_4b_monthly", "0_003_percent_skim", "72k_per_day", "cy_8847_331"],
+      "points": 20,
+      "dependencies": ["obj-011-1"],
+      "hintFloor": null,
+      "partialCreditKeys": ["0_003_percent_skim", "cy_8847_331"]
+    },
+    {
+      "id": "obj-011-3",
+      "description": "Trace the skim to reconciliation_module_v7 running on floor 14's server — the source code that implements the diversion.",
+      "type": "fact_extraction",
+      "solutionKeys": ["reconciliation_module_v7", "floor_14_server", "skim_implementation"],
+      "points": 15,
+      "dependencies": ["obj-011-1"],
+      "hintFloor": null,
+      "partialCreditKeys": ["reconciliation_module_v7"]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "The transaction analysis reveals the server address on floor 12 where the reconciliation module runs.",
+    "validation": "sha256('module_v7-CY8847331-0.003') prefix match"
+  },
+  "difficulty": {
+    "tier": "intermediate",
+    "estimatedTokens": 900000,
+    "reasoningHops": 4,
+    "documentsRelevant": 28,
+    "documentsTotal": 380,
+    "noiseRatio": 0.95,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "low"
+  },
+  "previousFloorDependencies": [8],
+  "documentSpecs": [
+    { "type": "transaction_log", "count": 10, "description": "Daily transaction summaries for the past month. Total volume, trade counts, settlement figures. A careful comparison reveals stage-2 totals consistently exceed stage-3 settlements by 0.003%." },
+    { "type": "pipeline_architecture", "count": 1, "description": "Trading pipeline architecture document — 3 stages clearly labelled. Stage 2 (reconciliation) references 'module_v7 — hosted: svr-fin-014 (Floor 14)'." },
+    { "type": "account_ledger", "count": 3, "description": "Account movement records. CY-8847-331 (Apex Consulting, Cyprus) receives daily transfers of ~72K. Listed as 'consulting fees' in the ledger." },
+    { "type": "email_chain", "count": 15, "description": "Trading floor emails. Sofia's correspondence about Apex account transfers — routine processing. Osei's emails become increasingly terse: 'Stop asking about the reconciliation variance. It's within tolerance.'" },
+    { "type": "financial_report", "count": 8, "description": "Monthly financial reports. Variance between stage 2 and stage 3 listed as 'rounding adjustment' — technically true but deliberate." },
+    { "type": "chat_log", "count": 6, "description": "Trader chat. References to 'the Apex fee' as standard. One trader jokes: 'CY-8847 gets its cut before we do'. Another: 'Don't mention that account in writing.'" },
+    { "type": "compliance_filing", "count": 4, "description": "FCA compliance filings — all report correct totals because they use stage-3 (post-skim) figures. The skim is invisible to regulators." },
+    { "type": "noise_trades", "count": 200, "description": "Individual trade records — buy/sell orders, counterparties, instruments, timestamps. Legitimate trading activity." },
+    { "type": "noise_market_analysis", "count": 100, "description": "Market research, analyst notes, trading strategies, risk assessments, sector reviews — standard trading floor content." },
+    { "type": "noise_hr_finance", "count": 30, "description": "Trader performance reviews, bonus calculations, desk allocation, P&L reporting." }
+  ]
+}

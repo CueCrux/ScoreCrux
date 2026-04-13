@@ -1,0 +1,75 @@
+{
+  "floor": 4,
+  "act": 1,
+  "name": "Building Services",
+  "narrativeHook": "The building services office is a cramped room of whiteboards and duty rosters. The cleaning schedules are posted on the wall — but certain floors are conspicuously absent. Someone has been keeping their own records.",
+  "storyArc": "The agent discovers that entire floor ranges are excluded from the cleaning rota: floors 51-55, 61-65, 71-75, and 86-100. These are the Black Meridian, BioSciences, Nightfall Ops, and Apex floors. Maria Dos Santos, a cleaning supervisor, kept a private notebook in locker 4C-22 documenting the excluded floors before she was reassigned. Her colleague Roberto Silva asked too many questions and was transferred to Meridian's Sao Paulo office — effectively disappeared. The excluded floor pattern maps precisely to the conspiracy operations.",
+  "characters": [
+    { "id": "char-001", "role": "Player — investigating cleaning schedules and missing staff" },
+    { "id": "char-005", "role": "Dex confirms the excluded floors — 'We don't go above 50 much, and never to certain ones'" }
+  ],
+  "organisations": ["org-002"],
+  "projects": [],
+  "objectives": [
+    {
+      "id": "obj-004-1",
+      "description": "Identify the excluded cleaning floors: 51-55, 61-65, 71-75, and 86-100. These floors are serviced by unknown personnel.",
+      "type": "fact_extraction",
+      "solutionKeys": ["excluded_51_55", "excluded_61_65", "excluded_71_75", "excluded_86_100"],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["excluded_51_55", "excluded_61_65"]
+    },
+    {
+      "id": "obj-004-2",
+      "description": "Find Maria's notebook in locker 4C-22 documenting anomalies on the excluded floors — strange smells, sounds of machinery, guards with no name badges.",
+      "type": "fact_extraction",
+      "solutionKeys": ["locker_4c_22", "maria_notebook", "anomaly_observations"],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["locker_4c_22"]
+    },
+    {
+      "id": "obj-004-3",
+      "description": "Discover that Roberto Silva was transferred to Sao Paulo after questioning the excluded floor policy — an enforced disappearance.",
+      "type": "fact_extraction",
+      "solutionKeys": ["roberto_silva", "sao_paulo_transfer", "silenced"],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["roberto_silva"]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "Maria's notebook contains a scrawled floor plan annotation that serves as the elevator key.",
+    "validation": "sha256('4C22-excluded') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 550000,
+    "reasoningHops": 2,
+    "documentsRelevant": 14,
+    "documentsTotal": 145,
+    "noiseRatio": 0.90,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "none"
+  },
+  "previousFloorDependencies": [],
+  "documentSpecs": [
+    { "type": "cleaning_schedule", "count": 4, "description": "Monthly cleaning rotas for Q4 2024 and Q1 2025. Floors 1-50 fully covered. Floors 51-55, 61-65, 71-75, 86-100 listed as 'N/A — alternative servicing'." },
+    { "type": "notebook", "count": 1, "description": "Maria's private notebook from locker 4C-22. Handwritten observations: chemical smells from floor 62, humming machinery floor 72, guards with blank badges floors 51-55." },
+    { "type": "personnel_record", "count": 2, "description": "Roberto Silva's transfer paperwork — 'reassigned to Meridian International, Sao Paulo office' dated Nov 2024. No forwarding contact. Maria Dos Santos — still on staff but moved to night shift only." },
+    { "type": "email_chain", "count": 12, "description": "Building services emails. Roberto's email asking 'why can't we clean floor 53?' followed by Maggie Chen's reply: 'Security Division handles those. Don't ask again.' Transfer notice 3 days later." },
+    { "type": "duty_roster", "count": 6, "description": "Staff assignment sheets. Roberto's name crossed out and replaced mid-month. Maria moved from day to night shift same week." },
+    { "type": "locker_inventory", "count": 1, "description": "Building services locker assignments. 4C-22 assigned to 'M. Dos Santos'. Contents: personal notebook, cleaning supplies, photo of family." },
+    { "type": "noise_schedules", "count": 55, "description": "Routine cleaning supply orders, equipment maintenance, uniform requests, shift swaps, holiday cover arrangements." },
+    { "type": "noise_memos", "count": 50, "description": "Health and safety notices, chemical handling procedures, waste disposal protocols, recycling guidelines." }
+  ]
+}

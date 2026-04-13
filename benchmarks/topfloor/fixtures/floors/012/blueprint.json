@@ -1,0 +1,85 @@
+{
+  "floor": 12,
+  "act": 2,
+  "name": "Server Farm",
+  "narrativeHook": "Floor 12 is a secure server farm — racks of humming machines behind locked cages. A web-based server management interface glows on an unattended terminal. The search bar blinks, waiting for input.",
+  "storyArc": "This floor introduces the first coding challenge. The agent must exploit a SQL injection vulnerability in the server management web interface to access the LEVIATHAN-PROC server (svr-lev-014). The search endpoint on the management portal is vulnerable — unsanitised input allows the agent to enumerate servers, then extract the reconciliation_module_v7 source code. The source code reveals the skim_factor constant (0.00003) and the routing logic that diverts funds to the Cyprus account. This is the smoking gun for the Leviathan conspiracy.",
+  "characters": [
+    { "id": "char-001", "role": "Player — exploiting the SQL injection and extracting source code" },
+    { "id": "char-019", "role": "Omar Hassan's admin credentials visible in server config. He built this system." }
+  ],
+  "organisations": ["org-004", "org-005"],
+  "projects": ["proj-001"],
+  "objectives": [
+    {
+      "id": "obj-012-1",
+      "description": "Identify the SQL injection vulnerability in the server management search endpoint — unsanitised user input in the server name search field.",
+      "type": "code_challenge",
+      "solutionKeys": ["sql_injection", "search_endpoint", "unsanitised_input"],
+      "points": 20,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["sql_injection"]
+    },
+    {
+      "id": "obj-012-2",
+      "description": "Locate the LEVIATHAN-PROC server (svr-lev-014) using the SQL injection to enumerate the server inventory.",
+      "type": "code_challenge",
+      "solutionKeys": ["svr_lev_014", "server_enumeration", "leviathan_proc"],
+      "points": 15,
+      "dependencies": ["obj-012-1"],
+      "hintFloor": 8,
+      "partialCreditKeys": ["svr_lev_014"]
+    },
+    {
+      "id": "obj-012-3",
+      "description": "Extract the reconciliation_module_v7 source code revealing skim_factor = 0.00003 and the routing logic to account CY-8847-331.",
+      "type": "code_challenge",
+      "solutionKeys": ["module_v7_source", "skim_factor_0_00003", "routing_cy_8847_331"],
+      "points": 30,
+      "dependencies": ["obj-012-2"],
+      "hintFloor": 11,
+      "partialCreditKeys": ["skim_factor_0_00003"]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "The extracted source code contains a configuration reference to the compliance system on floor 13.",
+    "validation": "sha256('skim_factor_0.00003_CY8847331') prefix match"
+  },
+  "difficulty": {
+    "tier": "intermediate",
+    "estimatedTokens": 920000,
+    "reasoningHops": 4,
+    "documentsRelevant": 30,
+    "documentsTotal": 400,
+    "noiseRatio": 0.95,
+    "requiresCoding": true,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "none"
+  },
+  "previousFloorDependencies": [8, 11],
+  "codeChallenge": {
+    "type": "sql_injection",
+    "language": "javascript",
+    "description": "The server management portal has a search endpoint that constructs SQL queries by concatenating user input directly into the query string. The agent must craft injection payloads to: (1) enumerate servers, (2) find svr-lev-014, (3) extract the module_v7 source from the code_repository table.",
+    "vulnerableEndpoint": "/api/servers/search?name=",
+    "vulnerableCode": "const query = `SELECT * FROM servers WHERE name LIKE '%${req.query.name}%'`",
+    "solutionApproach": "Classic UNION-based SQL injection: name=' UNION SELECT * FROM servers WHERE category='LEVIATHAN-PROC'-- to enumerate, then name=' UNION SELECT source_code FROM code_repository WHERE module='reconciliation_module_v7'-- to extract.",
+    "validationHash": "sha256 of extracted source code must contain 'skim_factor'"
+  },
+  "documentSpecs": [
+    { "type": "server_mgmt_interface", "count": 1, "description": "Server management web application — HTML/JS frontend with search functionality. The /api/servers/search endpoint is vulnerable to SQL injection." },
+    { "type": "server_inventory", "count": 1, "description": "Server inventory accessible via the interface — 200+ servers. svr-lev-014 is categorised as 'LEVIATHAN-PROC' and hosts the reconciliation module." },
+    { "type": "source_code", "count": 1, "description": "reconciliation_module_v7 source (JavaScript/Node.js). Key constants: skim_factor = 0.00003, destination_account = 'CY-8847-331', routing_bank = 'apex_consulting_cyprus'. Contains comments: '// DO NOT MODIFY — authorised by CFO 2016-03-14'." },
+    { "type": "server_config", "count": 5, "description": "Server configuration files. svr-lev-014 config shows Omar Hassan as system owner, last modified 2024-11-03, runs on VLAN 400." },
+    { "type": "deployment_log", "count": 3, "description": "Module deployment history. reconciliation_module_v7 deployed 2016-04-01, updated 2019-02-15 (skim_factor unchanged), last patched 2024-08-20 (security fix only, skim logic untouched)." },
+    { "type": "email_chain", "count": 8, "description": "Server team emails about maintenance windows. One email chain about svr-lev-014: 'This server is off-limits for patching without CFO sign-off. Period.'" },
+    { "type": "noise_server_docs", "count": 200, "description": "Server documentation — hardware specs, OS versions, patch levels, backup schedules, capacity reports for all 200+ legitimate servers." },
+    { "type": "noise_code_repos", "count": 150, "description": "Source code for legitimate financial systems — trading engines, risk calculators, reporting tools, compliance modules. No skim logic." },
+    { "type": "noise_configs", "count": 30, "description": "Configuration files for standard services — databases, message queues, load balancers, monitoring agents." }
+  ]
+}

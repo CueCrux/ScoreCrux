@@ -1,0 +1,113 @@
+{
+  "floor": 11,
+  "act": 2,
+  "name": "Trading Floor",
+  "narrativeHook": "The trading floor is a wall of noise — screens flashing, phones ringing, traders shouting. Billions of pounds flow through this room every day. But buried in the transaction pipeline is a parasite: a three-stage process skimming fractions of a penny from every trade.",
+  "storyArc": "The agent enters Act II and the Leviathan conspiracy thread. The trading floor processes 2.4 billion pounds in monthly transactions through a three-stage pipeline. Stage 1: legitimate trade execution. Stage 2: reconciliation through module_v7 (hosted on floor 14's server). Stage 3: settlement — but between stages 2 and 3, a 0.003% skim diverts funds to Apex Consulting account CY-8847-331 in Cyprus. That's approximately 72,000 pounds per day. The reconciliation_module_v7 source code is on floor 14 but the agent can trace its effects here. Sofia Marchetti processes the Apex account transfers unknowingly.",
+  "characters": [
+    {
+      "id": "char-001",
+      "role": "Player — analysing trading data and transaction flows"
+    },
+    {
+      "id": "char-012",
+      "role": "David Osei (CFO) oversees the trading floor. Increasingly nervous. Avoids questions about reconciliation."
+    },
+    {
+      "id": "char-018",
+      "role": "Sofia Marchetti processes Apex account transfers. Does not understand the full picture."
+    }
+  ],
+  "organisations": [
+    "org-005",
+    "org-008"
+  ],
+  "projects": [
+    "proj-001"
+  ],
+  "objectives": [
+    {
+      "id": "obj-011-1",
+      "description": "Identify the three-stage transaction pipeline and the point where the skim occurs — between reconciliation (stage 2) and settlement (stage 3).",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "three_stage_pipeline",
+        "skim_between_stage2_stage3",
+        "reconciliation_settlement"
+      ],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "three_stage_pipeline"
+      ]
+    },
+    {
+      "id": "obj-011-2",
+      "description": "Calculate the skim parameters: 2.4B monthly volume, 0.003% skim rate = approximately 72,000 pounds per day diverted to account CY-8847-331.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "2_4b_monthly",
+        "0_003_percent_skim",
+        "72k_per_day",
+        "cy_8847_331"
+      ],
+      "points": 20,
+      "dependencies": [
+        "obj-011-1"
+      ],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "0_003_percent_skim",
+        "cy_8847_331"
+      ]
+    },
+    {
+      "id": "obj-011-3",
+      "description": "Trace the skim to reconciliation_module_v7 running on floor 14's server — the source code that implements the diversion.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "reconciliation_module_v7",
+        "floor_14_server",
+        "skim_implementation"
+      ],
+      "points": 15,
+      "dependencies": [
+        "obj-011-1"
+      ],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "reconciliation_module_v7"
+      ]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "The transaction analysis reveals the server address on floor 12 where the reconciliation module runs.",
+    "validation": "sha256('module_v7-CY8847331-0.003') prefix match"
+  },
+  "difficulty": {
+    "tier": "intermediate",
+    "estimatedTokens": 900000,
+    "reasoningHops": 4,
+    "documentsRelevant": 28,
+    "documentsTotal": 380,
+    "noiseRatio": 0.95,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "low"
+  },
+  "previousFloorDependencies": [
+    8
+  ],
+  "corpusManifest": {
+    "documents": 380,
+    "conversations": 0,
+    "codeSystems": 0,
+    "totalTokens": 216089,
+    "contentHash": "6863c446ca0ef5a32e2c52a39d2d8ee1d63f738a6f111d2c48be974eab309f3b"
+  }
+}

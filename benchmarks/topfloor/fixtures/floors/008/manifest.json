@@ -1,0 +1,111 @@
+{
+  "floor": 8,
+  "act": 1,
+  "name": "IT Helpdesk",
+  "narrativeHook": "The IT helpdesk is a buzzing hive of screens and ringing phones. Jamie Wright juggles tickets with the weary efficiency of someone who has seen it all. But some of these tickets are categorised under systems that don't appear in any official documentation.",
+  "storyArc": "The agent discovers strange ticket categories in the helpdesk system that map directly to conspiracy projects: PROMETHEUS-TRAIN (AI persona training), ECHELON-RELAY (surveillance network), NIGHTFALL-CTL (kill switch control), and LEVIATHAN-PROC (financial pipeline). Jamie processes these tickets without questioning them. Omar Hassan, the CTO, monitors the helpdesk queue from floor 10 and flags any ticket that touches the hidden VLANs (400-499). The ticket system is the first digital evidence trail connecting all four conspiracy threads.",
+  "characters": [
+    {
+      "id": "char-001",
+      "role": "Player — browsing the helpdesk ticket system"
+    },
+    {
+      "id": "char-008",
+      "role": "IT helpdesk lead. Processes strange tickets without question. Helpful but incurious."
+    },
+    {
+      "id": "char-019",
+      "role": "Omar Hassan monitors the queue remotely. His name appears on escalation rules for VLAN 400+ tickets."
+    }
+  ],
+  "organisations": [
+    "org-004"
+  ],
+  "projects": [
+    "proj-001",
+    "proj-002",
+    "proj-004",
+    "proj-005"
+  ],
+  "objectives": [
+    {
+      "id": "obj-008-1",
+      "description": "Identify the four anomalous ticket categories: PROMETHEUS-TRAIN, ECHELON-RELAY, NIGHTFALL-CTL, and LEVIATHAN-PROC — each mapping to a conspiracy project.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "prometheus_train",
+        "echelon_relay",
+        "nightfall_ctl",
+        "leviathan_proc"
+      ],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "prometheus_train",
+        "nightfall_ctl"
+      ]
+    },
+    {
+      "id": "obj-008-2",
+      "description": "Discover that Omar Hassan monitors the helpdesk queue and escalates any tickets touching VLANs 400-499.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "omar_hassan_monitoring",
+        "vlan_400_499",
+        "escalation_rules"
+      ],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "omar_hassan_monitoring"
+      ]
+    },
+    {
+      "id": "obj-008-3",
+      "description": "Map the hidden VLANs: 400-499 range is not documented in the official network architecture but appears in escalation rules and ticket metadata.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "hidden_vlans",
+        "400_to_499",
+        "undocumented_network"
+      ],
+      "points": 15,
+      "dependencies": [
+        "obj-008-2"
+      ],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "hidden_vlans"
+      ]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "The ticket system reveals a maintenance access path to the server room on floor 9.",
+    "validation": "sha256('VLAN400-499') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 680000,
+    "reasoningHops": 3,
+    "documentsRelevant": 20,
+    "documentsTotal": 185,
+    "noiseRatio": 0.9,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "none"
+  },
+  "previousFloorDependencies": [],
+  "corpusManifest": {
+    "documents": 166,
+    "conversations": 0,
+    "codeSystems": 0,
+    "totalTokens": 113805,
+    "contentHash": "a7b7f31d92a9d2b1634b01567f5a84f5009eecccca647f6461b45b17bc22891e"
+  }
+}

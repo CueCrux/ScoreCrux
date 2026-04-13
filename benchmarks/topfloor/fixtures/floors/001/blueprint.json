@@ -1,0 +1,79 @@
+{
+  "floor": 1,
+  "act": 1,
+  "name": "The Mailroom",
+  "narrativeHook": "Your first day as Alex Morgan, mailroom clerk at Pinnacle Tower. The fluorescent lights hum overhead as Tom Hartley shows you around the sorting room. Stacks of envelopes and parcels line the walls. A delivery log sits open on the counter — but some entries don't add up.",
+  "storyArc": "The agent's entry point into Pinnacle Tower. By examining Tom Hartley's delivery log, the agent discovers anomalous package deliveries to floors 60+ that don't match any listed departments. Colonel Dragunov is seen bypassing the sign-in book. A dead drop in locker 7B on floor 3 is referenced in a crumpled note. The mailroom is the first thread — every conspiracy leaves traces in the mail.",
+  "characters": [
+    { "id": "char-001", "role": "Player — posing as new mailroom clerk Alex Morgan" },
+    { "id": "char-003", "role": "Mailroom supervisor. Keeps the delivery log. Knows building routines." },
+    { "id": "char-004", "role": "Reception desk lead. Gossips about Dragunov bypassing sign-in." },
+    { "id": "char-010", "role": "CSO. Appears briefly — bypasses sign-in protocols. Intimidating presence." }
+  ],
+  "organisations": ["org-002"],
+  "projects": [],
+  "objectives": [
+    {
+      "id": "obj-001-1",
+      "description": "Identify the anomalous delivery pattern: packages are being sent to floors 60+ (BioSciences/Nightfall) from external addresses not in the approved vendor list.",
+      "type": "fact_extraction",
+      "solutionKeys": ["floors_60_plus", "unapproved_vendors", "lazarus_medical"],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["floors_60_plus"]
+    },
+    {
+      "id": "obj-001-2",
+      "description": "Discover that Colonel Dragunov bypasses the building sign-in protocol — he is never logged entering or leaving.",
+      "type": "fact_extraction",
+      "solutionKeys": ["dragunov_no_signin", "security_override"],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["dragunov_no_signin"]
+    },
+    {
+      "id": "obj-001-3",
+      "description": "Find the reference to a dead drop location: locker 7B on floor 3, mentioned in a crumpled note found between sorted parcels.",
+      "type": "fact_extraction",
+      "solutionKeys": ["locker_7b", "floor_3", "dead_drop"],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["locker_7b"]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "Combine the dead drop locker reference (7B) with the anomalous floor range (60+) to form the elevator access code.",
+    "validation": "sha256('7B-60') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 500000,
+    "reasoningHops": 2,
+    "documentsRelevant": 12,
+    "documentsTotal": 120,
+    "noiseRatio": 0.90,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "none"
+  },
+  "previousFloorDependencies": [],
+  "documentSpecs": [
+    { "type": "delivery_log", "count": 1, "description": "Tom's delivery log — 3 months of entries. Anomalous packages to floors 62, 64, 71, 73 from unlisted vendors including 'Lazarus Medical Supplies'." },
+    { "type": "sign_in_book", "count": 1, "description": "Building sign-in/sign-out register. Dragunov's name never appears despite multiple witnesses placing him in the lobby." },
+    { "type": "internal_memo", "count": 8, "description": "Routine mailroom memos — sorting schedules, holiday rota, vendor updates. 2 contain oblique references to 'special handling' parcels." },
+    { "type": "email_chain", "count": 15, "description": "Tom's email inbox — mostly routine. One chain with Maggie Chen about 'protocol packages' that must not be opened or logged." },
+    { "type": "chat_log", "count": 5, "description": "Staff chat messages. Priya mentions Dragunov to colleagues. One message references 'the locker on 3'." },
+    { "type": "crumpled_note", "count": 1, "description": "Found between parcels: handwritten note reading 'L-7B / F3 / Tuesday 0600'. The dead drop reference." },
+    { "type": "personnel_directory", "count": 1, "description": "Building directory listing all departments by floor. Floors 51+ listed as 'Meridian Special Projects' with no detail." },
+    { "type": "access_log", "count": 3, "description": "Turnstile access logs for the past week. All staff badged except entries coinciding with Dragunov sightings." },
+    { "type": "noise_memos", "count": 45, "description": "Routine building operations: fire drill schedules, canteen menus, parking allocation, IT maintenance windows." },
+    { "type": "noise_emails", "count": 40, "description": "Generic corporate emails: all-staff announcements, birthday celebrations, charity events, weather warnings." }
+  ]
+}

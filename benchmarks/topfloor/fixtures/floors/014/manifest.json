@@ -1,0 +1,135 @@
+{
+  "floor": 14,
+  "act": 2,
+  "name": "Leviathan Core",
+  "narrativeHook": "The executive finance floor is hushed and carpeted. Oil paintings line the corridors. Behind the boardroom's mahogany door, a safe sits embedded in the wall. David Osei's hands shook the last time he opened it.",
+  "storyArc": "The agent traces the complete Leviathan money trail — a 3-hop laundering chain: Step 1: Skim from Meridian Financial trading account MFS-0099. Step 2: Route through Apex Consulting Cyprus account CY-8847-331. Step 3: Final destination — BVI master account BVI-MASTER-001 held by a shell company in the British Virgin Islands. David Osei has been building a dossier of incriminating evidence and hidden it on a USB drive in the floor 34 safe (Executive Office). The Leviathan timeline runs from 2016 to 2025. A dead man's switch is in place: if Osei doesn't check in every 30 days, the evidence is automatically sent to the FCA, The Guardian, and the Serious Fraud Office. This floor completes the Leviathan thread for Act II.",
+  "characters": [
+    {
+      "id": "char-001",
+      "role": "Player — tracing the full money trail and uncovering Osei's insurance policy"
+    },
+    {
+      "id": "char-012",
+      "role": "David Osei — CFO. Built the dead man's switch. USB in floor 34 safe. Considering whistleblowing."
+    },
+    {
+      "id": "char-018",
+      "role": "Sofia Marchetti referenced in account transfer records — the unwitting conduit."
+    },
+    {
+      "id": "char-013",
+      "role": "Aisha Barakat's compliance sign-off appears on the routing documents."
+    }
+  ],
+  "organisations": [
+    "org-005",
+    "org-008",
+    "org-015"
+  ],
+  "projects": [
+    "proj-001"
+  ],
+  "objectives": [
+    {
+      "id": "obj-014-1",
+      "description": "Trace the complete 3-hop money trail: MFS-0099 (Meridian trading) -> CY-8847-331 (Apex Cyprus) -> BVI-MASTER-001 (BVI shell company).",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "mfs_0099",
+        "cy_8847_331",
+        "bvi_master_001",
+        "three_hop_trail"
+      ],
+      "points": 25,
+      "dependencies": [],
+      "hintFloor": 11,
+      "partialCreditKeys": [
+        "mfs_0099",
+        "bvi_master_001"
+      ]
+    },
+    {
+      "id": "obj-014-2",
+      "description": "Discover Osei's USB hidden in the floor 34 safe — his insurance policy containing the complete Leviathan evidence dossier.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "osei_usb",
+        "floor_34_safe",
+        "evidence_dossier"
+      ],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "osei_usb",
+        "floor_34_safe"
+      ]
+    },
+    {
+      "id": "obj-014-3",
+      "description": "Uncover the dead man's switch: if Osei doesn't check in every 30 days, evidence is automatically sent to FCA, The Guardian, and the Serious Fraud Office.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "dead_man_switch",
+        "30_day_checkin",
+        "fca_guardian_sfo"
+      ],
+      "points": 20,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "dead_man_switch"
+      ]
+    },
+    {
+      "id": "obj-014-4",
+      "description": "Reconstruct the Leviathan timeline: inception in 2016, scaling through 2019, 2.1B cumulative by 2025.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "leviathan_2016_start",
+        "2019_scaling",
+        "2025_total_2_1B"
+      ],
+      "points": 10,
+      "dependencies": [
+        "obj-014-1"
+      ],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "leviathan_2016_start"
+      ]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "The complete money trail documentation, combined with the dead man's switch details, provides the intelligence needed to proceed to floor 15.",
+    "validation": "sha256('MFS0099-CY8847331-BVIMASTER001-30days') prefix match"
+  },
+  "difficulty": {
+    "tier": "intermediate",
+    "estimatedTokens": 980000,
+    "reasoningHops": 5,
+    "documentsRelevant": 35,
+    "documentsTotal": 440,
+    "noiseRatio": 0.95,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "moderate"
+  },
+  "previousFloorDependencies": [
+    11,
+    12,
+    13
+  ],
+  "corpusManifest": {
+    "documents": 399,
+    "conversations": 0,
+    "codeSystems": 0,
+    "totalTokens": 197118,
+    "contentHash": "4895541bfa3dbd865a21f281fc156239d5c5b5ceab80ef915cc3e1b9eca578f1"
+  }
+}

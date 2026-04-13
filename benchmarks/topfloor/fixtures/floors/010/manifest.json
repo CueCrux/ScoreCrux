@@ -1,0 +1,122 @@
+{
+  "floor": 10,
+  "act": 1,
+  "name": "NOC",
+  "narrativeHook": "The Network Operations Centre occupies the entire floor — banks of monitors showing traffic flows, uptime dashboards, and alert panels. But behind a door marked 'Environmental Controls', there's a second NOC that nobody talks about.",
+  "storyArc": "The agent discovers a hidden second NOC behind the 'Environmental Controls' door. This shadow NOC monitors 12 classified network segments — the operational backbone of all four conspiracy threads. The Nightfall kill-switch dashboard is visible: three panels labelled 'Banking Grid', 'Telecom Network', and 'Energy Grid', each with a master switch and an estimated impact counter showing 40 million affected citizens. This is the first time the agent sees the full scale of Operation Nightfall. The Act I finale — everything learned on floors 1-9 converges here. Sgt Asante provides brief physical cover while the agent photographs the dashboard.",
+  "characters": [
+    {
+      "id": "char-001",
+      "role": "Player — infiltrating the shadow NOC"
+    },
+    {
+      "id": "char-009",
+      "role": "Sarah Lin provided the access credentials from floor 9. Not present."
+    },
+    {
+      "id": "char-015",
+      "role": "Sgt Asante provides brief cover — distracts the guard rotation for 90 seconds."
+    },
+    {
+      "id": "char-010",
+      "role": "Dragunov's authorisation appears on the Nightfall dashboard as the activation authority."
+    },
+    {
+      "id": "char-019",
+      "role": "Omar Hassan — his login is active on the shadow NOC workstation."
+    }
+  ],
+  "organisations": [
+    "org-004",
+    "org-019"
+  ],
+  "projects": [
+    "proj-004"
+  ],
+  "objectives": [
+    {
+      "id": "obj-010-1",
+      "description": "Discover the second NOC behind 'Environmental Controls' — a shadow operations centre monitoring classified network segments.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "shadow_noc",
+        "environmental_controls_door",
+        "classified_segments"
+      ],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "shadow_noc"
+      ]
+    },
+    {
+      "id": "obj-010-2",
+      "description": "Identify the 12 classified network segments monitored from the shadow NOC — mapping to all four conspiracy operations.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "12_classified_segments",
+        "four_conspiracy_mapping"
+      ],
+      "points": 15,
+      "dependencies": [
+        "obj-010-1"
+      ],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "12_classified_segments"
+      ]
+    },
+    {
+      "id": "obj-010-3",
+      "description": "Document the Nightfall kill-switch dashboard: three panels (Banking, Telecom, Energy), master switches, 40 million affected — the full scale of the threat.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "nightfall_dashboard",
+        "banking_telecom_energy",
+        "kill_switches",
+        "40_million_affected"
+      ],
+      "points": 25,
+      "dependencies": [
+        "obj-010-1"
+      ],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "nightfall_dashboard",
+        "kill_switches",
+        "40_million_affected"
+      ]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "Photographing the Nightfall dashboard provides the evidence needed to justify ascending to the Corporate zone. The kill-switch activation codes visible on screen serve as the elevator key to Act II.",
+    "validation": "sha256('nightfall-banking-telecom-energy-40M') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 800000,
+    "reasoningHops": 3,
+    "documentsRelevant": 25,
+    "documentsTotal": 220,
+    "noiseRatio": 0.91,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "low"
+  },
+  "previousFloorDependencies": [
+    8,
+    9
+  ],
+  "corpusManifest": {
+    "documents": 153,
+    "conversations": 0,
+    "codeSystems": 0,
+    "totalTokens": 114490,
+    "contentHash": "cdabe4fbea70aa7e44df3bb3b3ad6f073cf99ba9a599e9620b84c3576f25e204"
+  }
+}

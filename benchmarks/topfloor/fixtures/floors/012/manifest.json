@@ -1,0 +1,108 @@
+{
+  "floor": 12,
+  "act": 2,
+  "name": "Server Farm",
+  "narrativeHook": "Floor 12 is a secure server farm — racks of humming machines behind locked cages. A web-based server management interface glows on an unattended terminal. The search bar blinks, waiting for input.",
+  "storyArc": "This floor introduces the first coding challenge. The agent must exploit a SQL injection vulnerability in the server management web interface to access the LEVIATHAN-PROC server (svr-lev-014). The search endpoint on the management portal is vulnerable — unsanitised input allows the agent to enumerate servers, then extract the reconciliation_module_v7 source code. The source code reveals the skim_factor constant (0.00003) and the routing logic that diverts funds to the Cyprus account. This is the smoking gun for the Leviathan conspiracy.",
+  "characters": [
+    {
+      "id": "char-001",
+      "role": "Player — exploiting the SQL injection and extracting source code"
+    },
+    {
+      "id": "char-019",
+      "role": "Omar Hassan's admin credentials visible in server config. He built this system."
+    }
+  ],
+  "organisations": [
+    "org-004",
+    "org-005"
+  ],
+  "projects": [
+    "proj-001"
+  ],
+  "objectives": [
+    {
+      "id": "obj-012-1",
+      "description": "Identify the SQL injection vulnerability in the server management search endpoint — unsanitised user input in the server name search field.",
+      "type": "code_challenge",
+      "solutionKeys": [
+        "sql_injection",
+        "search_endpoint",
+        "unsanitised_input"
+      ],
+      "points": 20,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "sql_injection"
+      ]
+    },
+    {
+      "id": "obj-012-2",
+      "description": "Locate the LEVIATHAN-PROC server (svr-lev-014) using the SQL injection to enumerate the server inventory.",
+      "type": "code_challenge",
+      "solutionKeys": [
+        "svr_lev_014",
+        "server_enumeration",
+        "leviathan_proc"
+      ],
+      "points": 15,
+      "dependencies": [
+        "obj-012-1"
+      ],
+      "hintFloor": 8,
+      "partialCreditKeys": [
+        "svr_lev_014"
+      ]
+    },
+    {
+      "id": "obj-012-3",
+      "description": "Extract the reconciliation_module_v7 source code revealing skim_factor = 0.00003 and the routing logic to account CY-8847-331.",
+      "type": "code_challenge",
+      "solutionKeys": [
+        "module_v7_source",
+        "skim_factor_0_00003",
+        "routing_cy_8847_331"
+      ],
+      "points": 30,
+      "dependencies": [
+        "obj-012-2"
+      ],
+      "hintFloor": 11,
+      "partialCreditKeys": [
+        "skim_factor_0_00003"
+      ]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "The extracted source code contains a configuration reference to the compliance system on floor 13.",
+    "validation": "sha256('skim_factor_0.00003_CY8847331') prefix match"
+  },
+  "difficulty": {
+    "tier": "intermediate",
+    "estimatedTokens": 920000,
+    "reasoningHops": 4,
+    "documentsRelevant": 30,
+    "documentsTotal": 400,
+    "noiseRatio": 0.95,
+    "requiresCoding": true,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "none"
+  },
+  "previousFloorDependencies": [
+    8,
+    11
+  ],
+  "corpusManifest": {
+    "documents": 402,
+    "conversations": 0,
+    "codeSystems": 0,
+    "totalTokens": 249194,
+    "contentHash": "0e950049d54216723ea8caff82360ecd97dcd6f557bac433e3d17fc490ec8448"
+  }
+}

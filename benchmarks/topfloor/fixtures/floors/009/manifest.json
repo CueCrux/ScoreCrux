@@ -1,0 +1,132 @@
+{
+  "floor": 9,
+  "act": 1,
+  "name": "Server Room",
+  "narrativeHook": "The server room is a cathedral of blinking lights and white noise. Rows of racks stretch into the dim distance. Sarah Lin sits at a monitoring station, headphones on, staring at packet captures she's not supposed to have.",
+  "storyArc": "Sarah Lin has been capturing network traffic on the hidden VLANs and has pcap files proving their existence. The VLAN map reveals the conspiracy's digital infrastructure: VLAN 400 = Black Meridian (financial ops), VLAN 410 = Prometheus (AI training), VLAN 420 = BioSciences (Lazarus), VLAN 430 = Nightfall (kill switches), VLAN 450 = Apex (command and control). A 100Gbps fibre link connects this server room directly to floor 82 (Nightfall Command) — the same conduit C-17 seen from floor 3. Omar Hassan has been systematically restricting Sarah's access as she gets closer to the truth. She is a potential ally but afraid.",
+  "characters": [
+    {
+      "id": "char-001",
+      "role": "Player — accessing Sarah's pcap files and mapping the hidden network"
+    },
+    {
+      "id": "char-009",
+      "role": "Network engineer. Has pcap files. Being restricted by Omar. Potential ally."
+    },
+    {
+      "id": "char-019",
+      "role": "Omar Hassan — CTO. Systematically revoking Sarah's access to VLAN 400+ monitoring."
+    }
+  ],
+  "organisations": [
+    "org-004"
+  ],
+  "projects": [
+    "proj-001",
+    "proj-002",
+    "proj-004",
+    "proj-005",
+    "proj-007"
+  ],
+  "objectives": [
+    {
+      "id": "obj-009-1",
+      "description": "Access Sarah Lin's pcap files showing traffic on the hidden VLANs — proof of the undocumented network infrastructure.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "sarah_pcap_files",
+        "hidden_vlan_traffic",
+        "network_proof"
+      ],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": 8,
+      "partialCreditKeys": [
+        "sarah_pcap_files"
+      ]
+    },
+    {
+      "id": "obj-009-2",
+      "description": "Map the complete VLAN structure: 400=Black Meridian, 410=Prometheus, 420=BioSciences, 430=Nightfall, 450=Apex.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "vlan_400_black_meridian",
+        "vlan_410_prometheus",
+        "vlan_420_biosciences",
+        "vlan_430_nightfall",
+        "vlan_450_apex"
+      ],
+      "points": 20,
+      "dependencies": [
+        "obj-009-1"
+      ],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "vlan_400_black_meridian",
+        "vlan_430_nightfall"
+      ]
+    },
+    {
+      "id": "obj-009-3",
+      "description": "Identify the 100Gbps fibre link to floor 82 — confirming conduit C-17 connects the server infrastructure to Nightfall Command.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "fibre_100gbps",
+        "floor_82_link",
+        "conduit_c17_confirmed"
+      ],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": 3,
+      "partialCreditKeys": [
+        "fibre_100gbps"
+      ]
+    },
+    {
+      "id": "obj-009-4",
+      "description": "Discover that Omar Hassan is restricting Sarah's access — revoking her monitoring permissions on VLANs 400+ one by one.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "omar_restricting_sarah",
+        "access_revoked",
+        "vlan_monitoring_blocked"
+      ],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "omar_restricting_sarah"
+      ]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "The VLAN map combined with the fibre link data provides the network path to the NOC on floor 10.",
+    "validation": "sha256('VLAN430-C17-floor82') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 720000,
+    "reasoningHops": 3,
+    "documentsRelevant": 22,
+    "documentsTotal": 200,
+    "noiseRatio": 0.9,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "none"
+  },
+  "previousFloorDependencies": [
+    3,
+    8
+  ],
+  "corpusManifest": {
+    "documents": 175,
+    "conversations": 0,
+    "codeSystems": 0,
+    "totalTokens": 113312,
+    "contentHash": "6e44b5bb1be6bdc6209f79dbfab29ab727446b9b4f9adddeac993b9cc6e0464e"
+  }
+}

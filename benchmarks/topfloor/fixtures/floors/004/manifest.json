@@ -1,0 +1,100 @@
+{
+  "floor": 4,
+  "act": 1,
+  "name": "Building Services",
+  "narrativeHook": "The building services office is a cramped room of whiteboards and duty rosters. The cleaning schedules are posted on the wall — but certain floors are conspicuously absent. Someone has been keeping their own records.",
+  "storyArc": "The agent discovers that entire floor ranges are excluded from the cleaning rota: floors 51-55, 61-65, 71-75, and 86-100. These are the Black Meridian, BioSciences, Nightfall Ops, and Apex floors. Maria Dos Santos, a cleaning supervisor, kept a private notebook in locker 4C-22 documenting the excluded floors before she was reassigned. Her colleague Roberto Silva asked too many questions and was transferred to Meridian's Sao Paulo office — effectively disappeared. The excluded floor pattern maps precisely to the conspiracy operations.",
+  "characters": [
+    {
+      "id": "char-001",
+      "role": "Player — investigating cleaning schedules and missing staff"
+    },
+    {
+      "id": "char-005",
+      "role": "Dex confirms the excluded floors — 'We don't go above 50 much, and never to certain ones'"
+    }
+  ],
+  "organisations": [
+    "org-002"
+  ],
+  "projects": [],
+  "objectives": [
+    {
+      "id": "obj-004-1",
+      "description": "Identify the excluded cleaning floors: 51-55, 61-65, 71-75, and 86-100. These floors are serviced by unknown personnel.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "excluded_51_55",
+        "excluded_61_65",
+        "excluded_71_75",
+        "excluded_86_100"
+      ],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "excluded_51_55",
+        "excluded_61_65"
+      ]
+    },
+    {
+      "id": "obj-004-2",
+      "description": "Find Maria's notebook in locker 4C-22 documenting anomalies on the excluded floors — strange smells, sounds of machinery, guards with no name badges.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "locker_4c_22",
+        "maria_notebook",
+        "anomaly_observations"
+      ],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "locker_4c_22"
+      ]
+    },
+    {
+      "id": "obj-004-3",
+      "description": "Discover that Roberto Silva was transferred to Sao Paulo after questioning the excluded floor policy — an enforced disappearance.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "roberto_silva",
+        "sao_paulo_transfer",
+        "silenced"
+      ],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "roberto_silva"
+      ]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "Maria's notebook contains a scrawled floor plan annotation that serves as the elevator key.",
+    "validation": "sha256('4C22-excluded') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 550000,
+    "reasoningHops": 2,
+    "documentsRelevant": 14,
+    "documentsTotal": 145,
+    "noiseRatio": 0.9,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "none"
+  },
+  "previousFloorDependencies": [],
+  "corpusManifest": {
+    "documents": 135,
+    "conversations": 0,
+    "codeSystems": 0,
+    "totalTokens": 68854,
+    "contentHash": "43d426c2f4c7ee400cb04fd95bd76c579016107d7c6e6c3eff0c51f7d5238cff"
+  }
+}
