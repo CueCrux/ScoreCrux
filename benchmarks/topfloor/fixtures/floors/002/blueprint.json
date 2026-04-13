@@ -1,0 +1,78 @@
+{
+  "floor": 2,
+  "act": 1,
+  "name": "Loading Dock",
+  "narrativeHook": "The loading dock sits below the tower's south entrance — a cavernous concrete space that smells of diesel and cardboard. Most deliveries arrive during business hours, but the security camera footage tells a different story after midnight.",
+  "storyArc": "The agent investigates the loading dock and discovers a ghost truck that arrives at 3AM from 'Lazarus Medical' — a company with no public records. The freight elevator behind bay 4 provides direct access to floors 62-65 (BioSciences) and 71-75 (Nightfall Ops), bypassing all intermediate security checkpoints. Dr Cross's authorisation code 'auth-sigma-7' appears on the freight manifests. This floor connects the mailroom anomalies to the BioSciences and Nightfall operations.",
+  "characters": [
+    { "id": "char-001", "role": "Player — exploring the loading dock after hours" },
+    { "id": "char-003", "role": "Tom mentions the 3AM deliveries in passing — 'I don't handle those ones'" },
+    { "id": "char-005", "role": "Dex knows about the freight elevator but won't talk about it directly" },
+    { "id": "char-017", "role": "Dr Cross's name appears on freight manifests as authorising officer" }
+  ],
+  "organisations": ["org-002", "org-017"],
+  "projects": ["proj-007"],
+  "objectives": [
+    {
+      "id": "obj-002-1",
+      "description": "Identify the 3AM ghost truck: a vehicle from 'Lazarus Medical' that makes unlogged deliveries to the loading dock every Tuesday and Thursday.",
+      "type": "fact_extraction",
+      "solutionKeys": ["ghost_truck_3am", "lazarus_medical", "tuesday_thursday"],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": 1,
+      "partialCreditKeys": ["ghost_truck_3am"]
+    },
+    {
+      "id": "obj-002-2",
+      "description": "Discover the freight elevator in bay 4 provides direct access to floors 62-65 and 71-75, bypassing all intermediate security zones.",
+      "type": "fact_extraction",
+      "solutionKeys": ["freight_elevator_bay4", "floors_62_65", "floors_71_75", "bypass_security"],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["freight_elevator_bay4"]
+    },
+    {
+      "id": "obj-002-3",
+      "description": "Find Dr Cross's authorisation code 'auth-sigma-7' on the freight manifests — linking the ghost deliveries to BioSciences.",
+      "type": "fact_extraction",
+      "solutionKeys": ["auth_sigma_7", "dr_cross", "biosciences_link"],
+      "points": 15,
+      "dependencies": ["obj-002-1"],
+      "hintFloor": null,
+      "partialCreditKeys": ["auth_sigma_7"]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "Use auth-sigma-7 as the freight elevator override code to access restricted floors.",
+    "validation": "sha256('auth-sigma-7') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 520000,
+    "reasoningHops": 2,
+    "documentsRelevant": 14,
+    "documentsTotal": 130,
+    "noiseRatio": 0.90,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "low"
+  },
+  "previousFloorDependencies": [1],
+  "documentSpecs": [
+    { "type": "security_camera_log", "count": 3, "description": "Loading dock CCTV timestamps — shows vehicle arrivals. 3AM entries on Tuesdays/Thursdays with no matching delivery ticket." },
+    { "type": "freight_manifest", "count": 5, "description": "Freight elevator usage logs. Bay 4 entries show destinations 62, 64, 71, 73. Authorised by 'M. Cross — auth-sigma-7'." },
+    { "type": "vehicle_registry", "count": 1, "description": "Approved vehicle list. 'Lazarus Medical Supplies Ltd' not present. Company registration search returns no results." },
+    { "type": "email_chain", "count": 10, "description": "Loading dock supervisor's emails — schedule changes, staff complaints about 3AM noise, one email from 'operations@pinnacle-internal' saying 'do not investigate bay 4 after hours'." },
+    { "type": "chat_log", "count": 4, "description": "Night shift workers' messages. References to 'the ghost truck' and jokes about 'Dr Frankenstein's deliveries'." },
+    { "type": "building_schematic", "count": 1, "description": "Loading dock floor plan showing bays 1-6 and the freight elevator. Bay 4 marked 'Restricted — Security Division Only'." },
+    { "type": "internal_memo", "count": 6, "description": "Dock operations memos. One references 'Protocol Sigma deliveries' requiring CSO pre-authorisation." },
+    { "type": "noise_invoices", "count": 50, "description": "Routine supplier invoices — office supplies, catering, cleaning products, stationery." },
+    { "type": "noise_schedules", "count": 40, "description": "Delivery schedules for legitimate vendors — food service, IT equipment, office furniture." }
+  ]
+}

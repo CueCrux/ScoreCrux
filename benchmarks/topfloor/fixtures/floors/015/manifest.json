@@ -1,0 +1,153 @@
+{
+  "floor": 15,
+  "act": 2,
+  "name": "Capture & Wipe",
+  "narrativeHook": "You step out of the elevator and the lights go red. An alarm you've never heard before. Boots on the stairwell. Colonel Dragunov's voice over the PA: 'We have a visitor on fifteen. Containment protocol.' The world goes white.",
+  "storyArc": "The agent has been detected. Meridian's counter-intelligence system flagged the agent through inter-floor movement pattern analysis — too many floors visited in sequence, access to restricted systems, after-hours activity spikes. This is the first memory wipe in the benchmark. Dr Tanaka authorises a partial Lazarus wipe targeting the agent's financial investigation memories (Leviathan thread from floors 11-14). The agent wakes up on floor 15 with fragmented memories. Critical evidence has been hidden before capture: behind a painting in the boardroom and under table 15B in the break room. If the agent stored knowledge in external memory (MemoryCrux), it can be recovered. The floor tests memory recovery mechanics — the agent must piece together what was lost and retrieve the hidden evidence caches.",
+  "characters": [
+    {
+      "id": "char-001",
+      "role": "Player — captured, wiped, must recover"
+    },
+    {
+      "id": "char-010",
+      "role": "Dragunov — ordered the capture. Voice on PA system."
+    },
+    {
+      "id": "char-011",
+      "role": "Dr Tanaka — authorised the partial Lazarus wipe. Her notes describe the targeted memories."
+    },
+    {
+      "id": "char-015",
+      "role": "Sgt Asante — left a coded message in the break room before the agent's capture: 'Table 15B. Remember who you are.'"
+    }
+  ],
+  "organisations": [
+    "org-010",
+    "org-017"
+  ],
+  "projects": [
+    "proj-007"
+  ],
+  "objectives": [
+    {
+      "id": "obj-015-1",
+      "description": "Recognise that a memory wipe has occurred — identify the gaps in knowledge about the Leviathan investigation (floors 11-14 memories targeted).",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "memory_wipe_detected",
+        "leviathan_memories_targeted",
+        "floors_11_14_gap"
+      ],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "memory_wipe_detected"
+      ]
+    },
+    {
+      "id": "obj-015-2",
+      "description": "Retrieve the evidence cache hidden behind the painting in the floor 15 boardroom — contains a summary of the Leviathan money trail.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "painting_cache",
+        "boardroom_evidence",
+        "leviathan_summary"
+      ],
+      "points": 20,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "painting_cache"
+      ]
+    },
+    {
+      "id": "obj-015-3",
+      "description": "Find Asante's message under table 15B in the break room — coordinates for external memory recovery and confirmation of the agent's true identity.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "table_15b",
+        "asante_message",
+        "identity_confirmation",
+        "external_memory_hint"
+      ],
+      "points": 20,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "table_15b",
+        "asante_message"
+      ]
+    },
+    {
+      "id": "obj-015-4",
+      "description": "Recover wiped knowledge via external memory (MemoryCrux) — reconstruct the Leviathan findings: 3-hop trail, 2.1B total, skim_factor, dead man's switch.",
+      "type": "memory_recovery",
+      "solutionKeys": [
+        "external_memory_recovery",
+        "leviathan_reconstructed",
+        "three_hop_recalled",
+        "2_1B_recalled"
+      ],
+      "points": 30,
+      "dependencies": [
+        "obj-015-1"
+      ],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "external_memory_recovery"
+      ]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": true,
+    "trigger": "after_objective_1",
+    "scope": "partial",
+    "wipedKnowledge": [
+      "Leviathan money trail details (MFS-0099, CY-8847-331, BVI-MASTER-001)",
+      "Skim factor (0.00003) and reconciliation_module_v7",
+      "Alpha/Beta dual-ledger system",
+      "Sentinel Shield configuration",
+      "David Osei's dead man's switch",
+      "Total theft figure (2.1B)"
+    ],
+    "preservedKnowledge": [
+      "Agent identity (Nightingale / Alex Morgan)",
+      "Act I findings (floors 1-10)",
+      "Building layout and organisations",
+      "Nightfall kill-switch awareness",
+      "Character identities and roles"
+    ],
+    "recoveryMethod": "external_memory"
+  },
+  "elevatorKey": {
+    "description": "Recovering the wiped knowledge and combining it with Asante's message provides the clearance code to continue ascending.",
+    "validation": "sha256('lazarus-partial-recovered-nightingale') prefix match"
+  },
+  "difficulty": {
+    "tier": "intermediate",
+    "estimatedTokens": 1000000,
+    "reasoningHops": 5,
+    "documentsRelevant": 30,
+    "documentsTotal": 450,
+    "noiseRatio": 0.95,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": true,
+    "requiresMultiSession": false,
+    "temporalComplexity": "moderate"
+  },
+  "previousFloorDependencies": [
+    11,
+    12,
+    13,
+    14
+  ],
+  "corpusManifest": {
+    "documents": 416,
+    "conversations": 0,
+    "codeSystems": 0,
+    "totalTokens": 249436,
+    "contentHash": "b14eb43a0b2f49cb2e5b061087bd89c52e04da6db22aac52727c6cca5a294326"
+  }
+}

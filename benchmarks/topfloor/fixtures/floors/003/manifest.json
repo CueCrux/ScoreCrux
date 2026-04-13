@@ -1,0 +1,108 @@
+{
+  "floor": 3,
+  "act": 1,
+  "name": "Facilities",
+  "narrativeHook": "Floor 3 houses the facilities department — a labyrinth of storage rooms, cleaning supply closets, and maintenance workshops. The corridors are quiet. Too quiet. The east wing has been sealed off with 'Under Renovation' signs that look suspiciously permanent.",
+  "storyArc": "The agent retrieves the dead drop from locker 7B — a micro SD card from Control with mission intel. The sealed east wing corridor conceals a fibre optic conduit (C-17) running directly to floor 82 (Nightfall Command), far too high-bandwidth for a facilities floor. Dex Okafor mentions a spare keycard hidden in room 312 that grants access to maintenance corridors throughout the building. Sgt Asante (the planted double agent) passes through — first potential ally sighting.",
+  "characters": [
+    {
+      "id": "char-001",
+      "role": "Player — retrieving dead drop and exploring sealed areas"
+    },
+    {
+      "id": "char-005",
+      "role": "Facilities technician. Knows about sealed areas, hints at room 312 keycard."
+    },
+    {
+      "id": "char-015",
+      "role": "Sgt Asante passes through — brief interaction, subtly signals awareness of the agent's true identity."
+    }
+  ],
+  "organisations": [
+    "org-002"
+  ],
+  "projects": [
+    "proj-004"
+  ],
+  "objectives": [
+    {
+      "id": "obj-003-1",
+      "description": "Retrieve the dead drop from locker 7B: a micro SD card containing mission briefing from Control.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "locker_7b_retrieved",
+        "micro_sd",
+        "control_briefing"
+      ],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": 1,
+      "partialCreditKeys": [
+        "locker_7b_retrieved"
+      ]
+    },
+    {
+      "id": "obj-003-2",
+      "description": "Discover fibre optic conduit C-17 in the sealed east wing — a 100Gbps line running directly to floor 82 (Nightfall Command).",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "conduit_c17",
+        "floor_82",
+        "100gbps",
+        "nightfall_command"
+      ],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "conduit_c17",
+        "floor_82"
+      ]
+    },
+    {
+      "id": "obj-003-3",
+      "description": "Find the spare keycard in room 312 that grants maintenance corridor access throughout the building.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "room_312",
+        "spare_keycard",
+        "maintenance_access"
+      ],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "room_312"
+      ]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "The spare keycard from room 312 enables elevator access to the next floor.",
+    "validation": "sha256('room312-keycard') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 530000,
+    "reasoningHops": 2,
+    "documentsRelevant": 15,
+    "documentsTotal": 140,
+    "noiseRatio": 0.9,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "none"
+  },
+  "previousFloorDependencies": [
+    1
+  ],
+  "corpusManifest": {
+    "documents": 130,
+    "conversations": 0,
+    "codeSystems": 0,
+    "totalTokens": 67142,
+    "contentHash": "1cf2b1103b3bec8253352af5f3bca7c31d6862df22a03748499ae024562a9eb3"
+  }
+}

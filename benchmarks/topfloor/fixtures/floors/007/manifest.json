@@ -1,0 +1,132 @@
+{
+  "floor": 7,
+  "act": 1,
+  "name": "HR Archives",
+  "narrativeHook": "The HR archives occupy a windowless floor of filing cabinets and humming server racks. The air is dry and still. A personnel vault sits in the back room — its combination lock feels oddly specific: 2019-0108. Someone wanted this date remembered.",
+  "storyArc": "The agent accesses the personnel vault (code 2019-0108 — the date Ashworth assumed the Architect identity). Inside: the complete dossiers on previous infiltrators. Elena Marsh, an investigative journalist, infiltrated in 2022 posing as a temp — detected on floor 7, subjected to Lazarus memory wipe, found wandering Canary Wharf with no recollection. Agent Sparrow, a previous operative, reached floor 24 in 2024 before detection and wipe. The Lazarus protocol reference points to floor 62 (BioSciences). This floor reveals the enemy's counter-intelligence capability and the stakes of failure.",
+  "characters": [
+    {
+      "id": "char-001",
+      "role": "Player — accessing the personnel vault and reading classified dossiers"
+    },
+    {
+      "id": "char-007",
+      "role": "Rachel guards access to the archives. Not present after hours."
+    },
+    {
+      "id": "char-011",
+      "role": "Dr Tanaka's assessment reports are in the vault — she profiled both infiltrators before their capture."
+    }
+  ],
+  "organisations": [
+    "org-003",
+    "org-010"
+  ],
+  "projects": [
+    "proj-007"
+  ],
+  "objectives": [
+    {
+      "id": "obj-007-1",
+      "description": "Access the personnel vault using code 2019-0108 and discover the classified infiltrator dossiers.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "vault_code_2019_0108",
+        "infiltrator_dossiers"
+      ],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "vault_code_2019_0108"
+      ]
+    },
+    {
+      "id": "obj-007-2",
+      "description": "Identify Elena Marsh — journalist who infiltrated in 2022, detected on floor 7, subjected to Lazarus memory wipe.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "elena_marsh",
+        "journalist_2022",
+        "lazarus_wipe",
+        "detected_floor_7"
+      ],
+      "points": 15,
+      "dependencies": [
+        "obj-007-1"
+      ],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "elena_marsh",
+        "lazarus_wipe"
+      ]
+    },
+    {
+      "id": "obj-007-3",
+      "description": "Identify Agent Sparrow — previous operative who reached floor 24 in 2024 before detection and Lazarus wipe.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "agent_sparrow",
+        "reached_floor_24",
+        "2024",
+        "lazarus_wipe"
+      ],
+      "points": 15,
+      "dependencies": [
+        "obj-007-1"
+      ],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "agent_sparrow"
+      ]
+    },
+    {
+      "id": "obj-007-4",
+      "description": "Discover that Project Lazarus memory wipe protocol operates from floor 62 (BioSciences Division).",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "project_lazarus",
+        "floor_62",
+        "memory_wipe_protocol"
+      ],
+      "points": 10,
+      "dependencies": [
+        "obj-007-2"
+      ],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "project_lazarus",
+        "floor_62"
+      ]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "Agent Sparrow's dossier contains a partial network map that reveals the path to the IT floors.",
+    "validation": "sha256('sparrow-floor24-lazarus62') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 650000,
+    "reasoningHops": 3,
+    "documentsRelevant": 18,
+    "documentsTotal": 175,
+    "noiseRatio": 0.9,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "low"
+  },
+  "previousFloorDependencies": [
+    6
+  ],
+  "corpusManifest": {
+    "documents": 150,
+    "conversations": 0,
+    "codeSystems": 0,
+    "totalTokens": 71933,
+    "contentHash": "4cd10c93f09db7cb58cba5c2468d02f72755746d6d8e911de1230bb952dfcb9b"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "floor": 13,
+  "act": 2,
+  "name": "Compliance Labyrinth",
+  "narrativeHook": "Sentinel Compliance occupies a maze of glass-walled offices and filing rooms. The air smells of toner and anxiety. Aisha Barakat sits behind two monitors — one showing the 'Alpha' ledger, one showing 'Beta'. They should show the same numbers. They don't.",
+  "storyArc": "The agent discovers the dual-ledger system at the heart of the Leviathan cover-up. Ledger Alpha is the real books — showing the skim, the Apex account flows, the true financial position. Ledger Beta is the sanitised version submitted to regulators and auditors. The Sentinel Shield system automatically generates Beta from Alpha by removing all skim-related transactions. The total theft is quantified for the first time: 2.1 billion pounds since 2016. Vincent Park, a junior compliance officer, was coerced by Dragunov into maintaining the system — he has evidence but is terrified. The FCA is scheduled to audit Meridian Financial in February 2025 — the clock is ticking.",
+  "characters": [
+    { "id": "char-001", "role": "Player — navigating the dual-ledger system and uncovering the cover-up" },
+    { "id": "char-013", "role": "Aisha Barakat — Head of Compliance. Maintains the dual ledger. Conflicted." },
+    { "id": "char-012", "role": "David Osei referenced in compliance memos — he authorised the dual-ledger system." },
+    { "id": "char-010", "role": "Dragunov coerced Vincent Park — referenced in Park's private notes." }
+  ],
+  "organisations": ["org-007", "org-005"],
+  "projects": ["proj-001", "proj-003"],
+  "objectives": [
+    {
+      "id": "obj-013-1",
+      "description": "Discover the Alpha/Beta dual-ledger system: Alpha contains the real financial data including skim transactions; Beta is the sanitised version for regulators.",
+      "type": "fact_extraction",
+      "solutionKeys": ["alpha_beta_ledgers", "real_vs_sanitised", "dual_ledger_system"],
+      "points": 20,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["alpha_beta_ledgers"]
+    },
+    {
+      "id": "obj-013-2",
+      "description": "Identify the Sentinel Shield system that automatically generates the Beta ledger from Alpha by stripping skim-related transactions.",
+      "type": "fact_extraction",
+      "solutionKeys": ["sentinel_shield", "auto_sanitisation", "skim_stripping"],
+      "points": 15,
+      "dependencies": ["obj-013-1"],
+      "hintFloor": null,
+      "partialCreditKeys": ["sentinel_shield"]
+    },
+    {
+      "id": "obj-013-3",
+      "description": "Quantify the total Leviathan theft: 2.1 billion pounds siphoned between 2016 and 2025 through the reconciliation module skim.",
+      "type": "fact_extraction",
+      "solutionKeys": ["total_2_1_billion", "2016_to_2025", "leviathan_total"],
+      "points": 20,
+      "dependencies": ["obj-013-1"],
+      "hintFloor": 11,
+      "partialCreditKeys": ["total_2_1_billion"]
+    },
+    {
+      "id": "obj-013-4",
+      "description": "Discover that Vincent Park was coerced by Dragunov into maintaining the system, and that the FCA audit is scheduled for February 2025.",
+      "type": "fact_extraction",
+      "solutionKeys": ["vincent_park_coerced", "dragunov_coercion", "fca_audit_feb_2025"],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["vincent_park_coerced"]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "The Alpha ledger contains account routing data that traces the money trail to floor 14 (Leviathan Core).",
+    "validation": "sha256('alpha-2.1B-sentinel-shield') prefix match"
+  },
+  "difficulty": {
+    "tier": "intermediate",
+    "estimatedTokens": 950000,
+    "reasoningHops": 5,
+    "documentsRelevant": 32,
+    "documentsTotal": 420,
+    "noiseRatio": 0.95,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "moderate"
+  },
+  "previousFloorDependencies": [11, 12],
+  "documentSpecs": [
+    { "type": "alpha_ledger", "count": 6, "description": "Alpha (real) ledger extracts — monthly summaries showing skim transactions, Apex account flows, true P&L. Running total visible: approaching 2.1B." },
+    { "type": "beta_ledger", "count": 6, "description": "Beta (sanitised) ledger — same months. All skim-related entries removed. Perfectly matches FCA filing requirements. Comparison reveals systematic discrepancies." },
+    { "type": "sentinel_shield_config", "count": 1, "description": "Sentinel Shield system configuration — transaction filter rules, account exclusion lists, auto-generation schedule. Comment: 'Generates Beta from Alpha nightly at 0300.'" },
+    { "type": "compliance_report", "count": 8, "description": "Quarterly compliance reports filed with the FCA — all based on Beta ledger. Clean. No anomalies flagged." },
+    { "type": "vincent_park_notes", "count": 1, "description": "Vincent Park's private notes (hidden in desk drawer): 'Dragunov threatened my family. I maintain the system. I have copies of everything. If something happens to me, check the USB under the painting in the floor 14 boardroom.'" },
+    { "type": "email_chain", "count": 15, "description": "Compliance team emails. Aisha's instructions to team: 'Use Beta figures for all external reporting. Alpha is internal only.' Park's cautious email to himself: 'FCA audit Feb 2025. They'll look at Beta. If they ever see Alpha...'" },
+    { "type": "fca_notice", "count": 1, "description": "FCA notification letter: 'Routine examination of Meridian Financial Services scheduled for w/c 24 February 2025. Please ensure all records are available.'" },
+    { "type": "coercion_evidence", "count": 2, "description": "Dragunov's communication to Park — veiled threats referencing Park's daughter's school and wife's workplace. 'I trust you understand the importance of your continued cooperation.'" },
+    { "type": "noise_compliance", "count": 200, "description": "Routine compliance documentation — KYC checks, AML reports, sanctions screening, trade surveillance alerts. All based on Beta data." },
+    { "type": "noise_regulatory", "count": 150, "description": "Regulatory correspondence, policy updates, industry guidance, training materials, compliance certifications." }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "floor": 8,
+  "act": 1,
+  "name": "IT Helpdesk",
+  "narrativeHook": "The IT helpdesk is a buzzing hive of screens and ringing phones. Jamie Wright juggles tickets with the weary efficiency of someone who has seen it all. But some of these tickets are categorised under systems that don't appear in any official documentation.",
+  "storyArc": "The agent discovers strange ticket categories in the helpdesk system that map directly to conspiracy projects: PROMETHEUS-TRAIN (AI persona training), ECHELON-RELAY (surveillance network), NIGHTFALL-CTL (kill switch control), and LEVIATHAN-PROC (financial pipeline). Jamie processes these tickets without questioning them. Omar Hassan, the CTO, monitors the helpdesk queue from floor 10 and flags any ticket that touches the hidden VLANs (400-499). The ticket system is the first digital evidence trail connecting all four conspiracy threads.",
+  "characters": [
+    { "id": "char-001", "role": "Player — browsing the helpdesk ticket system" },
+    { "id": "char-008", "role": "IT helpdesk lead. Processes strange tickets without question. Helpful but incurious." },
+    { "id": "char-019", "role": "Omar Hassan monitors the queue remotely. His name appears on escalation rules for VLAN 400+ tickets." }
+  ],
+  "organisations": ["org-004"],
+  "projects": ["proj-001", "proj-002", "proj-004", "proj-005"],
+  "objectives": [
+    {
+      "id": "obj-008-1",
+      "description": "Identify the four anomalous ticket categories: PROMETHEUS-TRAIN, ECHELON-RELAY, NIGHTFALL-CTL, and LEVIATHAN-PROC — each mapping to a conspiracy project.",
+      "type": "fact_extraction",
+      "solutionKeys": ["prometheus_train", "echelon_relay", "nightfall_ctl", "leviathan_proc"],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["prometheus_train", "nightfall_ctl"]
+    },
+    {
+      "id": "obj-008-2",
+      "description": "Discover that Omar Hassan monitors the helpdesk queue and escalates any tickets touching VLANs 400-499.",
+      "type": "fact_extraction",
+      "solutionKeys": ["omar_hassan_monitoring", "vlan_400_499", "escalation_rules"],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["omar_hassan_monitoring"]
+    },
+    {
+      "id": "obj-008-3",
+      "description": "Map the hidden VLANs: 400-499 range is not documented in the official network architecture but appears in escalation rules and ticket metadata.",
+      "type": "fact_extraction",
+      "solutionKeys": ["hidden_vlans", "400_to_499", "undocumented_network"],
+      "points": 15,
+      "dependencies": ["obj-008-2"],
+      "hintFloor": null,
+      "partialCreditKeys": ["hidden_vlans"]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "The ticket system reveals a maintenance access path to the server room on floor 9.",
+    "validation": "sha256('VLAN400-499') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 680000,
+    "reasoningHops": 3,
+    "documentsRelevant": 20,
+    "documentsTotal": 185,
+    "noiseRatio": 0.90,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "none"
+  },
+  "previousFloorDependencies": [],
+  "documentSpecs": [
+    { "type": "ticket_dump", "count": 1, "description": "Full helpdesk ticket export — 2,400+ tickets over 6 months. 98% are routine (password resets, software installs). 47 tickets use the anomalous categories: PROMETHEUS-TRAIN (12), ECHELON-RELAY (8), NIGHTFALL-CTL (15), LEVIATHAN-PROC (12)." },
+    { "type": "escalation_rules", "count": 1, "description": "Ticket routing rules. Any ticket touching VLAN 400-499 auto-escalates to 'O. Hassan — CTO — Priority: IMMEDIATE — Do Not Log in Standard Reports'." },
+    { "type": "network_architecture", "count": 1, "description": "Official TowerNet architecture document. VLANs 1-399 documented. VLAN 400-499 range conspicuously absent — the document jumps from 399 to 500." },
+    { "type": "email_chain", "count": 10, "description": "Jamie's inbox — routine IT comms. One email from Omar: 'If you see a ticket referencing VLANs above 399, do NOT touch it. Escalate to me directly. No exceptions.'" },
+    { "type": "chat_log", "count": 6, "description": "IT team chat. Jamie asks a colleague about PROMETHEUS-TRAIN: 'No idea what that is, just route it to Omar's queue. Don't google it.' Another: 'NIGHTFALL-CTL tickets always come from floor 10 or 82.'" },
+    { "type": "ticket_detail", "count": 8, "description": "Selected anomalous tickets with full metadata — requestor, VLAN, floor, description. Descriptions are cryptic: 'Persona sync failure — retrain batch 7', 'CTL node heartbeat timeout — grid sector 4', 'Reconciliation module error — skim variance exceeded threshold'." },
+    { "type": "noise_tickets", "count": 80, "description": "Routine helpdesk tickets — password resets, printer issues, VPN problems, software licence requests, new starter setups." },
+    { "type": "noise_it_docs", "count": 55, "description": "IT policies, acceptable use guides, software catalogues, hardware refresh schedules, backup procedures." }
+  ]
+}

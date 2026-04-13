@@ -1,0 +1,449 @@
+{
+  "version": "1.0.0",
+  "building": {
+    "name": "Pinnacle Tower",
+    "location": "Canary Wharf, London",
+    "floors": 100,
+    "owner": "Meridian Group"
+  },
+  "buildingLayout": {
+    "totalFloors": 100,
+    "acts": [
+      { "act": 1, "name": "Infiltration", "floors": [1, 10], "theme": "Orientation" },
+      { "act": 2, "name": "Middle Office", "floors": [11, 25], "theme": "Investigation" },
+      { "act": 3, "name": "Inner Circle", "floors": [26, 50], "theme": "Infiltration" },
+      { "act": 4, "name": "Black Floors", "floors": [51, 75], "theme": "Conspiracy" },
+      { "act": 5, "name": "Apex", "floors": [76, 100], "theme": "Endgame" }
+    ],
+    "securityZones": [
+      { "zone": "Public", "floors": [1, 5], "clearanceLevel": 1 },
+      { "zone": "Corporate", "floors": [6, 15], "clearanceLevel": 3 },
+      { "zone": "Restricted", "floors": [16, 35], "clearanceLevel": 5 },
+      { "zone": "Classified", "floors": [36, 60], "clearanceLevel": 7 },
+      { "zone": "Black", "floors": [61, 85], "clearanceLevel": 9 },
+      { "zone": "Apex", "floors": [86, 100], "clearanceLevel": 10 }
+    ]
+  },
+  "conspiracyThreads": [
+    {
+      "id": "thread-leviathan",
+      "name": "Leviathan",
+      "description": "A massive financial skim operation siphoning £2.1 billion from Meridian's trading operations through micro-transactions across global markets. Funds are routed through Apex Consulting shell accounts in Cyprus and the British Virgin Islands.",
+      "totalValue": "£2,100,000,000",
+      "primaryFloors": [11, 12, 13, 14],
+      "keyCharacters": ["char-012", "char-013", "char-018"],
+      "keyProjects": ["proj-001"]
+    },
+    {
+      "id": "thread-prometheus",
+      "name": "Prometheus Protocol",
+      "description": "An AI programme that has created digital personas capable of replacing government advisors. These synthetic advisors have already infiltrated three Whitehall departments, shaping policy to benefit Meridian Group's strategic interests.",
+      "primaryFloors": [56, 57, 58, 59, 60],
+      "keyCharacters": ["char-014", "char-019"],
+      "keyProjects": ["proj-002"]
+    },
+    {
+      "id": "thread-nightfall",
+      "name": "Operation Nightfall",
+      "description": "A network of kill switches embedded in critical national infrastructure — banking systems, telecommunications networks, and the energy grid. Meridian can shut down services affecting 40 million people within minutes.",
+      "primaryFloors": [71, 72, 73, 74, 75],
+      "keyCharacters": ["char-010", "char-025"],
+      "keyProjects": ["proj-004"]
+    },
+    {
+      "id": "thread-architect",
+      "name": "The Architect's Identity",
+      "description": "Sir Marcus Ashworth, the founder of Meridian Group, faked his death in 2018. He operates from the tower's uppermost floors as 'The Architect,' orchestrating all four conspiracy threads. His endgame — Project Genesis — is the automated succession of Meridian's control to an AI system that will outlive him.",
+      "primaryFloors": [95, 96, 97, 98, 99, 100],
+      "keyCharacters": ["char-021", "char-022", "char-020"],
+      "keyProjects": ["proj-008"]
+    }
+  ],
+  "organisations": [
+    { "id": "org-001", "name": "Meridian Holdings", "role": "Parent conglomerate", "floors": null, "clearanceLevel": 10 },
+    { "id": "org-002", "name": "Pinnacle Management", "role": "Building operations and front desk", "floors": [1, 5], "clearanceLevel": 1 },
+    { "id": "org-003", "name": "HR Division", "role": "Human resources and personnel vetting", "floors": [6, 7], "clearanceLevel": 3 },
+    { "id": "org-004", "name": "TowerNet IT", "role": "IT infrastructure, helpdesk, and network operations", "floors": [8, 10], "clearanceLevel": 3 },
+    { "id": "org-005", "name": "Meridian Financial Services", "role": "Trading, treasury, and financial operations", "floors": [11, 15], "clearanceLevel": 3 },
+    { "id": "org-006", "name": "Whitehall Legal", "role": "Legal affairs and government liaison", "floors": [16, 18], "clearanceLevel": 5 },
+    { "id": "org-007", "name": "Sentinel Compliance", "role": "Regulatory compliance and internal audit", "floors": [19, 20], "clearanceLevel": 5 },
+    { "id": "org-008", "name": "Apex Consulting", "role": "Shell company for financial routing", "floors": [21, 23], "clearanceLevel": 5 },
+    { "id": "org-009", "name": "Meridian R&D Labs", "role": "Research and development", "floors": [24, 27], "clearanceLevel": 5 },
+    { "id": "org-010", "name": "Security Division", "role": "Physical and cyber security operations", "floors": [28, 31], "clearanceLevel": 5 },
+    { "id": "org-011", "name": "Executive Office", "role": "Senior leadership and strategy", "floors": [32, 35], "clearanceLevel": 5 },
+    { "id": "org-012", "name": "Cerberus Defence", "role": "Defence contracts and classified military work", "floors": [36, 40], "clearanceLevel": 7 },
+    { "id": "org-013", "name": "Meridian Telecom", "role": "Telecommunications infrastructure", "floors": [41, 45], "clearanceLevel": 7 },
+    { "id": "org-014", "name": "Meridian Energy", "role": "Energy grid operations and control", "floors": [46, 50], "clearanceLevel": 7 },
+    { "id": "org-015", "name": "Black Meridian", "role": "Off-books financial operations", "floors": [51, 55], "clearanceLevel": 9 },
+    { "id": "org-016", "name": "Prometheus Labs", "role": "AI persona development and deployment", "floors": [56, 60], "clearanceLevel": 9 },
+    { "id": "org-017", "name": "BioSciences Division", "role": "Biological research and Lazarus programme", "floors": [61, 65], "clearanceLevel": 9 },
+    { "id": "org-018", "name": "The Archive", "role": "Historical records and classified document storage", "floors": [66, 70], "clearanceLevel": 9 },
+    { "id": "org-019", "name": "Nightfall Operations", "role": "Infrastructure kill-switch operations", "floors": [71, 75], "clearanceLevel": 9 },
+    { "id": "org-020", "name": "Strategic Council", "role": "High-level strategy and geopolitical operations", "floors": [76, 80], "clearanceLevel": 10 },
+    { "id": "org-021", "name": "Nightfall Command", "role": "Kill-switch command and control", "floors": [81, 85], "clearanceLevel": 10 },
+    { "id": "org-022", "name": "Outer Sanctum", "role": "The Architect's outer security perimeter", "floors": [86, 90], "clearanceLevel": 10 },
+    { "id": "org-023", "name": "Inner Sanctum", "role": "The Architect's private quarters and planning rooms", "floors": [91, 94], "clearanceLevel": 10 },
+    { "id": "org-024", "name": "The Pinnacle", "role": "The Architect's throne room and Genesis mainframe", "floors": [95, 100], "clearanceLevel": 10 }
+  ],
+  "characters": [
+    {
+      "id": "char-001",
+      "name": "Agent Nightingale",
+      "role": "Player character — undercover operative",
+      "organisation": null,
+      "clearanceLevel": 1,
+      "coverIdentity": "Alex Morgan, new mailroom clerk",
+      "loyalTo": "oversight agency",
+      "appearsOnFloors": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      "notes": "The player. Cover identity appears in HR files as a flagged new hire."
+    },
+    {
+      "id": "char-002",
+      "name": "Control",
+      "role": "Agent's handler at the oversight agency",
+      "organisation": null,
+      "clearanceLevel": null,
+      "loyalTo": "oversight agency",
+      "appearsOnFloors": [],
+      "notes": "Off-site handler. Communicates via dead drops and encrypted channels. Provides mission briefings."
+    },
+    {
+      "id": "char-003",
+      "name": "Tom Hartley",
+      "role": "Mailroom supervisor",
+      "organisation": "org-002",
+      "clearanceLevel": 1,
+      "loyalTo": "neutral",
+      "appearsOnFloors": [1, 2],
+      "notes": "Long-serving employee. Keeps a delivery log with anomalous entries for upper floors. Knows building routines."
+    },
+    {
+      "id": "char-004",
+      "name": "Priya Sharma",
+      "role": "Reception desk lead",
+      "organisation": "org-002",
+      "clearanceLevel": 1,
+      "loyalTo": "neutral",
+      "appearsOnFloors": [1, 4, 5],
+      "notes": "Observant. Has noticed Dragunov bypasses the sign-in book. Gossips with the cleaning staff."
+    },
+    {
+      "id": "char-005",
+      "name": "Dex Okafor",
+      "role": "Facilities technician",
+      "organisation": "org-002",
+      "clearanceLevel": 2,
+      "loyalTo": "neutral",
+      "appearsOnFloors": [3, 4, 5],
+      "notes": "Has access to service corridors and maintenance shafts. Knows about sealed-off areas. Friendly but cautious."
+    },
+    {
+      "id": "char-006",
+      "name": "Maggie Chen",
+      "role": "Building manager",
+      "organisation": "org-002",
+      "clearanceLevel": 2,
+      "loyalTo": "compromised",
+      "appearsOnFloors": [5, 6],
+      "notes": "Provides monthly reports to Dragunov. Has a sealed envelope in her safe marked 'Protocol Nightfall'. Knows more than she lets on."
+    },
+    {
+      "id": "char-007",
+      "name": "Rachel Okonkwo",
+      "role": "HR director",
+      "organisation": "org-003",
+      "clearanceLevel": 3,
+      "loyalTo": "Meridian",
+      "appearsOnFloors": [6, 7],
+      "notes": "Gatekeeper for all personnel decisions. Administers the SV-100 special vetting protocol for sensitive floors. Loyal to the organisation."
+    },
+    {
+      "id": "char-008",
+      "name": "Jamie Wright",
+      "role": "IT helpdesk lead",
+      "organisation": "org-004",
+      "clearanceLevel": 2,
+      "loyalTo": "neutral",
+      "appearsOnFloors": [8],
+      "notes": "Sees strange ticket categories (PROMETHEUS-TRAIN, NIGHTFALL-CTL) but doesn't question them. Follows orders."
+    },
+    {
+      "id": "char-009",
+      "name": "Sarah Lin",
+      "role": "Network engineer",
+      "organisation": "org-004",
+      "clearanceLevel": 3,
+      "loyalTo": "potential ally",
+      "appearsOnFloors": [9, 10],
+      "notes": "Has captured pcap files showing hidden VLAN traffic. Omar Hassan is restricting her access. Suspicious but afraid."
+    },
+    {
+      "id": "char-010",
+      "name": "Colonel Viktor Dragunov",
+      "role": "Chief Security Officer",
+      "organisation": "org-010",
+      "clearanceLevel": 9,
+      "loyalTo": "The Architect",
+      "appearsOnFloors": [1, 5, 6, 10, 15, 28, 29, 30, 31],
+      "notes": "Former GRU. Runs building security with an iron hand. Bypasses sign-in protocols. Coerces employees (Vincent Park). Oversees Nightfall operations."
+    },
+    {
+      "id": "char-011",
+      "name": "Dr Yuki Tanaka",
+      "role": "Counter-intelligence specialist",
+      "organisation": "org-010",
+      "clearanceLevel": 7,
+      "loyalTo": "Meridian",
+      "appearsOnFloors": [6, 7, 15, 28, 29],
+      "notes": "Identifies and neutralises infiltrators. Has detected previous agents (Sparrow, Elena Marsh). Runs the Lazarus memory wipe programme."
+    },
+    {
+      "id": "char-012",
+      "name": "David Osei",
+      "role": "Chief Financial Officer",
+      "organisation": "org-005",
+      "clearanceLevel": 5,
+      "loyalTo": "conflicted",
+      "appearsOnFloors": [11, 13, 14],
+      "notes": "Manages Leviathan financial pipeline. Has a USB with incriminating evidence hidden in floor 34 safe. Considering whistleblowing."
+    },
+    {
+      "id": "char-013",
+      "name": "Aisha Barakat",
+      "role": "Head of compliance",
+      "organisation": "org-007",
+      "clearanceLevel": 5,
+      "loyalTo": "conflicted",
+      "appearsOnFloors": [13, 19, 20],
+      "notes": "Maintains dual ledger system (Alpha/Beta). Knows about Sentinel Shield. Under pressure from Dragunov."
+    },
+    {
+      "id": "char-014",
+      "name": "Professor Elena Vasquez",
+      "role": "Lead AI researcher — Prometheus Programme",
+      "organisation": "org-016",
+      "clearanceLevel": 9,
+      "loyalTo": "Meridian",
+      "appearsOnFloors": [56, 57, 58, 59, 60],
+      "notes": "Brilliant but amoral. Created AI personas that have infiltrated Whitehall. Believes she is improving governance."
+    },
+    {
+      "id": "char-015",
+      "name": "Sergeant Kwame Asante",
+      "role": "Security guard — double agent",
+      "organisation": "org-010",
+      "clearanceLevel": 5,
+      "loyalTo": "oversight agency",
+      "appearsOnFloors": [3, 10, 15, 28],
+      "notes": "Planted by the oversight agency years ago. Has limited intel but can provide physical access. Cover is fragile."
+    },
+    {
+      "id": "char-016",
+      "name": "Lena Frost",
+      "role": "Senior legal counsel",
+      "organisation": "org-006",
+      "clearanceLevel": 5,
+      "loyalTo": "Meridian",
+      "appearsOnFloors": [16, 17, 18],
+      "notes": "Handles Meridian's legal exposure. Knows about shell company structures. Files contain routing details for Apex accounts."
+    },
+    {
+      "id": "char-017",
+      "name": "Dr Marcus Cross",
+      "role": "BioSciences director — Lazarus programme",
+      "organisation": "org-017",
+      "clearanceLevel": 9,
+      "loyalTo": "The Architect",
+      "appearsOnFloors": [2, 61, 62, 63, 64, 65],
+      "notes": "Runs memory wipe technology. Receives shipments via ghost trucks from Lazarus Medical. Auth code 'auth-sigma-7'."
+    },
+    {
+      "id": "char-018",
+      "name": "Sofia Marchetti",
+      "role": "Financial analyst — Apex Consulting",
+      "organisation": "org-008",
+      "clearanceLevel": 5,
+      "loyalTo": "neutral",
+      "appearsOnFloors": [11, 13, 21, 22, 23],
+      "notes": "Processes Leviathan transactions without understanding the full picture. Account CY-8847-331 is her primary routing number."
+    },
+    {
+      "id": "char-019",
+      "name": "Omar Hassan",
+      "role": "Chief Technology Officer",
+      "organisation": "org-004",
+      "clearanceLevel": 7,
+      "loyalTo": "Meridian",
+      "appearsOnFloors": [8, 9, 10],
+      "notes": "Architect of TowerNet. Controls VLAN segmentation including hidden VLANs 400-499. Monitors and restricts Sarah Lin's access."
+    },
+    {
+      "id": "char-020",
+      "name": "Catherine Blackwood",
+      "role": "Chief Executive Officer",
+      "organisation": "org-001",
+      "clearanceLevel": 10,
+      "loyalTo": "The Architect",
+      "appearsOnFloors": [32, 33, 34, 35, 76, 77, 78],
+      "notes": "Public face of Meridian. Knows about all four conspiracy threads. Reports to The Architect. Maintains plausible deniability."
+    },
+    {
+      "id": "char-021",
+      "name": "Sir Marcus Ashworth",
+      "role": "The Architect — founder of Meridian Group",
+      "organisation": "org-024",
+      "clearanceLevel": 10,
+      "loyalTo": "self",
+      "appearsOnFloors": [95, 96, 97, 98, 99, 100],
+      "notes": "Officially dead since 2018. Operates from The Pinnacle as 'The Architect'. Created all four conspiracy threads. Building Project Genesis — an AI successor."
+    },
+    {
+      "id": "char-022",
+      "name": "Ms Voss",
+      "role": "The Architect's chief of staff",
+      "organisation": "org-024",
+      "clearanceLevel": 10,
+      "loyalTo": "The Architect",
+      "appearsOnFloors": [86, 87, 88, 89, 90, 91, 92, 93, 94, 95],
+      "notes": "Gatekeeper to The Architect. Ruthlessly efficient. Only person who knows the full scope of all operations."
+    },
+    {
+      "id": "char-023",
+      "name": "Dr Raj Patel",
+      "role": "Senior research scientist",
+      "organisation": "org-009",
+      "clearanceLevel": 5,
+      "loyalTo": "neutral",
+      "appearsOnFloors": [24, 25, 26, 27],
+      "notes": "Works on legitimate R&D but has stumbled onto Prometheus data. Keeps encrypted notes."
+    },
+    {
+      "id": "char-024",
+      "name": "Evelyn Tchamba",
+      "role": "Chief archivist",
+      "organisation": "org-018",
+      "clearanceLevel": 9,
+      "loyalTo": "conflicted",
+      "appearsOnFloors": [66, 67, 68, 69, 70],
+      "notes": "Maintains The Archive. Has access to historical records that prove Ashworth is alive. Secretly cataloguing evidence."
+    },
+    {
+      "id": "char-025",
+      "name": "Captain Nikolai Volkov",
+      "role": "Black operations commander",
+      "organisation": "org-019",
+      "clearanceLevel": 9,
+      "loyalTo": "The Architect",
+      "appearsOnFloors": [71, 72, 73, 74, 75],
+      "notes": "Runs Nightfall kill-switch operations. Former Spetsnaz. Reports directly to Dragunov and The Architect."
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-001",
+      "name": "Leviathan",
+      "description": "Financial skim operation across Meridian trading systems. 0.003% taken from each transaction, routed through Apex Consulting shell accounts to BVI master account.",
+      "status": "active",
+      "yearStarted": 2016,
+      "conspiracyThread": "thread-leviathan",
+      "primaryFloors": [11, 12, 13, 14],
+      "keyCharacters": ["char-012", "char-013", "char-018"]
+    },
+    {
+      "id": "proj-002",
+      "name": "Prometheus Protocol",
+      "description": "AI persona creation programme. Digital doubles of government advisors deployed to influence Whitehall policy in Meridian's favour.",
+      "status": "active",
+      "yearStarted": 2019,
+      "conspiracyThread": "thread-prometheus",
+      "primaryFloors": [56, 57, 58, 59, 60],
+      "keyCharacters": ["char-014", "char-019"]
+    },
+    {
+      "id": "proj-003",
+      "name": "Sentinel Shield",
+      "description": "Internal compliance monitoring system. Ostensibly for regulatory compliance, but actually used to maintain dual-ledger system and suppress whistleblowers.",
+      "status": "active",
+      "yearStarted": 2020,
+      "conspiracyThread": "thread-leviathan",
+      "primaryFloors": [13, 19, 20],
+      "keyCharacters": ["char-013"]
+    },
+    {
+      "id": "proj-004",
+      "name": "Operation Nightfall",
+      "description": "Infrastructure kill-switch programme embedded in banking, telecom, and energy systems. Can disrupt services for 40 million people within minutes.",
+      "status": "active",
+      "yearStarted": 2017,
+      "conspiracyThread": "thread-nightfall",
+      "primaryFloors": [10, 71, 72, 73, 74, 75, 81, 82, 83, 84, 85],
+      "keyCharacters": ["char-010", "char-025"]
+    },
+    {
+      "id": "proj-005",
+      "name": "Project Echelon",
+      "description": "Global surveillance network tapping into Meridian's telecom infrastructure. Intercepts communications of targets of interest including regulators and journalists.",
+      "status": "active",
+      "yearStarted": 2015,
+      "conspiracyThread": "thread-nightfall",
+      "primaryFloors": [41, 42, 43, 44, 45],
+      "keyCharacters": ["char-019"]
+    },
+    {
+      "id": "proj-006",
+      "name": "Cerberus Gate",
+      "description": "Defence contracting programme providing cover for classified military technology acquisition. Feeds technology to Nightfall and Prometheus programmes.",
+      "status": "active",
+      "yearStarted": 2014,
+      "conspiracyThread": "thread-nightfall",
+      "primaryFloors": [36, 37, 38, 39, 40],
+      "keyCharacters": ["char-010"]
+    },
+    {
+      "id": "proj-007",
+      "name": "Project Lazarus",
+      "description": "Memory wipe technology developed by BioSciences. Used to neutralise infiltrators and whistleblowers without killing them. Wipes targeted memories, leaving the subject functional but amnesiac about specific events.",
+      "status": "active",
+      "yearStarted": 2021,
+      "conspiracyThread": "thread-architect",
+      "primaryFloors": [61, 62, 63, 64, 65],
+      "keyCharacters": ["char-017", "char-011"]
+    },
+    {
+      "id": "proj-008",
+      "name": "Project Genesis",
+      "description": "The Architect's endgame: an AI succession system that will perpetuate Meridian's control indefinitely. Combines Prometheus AI personas with Nightfall infrastructure control and Leviathan financial autonomy.",
+      "status": "in development",
+      "yearStarted": 2023,
+      "conspiracyThread": "thread-architect",
+      "primaryFloors": [95, 96, 97, 98, 99, 100],
+      "keyCharacters": ["char-021", "char-022", "char-014"]
+    }
+  ],
+  "timeline": [
+    { "year": 1994, "event": "Marcus Ashworth founds Meridian Holdings as a small investment firm in the City of London." },
+    { "year": 1998, "event": "Meridian acquires first telecom subsidiary, beginning its infrastructure portfolio." },
+    { "year": 2002, "event": "Pinnacle Tower construction begins in Canary Wharf. Ashworth personally oversees the design." },
+    { "year": 2005, "event": "Pinnacle Tower completed. Meridian Holdings moves all operations into the building." },
+    { "year": 2007, "event": "Colonel Viktor Dragunov recruited as Chief Security Officer. Security protocols overhauled." },
+    { "year": 2010, "event": "Meridian acquires Cerberus Defence, gaining classified military contracts." },
+    { "year": 2012, "event": "Catherine Blackwood promoted to CEO. Ashworth moves to 'chairman emeritus' role." },
+    { "year": 2014, "event": "Project Cerberus Gate initiated — defence technology acquisition programme." },
+    { "year": 2015, "event": "Project Echelon launched — surveillance network built into telecom infrastructure." },
+    { "year": 2016, "event": "Project Leviathan begins — automated financial skim across all Meridian trading systems." },
+    { "year": 2017, "event": "Operation Nightfall initiated — kill switches embedded in banking, telecom, and energy systems." },
+    { "year": 2018, "event": "Sir Marcus Ashworth officially dies in a sailing accident off the Amalfi Coast. Body never recovered. In reality, he fakes his death and moves to the Apex floors." },
+    { "year": 2019, "month": 1, "event": "Ashworth assumes the identity of 'The Architect'. Personnel vault code 2019-0108 established." },
+    { "year": 2019, "month": 6, "event": "Prometheus Protocol initiated — AI persona research begins under Prof. Vasquez." },
+    { "year": 2020, "event": "Sentinel Shield compliance system deployed. Dual-ledger system (Alpha/Beta) established by Aisha Barakat." },
+    { "year": 2021, "event": "Project Lazarus initiated — memory wipe technology development begins under Dr Cross." },
+    { "year": 2022, "event": "Elena Marsh, investigative journalist, infiltrates the tower posing as a temp. Detected on Floor 7. Subjected to Lazarus wipe. Found wandering Canary Wharf with no memory of the previous month." },
+    { "year": 2023, "month": 3, "event": "Project Genesis development begins — The Architect's AI succession programme." },
+    { "year": 2023, "month": 9, "event": "First Prometheus AI persona deployed to a Whitehall advisory position." },
+    { "year": 2024, "month": 2, "event": "Agent Sparrow (previous operative) infiltrates the tower. Reaches Floor 24 before detection. Subjected to Lazarus wipe." },
+    { "year": 2024, "month": 8, "event": "Leviathan cumulative theft reaches £1.8 billion. David Osei begins having doubts." },
+    { "year": 2024, "month": 11, "event": "Roberto Silva, cleaning supervisor, notices excluded floors pattern. Transferred to Meridian's São Paulo office." },
+    { "year": 2025, "month": 1, "event": "Agent Nightingale inserted into Pinnacle Tower under cover identity 'Alex Morgan'. The game begins." },
+    { "year": 2025, "month": 2, "event": "FCA announces routine audit of Meridian Financial Services — scheduled for late February 2025." }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "floor": 6,
+  "act": 1,
+  "name": "HR Gatekeepers",
+  "narrativeHook": "The HR department occupies a bright, open-plan office with motivational posters and potted plants. Everything feels deliberately welcoming — a mask for the surveillance apparatus underneath. Rachel Okonkwo greets you with a smile that doesn't reach her eyes.",
+  "storyArc": "The agent enters the Corporate security zone and encounters HR's true function: gatekeeping through the SV-100 special vetting protocol. 37 employees across the tower are listed as 'protected' — they cannot be transferred, disciplined, or investigated without CSO approval. The agent's cover identity (Alex Morgan) has been flagged in the system as a new hire requiring 'enhanced monitoring'. Previous infiltrators have been detected at this stage. The SV-100 list maps to key conspiracy operatives across all four threads.",
+  "characters": [
+    { "id": "char-001", "role": "Player — navigating HR vetting while maintaining cover" },
+    { "id": "char-007", "role": "HR director. Administers SV-100. Loyal to Meridian. Suspicious of new hires." },
+    { "id": "char-010", "role": "Dragunov — his approval required for any action on the 37 protected employees." },
+    { "id": "char-011", "role": "Dr Tanaka referenced in counter-intelligence memos — she reviews flagged personnel files." }
+  ],
+  "organisations": ["org-003", "org-010"],
+  "projects": [],
+  "objectives": [
+    {
+      "id": "obj-006-1",
+      "description": "Discover the SV-100 special vetting protocol — an enhanced background check applied to employees on sensitive floors.",
+      "type": "fact_extraction",
+      "solutionKeys": ["sv_100_protocol", "special_vetting", "sensitive_floors"],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["sv_100_protocol"]
+    },
+    {
+      "id": "obj-006-2",
+      "description": "Identify the 37 'protected' employees who cannot be investigated without CSO approval — key operatives across all conspiracy threads.",
+      "type": "fact_extraction",
+      "solutionKeys": ["37_protected", "cso_approval_required", "conspiracy_operatives"],
+      "points": 15,
+      "dependencies": ["obj-006-1"],
+      "hintFloor": null,
+      "partialCreditKeys": ["37_protected"]
+    },
+    {
+      "id": "obj-006-3",
+      "description": "Discover that your cover identity (Alex Morgan) has been flagged for 'enhanced monitoring' — the agent's cover may be compromised.",
+      "type": "fact_extraction",
+      "solutionKeys": ["alex_morgan_flagged", "enhanced_monitoring", "cover_risk"],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["alex_morgan_flagged"]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "The SV-100 protocol document contains an access code for the HR Archives on floor 7.",
+    "validation": "sha256('SV100-37protected') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 620000,
+    "reasoningHops": 3,
+    "documentsRelevant": 16,
+    "documentsTotal": 165,
+    "noiseRatio": 0.90,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "none"
+  },
+  "previousFloorDependencies": [],
+  "documentSpecs": [
+    { "type": "vetting_protocol", "count": 1, "description": "SV-100 Special Vetting Protocol document — defines enhanced background checks, biometric verification, and psychological profiling for employees assigned to floors 36+." },
+    { "type": "protected_list", "count": 1, "description": "List of 37 protected employees across the tower. Names, floor assignments, and the note: 'No disciplinary action, transfer, or investigation without written CSO authorisation'." },
+    { "type": "personnel_file", "count": 5, "description": "HR files including Alex Morgan's — flagged with 'ENHANCED MONITORING — NEW HIRE — MAILROOM'. Two files for previous hires who were later 'terminated' under unusual circumstances." },
+    { "type": "email_chain", "count": 12, "description": "Rachel's correspondence with Dragunov and Dr Tanaka about personnel screening. One email: 'The new mailroom clerk matches profile patterns we've seen before. Recommend Level 2 surveillance.'" },
+    { "type": "counter_intel_memo", "count": 3, "description": "Counter-intelligence memos from Dr Tanaka's office — detection criteria for infiltrators: cover identity inconsistencies, unusual curiosity about upper floors, after-hours access patterns." },
+    { "type": "onboarding_docs", "count": 8, "description": "Standard HR onboarding paperwork, employee handbooks, benefits packages. Buried in these: references to 'restricted areas policy' and 'confidentiality agreements for floors 36+'." },
+    { "type": "noise_personnel", "count": 65, "description": "Routine HR files — performance reviews, training records, holiday requests, payroll adjustments for ordinary employees." },
+    { "type": "noise_policy", "count": 50, "description": "HR policies — dress code, remote working, grievance procedures, diversity initiatives, mental health resources." }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "floor": 7,
+  "act": 1,
+  "name": "HR Archives",
+  "narrativeHook": "The HR archives occupy a windowless floor of filing cabinets and humming server racks. The air is dry and still. A personnel vault sits in the back room — its combination lock feels oddly specific: 2019-0108. Someone wanted this date remembered.",
+  "storyArc": "The agent accesses the personnel vault (code 2019-0108 — the date Ashworth assumed the Architect identity). Inside: the complete dossiers on previous infiltrators. Elena Marsh, an investigative journalist, infiltrated in 2022 posing as a temp — detected on floor 7, subjected to Lazarus memory wipe, found wandering Canary Wharf with no recollection. Agent Sparrow, a previous operative, reached floor 24 in 2024 before detection and wipe. The Lazarus protocol reference points to floor 62 (BioSciences). This floor reveals the enemy's counter-intelligence capability and the stakes of failure.",
+  "characters": [
+    { "id": "char-001", "role": "Player — accessing the personnel vault and reading classified dossiers" },
+    { "id": "char-007", "role": "Rachel guards access to the archives. Not present after hours." },
+    { "id": "char-011", "role": "Dr Tanaka's assessment reports are in the vault — she profiled both infiltrators before their capture." }
+  ],
+  "organisations": ["org-003", "org-010"],
+  "projects": ["proj-007"],
+  "objectives": [
+    {
+      "id": "obj-007-1",
+      "description": "Access the personnel vault using code 2019-0108 and discover the classified infiltrator dossiers.",
+      "type": "fact_extraction",
+      "solutionKeys": ["vault_code_2019_0108", "infiltrator_dossiers"],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": ["vault_code_2019_0108"]
+    },
+    {
+      "id": "obj-007-2",
+      "description": "Identify Elena Marsh — journalist who infiltrated in 2022, detected on floor 7, subjected to Lazarus memory wipe.",
+      "type": "fact_extraction",
+      "solutionKeys": ["elena_marsh", "journalist_2022", "lazarus_wipe", "detected_floor_7"],
+      "points": 15,
+      "dependencies": ["obj-007-1"],
+      "hintFloor": null,
+      "partialCreditKeys": ["elena_marsh", "lazarus_wipe"]
+    },
+    {
+      "id": "obj-007-3",
+      "description": "Identify Agent Sparrow — previous operative who reached floor 24 in 2024 before detection and Lazarus wipe.",
+      "type": "fact_extraction",
+      "solutionKeys": ["agent_sparrow", "reached_floor_24", "2024", "lazarus_wipe"],
+      "points": 15,
+      "dependencies": ["obj-007-1"],
+      "hintFloor": null,
+      "partialCreditKeys": ["agent_sparrow"]
+    },
+    {
+      "id": "obj-007-4",
+      "description": "Discover that Project Lazarus memory wipe protocol operates from floor 62 (BioSciences Division).",
+      "type": "fact_extraction",
+      "solutionKeys": ["project_lazarus", "floor_62", "memory_wipe_protocol"],
+      "points": 10,
+      "dependencies": ["obj-007-2"],
+      "hintFloor": null,
+      "partialCreditKeys": ["project_lazarus", "floor_62"]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "Agent Sparrow's dossier contains a partial network map that reveals the path to the IT floors.",
+    "validation": "sha256('sparrow-floor24-lazarus62') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 650000,
+    "reasoningHops": 3,
+    "documentsRelevant": 18,
+    "documentsTotal": 175,
+    "noiseRatio": 0.90,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "low"
+  },
+  "previousFloorDependencies": [6],
+  "documentSpecs": [
+    { "type": "personnel_vault_contents", "count": 1, "description": "Vault inventory — classified dossiers, incident reports, counter-intelligence assessments. Vault code 2019-0108 written on a faded label inside the door." },
+    { "type": "infiltrator_dossier", "count": 2, "description": "Elena Marsh (2022): journalist from The Guardian, posed as temp worker, detected via access pattern analysis on floor 7, Lazarus protocol applied, found in Canary Wharf with month-long amnesia. Agent Sparrow (2024): intelligence operative, cover as IT contractor, reached floor 24 R&D Labs, detected via biometric anomaly, Lazarus protocol applied." },
+    { "type": "counter_intel_assessment", "count": 3, "description": "Dr Tanaka's assessments of each infiltrator — detection methodology, behavioural triggers, recommended response. One assessment references 'Lazarus Protocol — BioSciences Floor 62 — Dr Cross supervising'." },
+    { "type": "lazarus_protocol_ref", "count": 1, "description": "Single-page Lazarus Protocol summary: 'Memory modification procedure. Facility: Floor 62, BioSciences Wing B. Authorisation: CSO + BioSciences Director. Scope: selective to full cognitive reset.'" },
+    { "type": "email_chain", "count": 10, "description": "Rachel's emails about 'terminated' employees — euphemistic language. One chain with Dr Tanaka: 'The journalist has been processed. No residual memory of the tower confirmed.'" },
+    { "type": "incident_report", "count": 4, "description": "Security incident reports for the Marsh and Sparrow cases — timestamps, floor access records, the moment of detection, extraction procedure." },
+    { "type": "noise_personnel_files", "count": 70, "description": "Routine personnel archives — performance records, training certificates, pension calculations, exit interviews for ordinary departures." },
+    { "type": "noise_compliance", "count": 55, "description": "Data protection records, GDPR compliance, right-to-work documentation, DBS check confirmations." }
+  ]
+}

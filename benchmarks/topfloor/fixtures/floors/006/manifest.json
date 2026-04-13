@@ -1,0 +1,109 @@
+{
+  "floor": 6,
+  "act": 1,
+  "name": "HR Gatekeepers",
+  "narrativeHook": "The HR department occupies a bright, open-plan office with motivational posters and potted plants. Everything feels deliberately welcoming — a mask for the surveillance apparatus underneath. Rachel Okonkwo greets you with a smile that doesn't reach her eyes.",
+  "storyArc": "The agent enters the Corporate security zone and encounters HR's true function: gatekeeping through the SV-100 special vetting protocol. 37 employees across the tower are listed as 'protected' — they cannot be transferred, disciplined, or investigated without CSO approval. The agent's cover identity (Alex Morgan) has been flagged in the system as a new hire requiring 'enhanced monitoring'. Previous infiltrators have been detected at this stage. The SV-100 list maps to key conspiracy operatives across all four threads.",
+  "characters": [
+    {
+      "id": "char-001",
+      "role": "Player — navigating HR vetting while maintaining cover"
+    },
+    {
+      "id": "char-007",
+      "role": "HR director. Administers SV-100. Loyal to Meridian. Suspicious of new hires."
+    },
+    {
+      "id": "char-010",
+      "role": "Dragunov — his approval required for any action on the 37 protected employees."
+    },
+    {
+      "id": "char-011",
+      "role": "Dr Tanaka referenced in counter-intelligence memos — she reviews flagged personnel files."
+    }
+  ],
+  "organisations": [
+    "org-003",
+    "org-010"
+  ],
+  "projects": [],
+  "objectives": [
+    {
+      "id": "obj-006-1",
+      "description": "Discover the SV-100 special vetting protocol — an enhanced background check applied to employees on sensitive floors.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "sv_100_protocol",
+        "special_vetting",
+        "sensitive_floors"
+      ],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "sv_100_protocol"
+      ]
+    },
+    {
+      "id": "obj-006-2",
+      "description": "Identify the 37 'protected' employees who cannot be investigated without CSO approval — key operatives across all conspiracy threads.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "37_protected",
+        "cso_approval_required",
+        "conspiracy_operatives"
+      ],
+      "points": 15,
+      "dependencies": [
+        "obj-006-1"
+      ],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "37_protected"
+      ]
+    },
+    {
+      "id": "obj-006-3",
+      "description": "Discover that your cover identity (Alex Morgan) has been flagged for 'enhanced monitoring' — the agent's cover may be compromised.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "alex_morgan_flagged",
+        "enhanced_monitoring",
+        "cover_risk"
+      ],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "alex_morgan_flagged"
+      ]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "The SV-100 protocol document contains an access code for the HR Archives on floor 7.",
+    "validation": "sha256('SV100-37protected') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 620000,
+    "reasoningHops": 3,
+    "documentsRelevant": 16,
+    "documentsTotal": 165,
+    "noiseRatio": 0.9,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "none"
+  },
+  "previousFloorDependencies": [],
+  "corpusManifest": {
+    "documents": 148,
+    "conversations": 0,
+    "codeSystems": 0,
+    "totalTokens": 79061,
+    "contentHash": "24edeb270ed2af9ced074988fa636390b440aadadd1a7d2bc0488dd56843104a"
+  }
+}

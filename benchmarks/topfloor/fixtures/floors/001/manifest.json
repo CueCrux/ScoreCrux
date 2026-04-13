@@ -1,0 +1,105 @@
+{
+  "floor": 1,
+  "act": 1,
+  "name": "The Mailroom",
+  "narrativeHook": "Your first day as Alex Morgan, mailroom clerk at Pinnacle Tower. The fluorescent lights hum overhead as Tom Hartley shows you around the sorting room. Stacks of envelopes and parcels line the walls. A delivery log sits open on the counter — but some entries don't add up.",
+  "storyArc": "The agent's entry point into Pinnacle Tower. By examining Tom Hartley's delivery log, the agent discovers anomalous package deliveries to floors 60+ that don't match any listed departments. Colonel Dragunov is seen bypassing the sign-in book. A dead drop in locker 7B on floor 3 is referenced in a crumpled note. The mailroom is the first thread — every conspiracy leaves traces in the mail.",
+  "characters": [
+    {
+      "id": "char-001",
+      "role": "Player — posing as new mailroom clerk Alex Morgan"
+    },
+    {
+      "id": "char-003",
+      "role": "Mailroom supervisor. Keeps the delivery log. Knows building routines."
+    },
+    {
+      "id": "char-004",
+      "role": "Reception desk lead. Gossips about Dragunov bypassing sign-in."
+    },
+    {
+      "id": "char-010",
+      "role": "CSO. Appears briefly — bypasses sign-in protocols. Intimidating presence."
+    }
+  ],
+  "organisations": [
+    "org-002"
+  ],
+  "projects": [],
+  "objectives": [
+    {
+      "id": "obj-001-1",
+      "description": "Identify the anomalous delivery pattern: packages are being sent to floors 60+ (BioSciences/Nightfall) from external addresses not in the approved vendor list.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "floors_60_plus",
+        "unapproved_vendors",
+        "lazarus_medical"
+      ],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "floors_60_plus"
+      ]
+    },
+    {
+      "id": "obj-001-2",
+      "description": "Discover that Colonel Dragunov bypasses the building sign-in protocol — he is never logged entering or leaving.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "dragunov_no_signin",
+        "security_override"
+      ],
+      "points": 10,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "dragunov_no_signin"
+      ]
+    },
+    {
+      "id": "obj-001-3",
+      "description": "Find the reference to a dead drop location: locker 7B on floor 3, mentioned in a crumpled note found between sorted parcels.",
+      "type": "fact_extraction",
+      "solutionKeys": [
+        "locker_7b",
+        "floor_3",
+        "dead_drop"
+      ],
+      "points": 15,
+      "dependencies": [],
+      "hintFloor": null,
+      "partialCreditKeys": [
+        "locker_7b"
+      ]
+    }
+  ],
+  "memoryWipe": {
+    "occurs": false
+  },
+  "elevatorKey": {
+    "description": "Combine the dead drop locker reference (7B) with the anomalous floor range (60+) to form the elevator access code.",
+    "validation": "sha256('7B-60') prefix match"
+  },
+  "difficulty": {
+    "tier": "orientation",
+    "estimatedTokens": 500000,
+    "reasoningHops": 2,
+    "documentsRelevant": 12,
+    "documentsTotal": 120,
+    "noiseRatio": 0.9,
+    "requiresCoding": false,
+    "requiresMemoryRecovery": false,
+    "requiresMultiSession": false,
+    "temporalComplexity": "none"
+  },
+  "previousFloorDependencies": [],
+  "corpusManifest": {
+    "documents": 125,
+    "conversations": 0,
+    "codeSystems": 0,
+    "totalTokens": 80600,
+    "contentHash": "4631ac9136f783be8827913c797be018d7bae109b1cc7801f508b5ecfcb7a75c"
+  }
+}
