@@ -17,6 +17,10 @@ export interface ModelResponse {
   inputTokens: number;
   outputTokens: number;
   latencyMs: number;
+  /** Canonical model ID returned by the provider (response.model) if any. */
+  reportedModel?: string | null;
+  /** Provider base URL the call went to (allowlist check on the server). */
+  apiBase?: string | null;
 }
 
 const SYSTEM_PROMPT = `You are a senior TypeScript developer completing a coding task.
@@ -60,6 +64,8 @@ export async function callModel(
       inputTokens: response.usage.input_tokens,
       outputTokens: response.usage.output_tokens,
       latencyMs: Date.now() - start,
+      reportedModel: (response as any).model ?? model,
+      apiBase: "https://api.anthropic.com",
     };
   }
 
@@ -89,6 +95,8 @@ export async function callModel(
       inputTokens: data.usage?.prompt_tokens ?? 0,
       outputTokens: data.usage?.completion_tokens ?? 0,
       latencyMs: Date.now() - start,
+      reportedModel: data.model ?? res.headers.get("openai-model") ?? model,
+      apiBase: "https://api.openai.com",
     };
   }
 

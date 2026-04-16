@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": null,
+  "embargoHours": 48,
+  "surfaces": {
+    "intelligence": { "published": 0, "embargoed": 0 },
+    "coding": { "published": 0, "embargoed": 0 },
+    "scale": { "published": 0, "embargoed": 0 },
+    "topfloor": { "published": 0, "embargoed": 0 },
+    "pendingModels": { "published": 0, "embargoed": 0 }
+  },
+  "policy": {
+    "embargo": "Records are withheld from publication for 48 hours after submission to give submitters a window to withdraw or amend.",
+    "filtered": [
+      "Records with leaderboard_visible === false",
+      "Records with fixture_tier === 'practice'",
+      "Records with hidden === true",
+      "Records with scope === 'private'"
+    ],
+    "redacted": [
+      "audit",
+      "auditLog",
+      "claimCode",
+      "clientIp",
+      "ip",
+      "remoteAddress",
+      "sessionToken",
+      "submitterPlayerId",
+      "token"
+    ],
+    "notes": "Pending model observations are aggregated to counts; per-observation submitter IDs and orgs are never published."
+  },
+  "note": "This placeholder is committed alongside the exporter. The first real export run replaces this file with a real manifest."
+}
