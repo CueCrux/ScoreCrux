@@ -43,6 +43,7 @@ interface CLIArgs {
   itemsPerCategory: number;
   dryRun: boolean;
   verbose: boolean;
+  interactive: boolean;
   output: string;
   claimCode?: string;
   submitUrl: string;
@@ -56,6 +57,7 @@ function parseArgs(argv: string[]): CLIArgs {
     itemsPerCategory: 3,
     dryRun: false,
     verbose: false,
+    interactive: false,
     output: "",
     claimCode: undefined,
     submitUrl: "https://scorecrux.com",
@@ -87,6 +89,9 @@ function parseArgs(argv: string[]): CLIArgs {
         break;
       case "--verbose":
         args.verbose = true;
+        break;
+      case "--interactive":
+        args.interactive = true;
         break;
       case "--output":
         args.output = next;
@@ -212,11 +217,14 @@ async function callModel(
   model: string,
   prompt: string,
   _mode: RunMode,
+  interactive: boolean = false,
 ): Promise<{ text: string; inputTokens: number; outputTokens: number; latencyMs: number }> {
   const start = Date.now();
 
-  // Interactive mode: print prompt, read response from stdin
-  if (model === "interactive") {
+  // Interactive mode: print prompt, read response from stdin.
+  // Triggered either by --model interactive (legacy) or --interactive (preferred —
+  // lets you set --model to the real identity so attribution tags self_reported).
+  if (model === "interactive" || interactive) {
     console.log("\n── ITEM ──");
     console.log(prompt.slice(0, 500));
     console.log("\n── PASTE JSON RESPONSE (end with END_OF_RESPONSE) ──");
@@ -342,7 +350,7 @@ async function run(): Promise<void> {
       continue;
     }
 
-    const result = await callModel(args.model, prompt, args.mode);
+    const result = await callModel(args.model, prompt, args.mode, args.interactive);
     const parsed = parseResponse(result.text);
     totalLatencyMs += result.latencyMs;
 
@@ -446,10 +454,10 @@ async function run(): Promise<void> {
       const payload = {
         claimCode: args.claimCode,
         runId: runResult.runId,
-        model: runResult.model,
+        model: args.model,
         reportedModel: provenance.reportedModel,
         apiBase: provenance.apiBase,
-        runMode: runResult.mode,
+        runMode: runResult.runMode,
         benchmarkVersion: '1.0',
         score: runResult.score,
         compositeIQ: runResult.score?.compositeIQ,
@@ -462,7 +470,7 @@ async function run(): Promise<void> {
         cruxComposite: cruxComposite,
       };
       const tier = provenance.apiBase && provenance.reportedModel ? "verified" : "self-reported";
-      console.log(`  Tagging model "${runResult.model}" (${tier}${provenance.reportedModel && provenance.reportedModel !== runResult.model ? `; server reports "${provenance.reportedModel}"` : ""})`);
+      console.log(`  Tagging model "${args.model}" (${tier}${provenance.reportedModel && provenance.reportedModel !== args.model ? `; server reports "${provenance.reportedModel}"` : ""})`);
       const res = await fetch(submitUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -471,7 +479,7 @@ async function run(): Promise<void> {
       if (res.ok) {
         const data = (await res.json()) as any;
         const serverModel = data.summary?.model;
-        const modelNote = serverModel && serverModel !== runResult.model ? ` as "${serverModel}"` : "";
+        const modelNote = serverModel && serverModel !== args.model ? ` as "${serverModel}"` : "";
         console.log(`  Submitted! IQ: ${data.summary?.iq ?? 'N/A'}${modelNote}, ID: ${data.id}`);
       } else {
         const err = await res.text();
