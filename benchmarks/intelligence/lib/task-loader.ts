@@ -4,6 +4,7 @@
 
 import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import type {
   IntelligenceTask,
   TaskBankManifest,
@@ -11,7 +12,7 @@ import type {
   DifficultyTier,
 } from "./types.js";
 
-const FIXTURES_DIR = new URL("../fixtures", import.meta.url).pathname;
+const FIXTURES_DIR = fileURLToPath(new URL("../fixtures", import.meta.url));
 const CATEGORIES_DIR = join(FIXTURES_DIR, "categories");
 
 const CATEGORY_DIRS: Record<ReasoningCategory, string> = {
