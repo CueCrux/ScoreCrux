@@ -1,0 +1,19 @@
+{
+  "name": "intelligence",
+  "version": "1.0.0",
+  "description": "A psychometric intelligence benchmark for AI models, built on Item Response Theory (IRT) with Cattell-Horn-Carroll (CHC) cognitive factor mapping and IQ-equivalent composite scoring.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.90.0"
+  }
+}
