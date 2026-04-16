@@ -269,9 +269,13 @@ function writeIndex(all: Record<string, SurfaceStats>, embargoHours: number, dry
 
 // ---------- Git ------------------------------------------------------------
 
-function run(cmd: string, cwd: string, dryRun: boolean): string {
+function run(cmd: string, cwd: string, dryRun: boolean, stdin?: string): string {
   if (dryRun) { console.log(`  [dry-run] ${cmd}`); return ""; }
-  return execSync(cmd, { cwd, stdio: ["ignore", "pipe", "pipe"] }).toString();
+  return execSync(cmd, {
+    cwd,
+    stdio: stdin !== undefined ? ["pipe", "pipe", "pipe"] : ["ignore", "pipe", "pipe"],
+    input: stdin,
+  }).toString();
 }
 
 function gitHasChanges(cwd: string): boolean {
@@ -294,7 +298,13 @@ function commitAndPush(dryRun: boolean, noPush: boolean, stats: Record<string, S
     .join(" ");
   const msg = `data: daily public-data sync (${summary})\n\nEmbargoed records held for ${process.env.PUBLIC_EXPORT_EMBARGO_HOURS ?? 48}h; private/practice/hidden records excluded; PII redacted.`;
   run(`git add public-data`, REPO_ROOT, false);
-  run(`git -c user.name="ScoreCrux Public Export" -c user.email="ops@scorecrux.com" commit -m ${JSON.stringify(msg)}`, REPO_ROOT, false);
+  // Pass the message via stdin so real newlines are preserved.
+  run(
+    `git -c user.name="ScoreCrux Public Export" -c user.email="ops@scorecrux.com" commit -F -`,
+    REPO_ROOT,
+    false,
+    msg,
+  );
   if (!noPush) {
     run(`git push origin HEAD`, REPO_ROOT, false);
   } else {
