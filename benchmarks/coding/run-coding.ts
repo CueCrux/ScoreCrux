@@ -113,6 +113,8 @@ async function run() {
   let totalInputTokens = 0;
   let totalOutputTokens = 0;
   let totalLatencyMs = 0;
+  let reportedModel: string | null = null;
+  let apiBase: string | null = null;
 
   for (const task of tasks) {
     console.log(`  [${task.taskId}] ${task.manifest.title} (${task.manifest.family})`);
@@ -130,6 +132,8 @@ async function run() {
     totalInputTokens += response.inputTokens;
     totalOutputTokens += response.outputTokens;
     totalLatencyMs += response.latencyMs;
+    if (response.reportedModel && !reportedModel) reportedModel = response.reportedModel;
+    if (response.apiBase && !apiBase) apiBase = response.apiBase;
 
     if (args.verbose) {
       console.log(`    Model: ${response.inputTokens} in / ${response.outputTokens} out / ${response.latencyMs}ms`);
@@ -238,8 +242,12 @@ async function run() {
     try {
       const payload = {
         claimCode: args.claimCode,
+        reportedModel,
+        apiBase,
         ...result,
       };
+      const tier = apiBase && reportedModel ? "verified" : "self-reported";
+      console.log(`  Tagging model "${args.model}" (${tier}${reportedModel && reportedModel !== args.model ? `; server reports "${reportedModel}"` : ""})`);
       const res = await fetch(submitUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -247,9 +255,12 @@ async function run() {
       });
       if (res.ok) {
         const data = (await res.json()) as any;
-        console.log(`  Submitted! Score: ${(data.summary?.compositeScore * 100).toFixed(1)}%, ID: ${data.id}`);
+        const serverModel = data.summary?.model;
+        const modelNote = serverModel && serverModel !== args.model ? ` as "${serverModel}"` : "";
+        console.log(`  Submitted! Score: ${(data.summary?.compositeScore * 100).toFixed(1)}%${modelNote}, ID: ${data.id}`);
       } else {
-        console.warn(`  Submit failed: ${res.status}`);
+        const err = await res.text();
+        console.warn(`  Submit failed: ${res.status} ${err.slice(0, 160)}`);
       }
     } catch (e: any) {
       console.warn(`  Submit error: ${e.message}`);

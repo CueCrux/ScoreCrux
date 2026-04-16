@@ -197,6 +197,17 @@ function readUntilMarker(marker: string): Promise<string> {
   });
 }
 
+/**
+ * Provenance captured from the model provider during a real API call.
+ * Used by the submit flow to prove Tier A attribution. Remains null for
+ * interactive mode (no outbound call = nothing to attest).
+ */
+interface ProviderProvenance {
+  reportedModel: string | null;
+  apiBase: string | null;
+}
+const provenance: ProviderProvenance = { reportedModel: null, apiBase: null };
+
 async function callModel(
   model: string,
   prompt: string,
@@ -222,6 +233,10 @@ async function callModel(
       messages: [{ role: "user", content: prompt }],
       system: "You are taking a psychometric reasoning test. For each item, respond with a JSON object: { \"final_answer\": \"your answer\", \"confidence\": 0.0-1.0, \"working\": [\"step 1\", \"step 2\", ...] }. Think carefully and show your reasoning in the working array. Give only the JSON, no other text.",
     });
+
+    // response.model is the canonical ID Anthropic actually served
+    provenance.reportedModel = (response as any).model ?? model;
+    provenance.apiBase = "https://api.anthropic.com";
 
     const text = response.content
       .filter((b): b is Anthropic.Messages.TextBlock => b.type === "text")
@@ -254,6 +269,9 @@ async function callModel(
     });
     const data = (await res.json()) as any;
     if (data.error) throw new Error(`OpenAI: ${data.error.message}`);
+
+    provenance.reportedModel = data.model ?? res.headers.get("openai-model") ?? model;
+    provenance.apiBase = "https://api.openai.com";
 
     return {
       text: data.choices?.[0]?.message?.content ?? "",
@@ -429,6 +447,8 @@ async function run(): Promise<void> {
         claimCode: args.claimCode,
         runId: runResult.runId,
         model: runResult.model,
+        reportedModel: provenance.reportedModel,
+        apiBase: provenance.apiBase,
         runMode: runResult.mode,
         benchmarkVersion: '1.0',
         score: runResult.score,
@@ -441,6 +461,8 @@ async function run(): Promise<void> {
         durationMs: totalLatencyMs,
         cruxComposite: cruxComposite,
       };
+      const tier = provenance.apiBase && provenance.reportedModel ? "verified" : "self-reported";
+      console.log(`  Tagging model "${runResult.model}" (${tier}${provenance.reportedModel && provenance.reportedModel !== runResult.model ? `; server reports "${provenance.reportedModel}"` : ""})`);
       const res = await fetch(submitUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -448,10 +470,12 @@ async function run(): Promise<void> {
       });
       if (res.ok) {
         const data = (await res.json()) as any;
-        console.log(`  Submitted! IQ: ${data.summary?.iq ?? 'N/A'}, ID: ${data.id}`);
+        const serverModel = data.summary?.model;
+        const modelNote = serverModel && serverModel !== runResult.model ? ` as "${serverModel}"` : "";
+        console.log(`  Submitted! IQ: ${data.summary?.iq ?? 'N/A'}${modelNote}, ID: ${data.id}`);
       } else {
         const err = await res.text();
-        console.warn(`  Submit failed: ${res.status} ${err.slice(0, 100)}`);
+        console.warn(`  Submit failed: ${res.status} ${err.slice(0, 160)}`);
       }
     } catch (e: any) {
       console.warn(`  Submit error: ${e.message}`);
