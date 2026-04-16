@@ -1,13 +1,28 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": null,
+  "generatedAt": "2026-04-16T20:27:20.998Z",
   "embargoHours": 48,
   "surfaces": {
-    "intelligence": { "published": 0, "embargoed": 0 },
-    "coding": { "published": 0, "embargoed": 0 },
-    "scale": { "published": 0, "embargoed": 0 },
-    "topfloor": { "published": 0, "embargoed": 0 },
-    "pendingModels": { "published": 0, "embargoed": 0 }
+    "intelligence": {
+      "published": 0,
+      "embargoed": 6
+    },
+    "coding": {
+      "published": 0,
+      "embargoed": 1
+    },
+    "scale": {
+      "published": 64,
+      "embargoed": 10
+    },
+    "topfloor": {
+      "published": 2,
+      "embargoed": 1
+    },
+    "pendingModels": {
+      "published": 0,
+      "embargoed": 0
+    }
   },
   "policy": {
     "embargo": "Records are withheld from publication for 48 hours after submission to give submitters a window to withdraw or amend.",
@@ -29,6 +44,5 @@
       "token"
     ],
     "notes": "Pending model observations are aggregated to counts; per-observation submitter IDs and orgs are never published."
-  },
-  "note": "This placeholder is committed alongside the exporter. The first real export run replaces this file with a real manifest."
+  }
 }
