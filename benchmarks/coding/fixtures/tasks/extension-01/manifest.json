@@ -1,0 +1,12 @@
+{
+  "family": "extension",
+  "difficulty": 2,
+  "title": "Add Pipeline Filtering",
+  "hasStarter": true,
+  "visibleTestCount": 5,
+  "hiddenTestCount": 10,
+  "timeoutMs": 30000,
+  "memoryLimitMb": 256,
+  "allowedDeps": [],
+  "language": "typescript"
+}

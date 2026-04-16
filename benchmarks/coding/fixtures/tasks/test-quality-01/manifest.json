@@ -1,0 +1,12 @@
+{
+  "family": "test-quality",
+  "difficulty": 2,
+  "title": "Write Tests for deepMerge",
+  "hasStarter": true,
+  "visibleTestCount": 0,
+  "hiddenTestCount": 0,
+  "timeoutMs": 30000,
+  "memoryLimitMb": 256,
+  "allowedDeps": [],
+  "language": "typescript"
+}
