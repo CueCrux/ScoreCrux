@@ -1,0 +1,14 @@
+{
+  "taskId": "greenfield-01",
+  "family": "greenfield",
+  "difficulty": 2,
+  "title": "Cron Expression Parser",
+  "description": "Implement a cron expression parser that validates and expands standard 5-field cron syntax.",
+  "timeoutMs": 30000,
+  "memoryLimitMb": 256,
+  "allowedDeps": [],
+  "language": "typescript",
+  "hasStarter": false,
+  "visibleTestCount": 8,
+  "hiddenTestCount": 12
+}

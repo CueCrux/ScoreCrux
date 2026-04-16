@@ -1,0 +1,14 @@
+{
+  "taskId": "bugfix-01",
+  "family": "bugfix",
+  "difficulty": 2,
+  "title": "Fix Broken Rate Limiter",
+  "description": "A token-bucket rate limiter has three bugs. Fix them so all tests pass.",
+  "timeoutMs": 30000,
+  "memoryLimitMb": 256,
+  "allowedDeps": [],
+  "language": "typescript",
+  "hasStarter": true,
+  "visibleTestCount": 4,
+  "hiddenTestCount": 8
+}
