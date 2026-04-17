@@ -170,6 +170,36 @@ function parseResponse(raw: string): ParsedOutput | null {
 }
 
 // ---------------------------------------------------------------------------
+// Model pricing (USD per 1M tokens)
+// ---------------------------------------------------------------------------
+
+interface PricePerMillion { input: number; output: number; }
+
+/**
+ * Pricing table for estimatedCostUsd. Matched by prefix — e.g.
+ * "claude-opus-4-7" or "claude-opus-4-20250514" both hit the "claude-opus"
+ * row. Update the rates when Anthropic/OpenAI publish new pricing.
+ * Rates are USD per 1M tokens.
+ */
+const MODEL_PRICING: Array<{ match: RegExp; price: PricePerMillion }> = [
+  { match: /^claude-opus-4-7/,        price: { input: 15.0, output: 75.0 } }, // inherits 4-family pricing
+  { match: /^claude-opus-4-6/,        price: { input: 15.0, output: 75.0 } },
+  { match: /^claude-opus-4-(\d+|20)/, price: { input: 15.0, output: 75.0 } }, // 4.x family
+  { match: /^claude-sonnet-4/,        price: { input: 3.0,  output: 15.0 } },
+  { match: /^claude-haiku-4/,         price: { input: 0.80, output: 4.0 } },
+  { match: /^gpt-5\.4-nano/,          price: { input: 0.10, output: 0.40 } },
+  { match: /^gpt-5\.4-mini/,          price: { input: 0.40, output: 1.60 } },
+  { match: /^gpt-5\.4/,               price: { input: 2.50, output: 10.0 } },
+];
+
+function estimateModelCost(model: string, inputTokens: number, outputTokens: number): number {
+  const row = MODEL_PRICING.find(r => r.match.test(model));
+  if (!row) return 0;
+  return (inputTokens / 1_000_000) * row.price.input
+       + (outputTokens / 1_000_000) * row.price.output;
+}
+
+// ---------------------------------------------------------------------------
 // Model caller
 // ---------------------------------------------------------------------------
 
@@ -398,11 +428,15 @@ async function run(): Promise<void> {
     completedAt,
     responses,
     score: report,
-    usage: {
-      totalInputTokens: responses.reduce((s, r) => s + r.inputTokens, 0),
-      totalOutputTokens: responses.reduce((s, r) => s + r.outputTokens, 0),
-      estimatedCostUsd: 0, // Would calculate from model pricing
-    },
+    usage: (() => {
+      const inputTokens = responses.reduce((s, r) => s + r.inputTokens, 0);
+      const outputTokens = responses.reduce((s, r) => s + r.outputTokens, 0);
+      return {
+        totalInputTokens: inputTokens,
+        totalOutputTokens: outputTokens,
+        estimatedCostUsd: estimateModelCost(args.model, inputTokens, outputTokens),
+      };
+    })(),
     antiContamination: {
       taskSetHash: hashTaskSet(taskIds),
       holdoutItemsUsed: 0,
@@ -431,6 +465,10 @@ async function run(): Promise<void> {
   console.log(`    Classification: ${report.compositeIQ.classification}`);
 
   console.log(`\n  CruxScore Composite: ${(cruxComposite * 100).toFixed(1)}%`);
+  console.log(
+    `  Usage: ${runResult.usage.totalInputTokens} in / ${runResult.usage.totalOutputTokens} out tokens` +
+    `  |  Cost: $${runResult.usage.estimatedCostUsd.toFixed(4)}`,
+  );
   console.log();
 
   // 8. Save results
