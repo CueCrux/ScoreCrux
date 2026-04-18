@@ -1,0 +1,1299 @@
+{
+  "runId": "e2ff3295",
+  "benchmarkVersion": "1.0",
+  "modelId": "claude-haiku-4-5",
+  "runMode": "closed_prompt_only",
+  "taskSetId": "a604f3ef3a8a13956e4c149af34cb1c492c5825104acffc4ab4f14f80d867523",
+  "startedAt": "2026-04-17T21:06:36.759Z",
+  "completedAt": "2026-04-17T21:07:57.010Z",
+  "responses": [
+    {
+      "taskId": "A001",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"Kael: tea, Mira: coffee, Tobin: juice\",\n  \"confidence\": 1.0,\n  \"working\": [\n    \"From clue 3: Tobin ordered juice. This is definitive.\",\n    \"From clue 1: Kael did not order coffee. So Kael ordered either tea or juice.\",\n    \"Since Tobin ordered juice, and each person gets a different drink, Kael cannot order juice.\",\n    \"Therefore, Kael ordered tea.\",\n    \"From clue 2: Mira did not order tea.\",\n    \"Since Kael ordered tea and Tobin ordered juice, the only remaining drink is coffee.\",\n    \"Therefore, Mira ordered coffee.\",\n    \"Verification: Kael (tea) - satisfies clue 1 (not coffee) ✓, Mira (coffee) - satisfies clue 2 (not tea) ✓, Tobin (juice) - satisfies clue 3 ✓\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": "Kael: tea, Mira: coffee, Tobin: juice",
+        "confidence": 1,
+        "working": [
+          "From clue 3: Tobin ordered juice. This is definitive.",
+          "From clue 1: Kael did not order coffee. So Kael ordered either tea or juice.",
+          "Since Tobin ordered juice, and each person gets a different drink, Kael cannot order juice.",
+          "Therefore, Kael ordered tea.",
+          "From clue 2: Mira did not order tea.",
+          "Since Kael ordered tea and Tobin ordered juice, the only remaining drink is coffee.",
+          "Therefore, Mira ordered coffee.",
+          "Verification: Kael (tea) - satisfies clue 1 (not coffee) ✓, Mira (coffee) - satisfies clue 2 (not tea) ✓, Tobin (juice) - satisfies clue 3 ✓"
+        ]
+      },
+      "latencyMs": 2005,
+      "inputTokens": 277,
+      "outputTokens": 258,
+      "timestamp": "2026-04-17T21:06:38.776Z"
+    },
+    {
+      "taskId": "A002",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": {\n    \"Wren\": 1,\n    \"Joss\": 2,\n    \"Mira\": 3,\n    \"Kael\": 4\n  },\n  \"confidence\": 0.95,\n  \"working\": [\n    \"From clue 1: Wren is immediately left of Joss, so they occupy consecutive desks.\",\n    \"Possible positions for (Wren, Joss): (1,2), (2,3), or (3,4)\",\n    \"From clue 4: Joss does not sit at desk 4, eliminating (3,4)\",\n    \"Remaining possibilities: (Wren, Joss) at (1,2) or (2,3)\",\n    \"From clue 2: Kael does not sit at desk 1 or 2, so Kael is at desk 3 or 4\",\n    \"From clue 5: Mira does not sit at desk 1\",\n    \"Testing (Wren, Joss) at (1,2): Remaining desks 3,4 for Mira and Kael\",\n    \"  - Mira cannot be at desk 1 (clue 5) ✓\",\n    \"  - Kael must be at desk 3 or 4 (clue 2) ✓\",\n    \"  - From clue 3: Mira sits at lower-numbered desk than Kael\",\n    \"  - So Mira at 3, Kael at 4\",\n    \"Testing (Wren, Joss) at (2,3): Remaining desks 1,4 for Mira and Kael\",\n    \"  - Mira cannot be at desk 1 (clue 5), so Mira would be at desk 4\",\n    \"  - Kael would be at desk 1\",\n    \"  - But clue 2 says Kael not at desk 1 or 2 ✗\",\n    \"Therefore: Wren=1, Joss=2, Mira=3, Kael=4\",\n    \"Verification of all clues:\",\n    \"  1. Wren(1) immediately left of Joss(2) ✓\",\n    \"  2. Kael(4) not at desk 1 or 2 ✓\",\n    \"  3. Mira(3) lower-numbered than Kael(4) ✓\",\n    \"  4. Joss(2) not at desk 4 ✓\",\n    \"  5. Mira(3) not at desk 1 ✓\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": {
+          "Wren": 1,
+          "Joss": 2,
+          "Mira": 3,
+          "Kael": 4
+        },
+        "confidence": 0.95,
+        "working": [
+          "From clue 1: Wren is immediately left of Joss, so they occupy consecutive desks.",
+          "Possible positions for (Wren, Joss): (1,2), (2,3), or (3,4)",
+          "From clue 4: Joss does not sit at desk 4, eliminating (3,4)",
+          "Remaining possibilities: (Wren, Joss) at (1,2) or (2,3)",
+          "From clue 2: Kael does not sit at desk 1 or 2, so Kael is at desk 3 or 4",
+          "From clue 5: Mira does not sit at desk 1",
+          "Testing (Wren, Joss) at (1,2): Remaining desks 3,4 for Mira and Kael",
+          "  - Mira cannot be at desk 1 (clue 5) ✓",
+          "  - Kael must be at desk 3 or 4 (clue 2) ✓",
+          "  - From clue 3: Mira sits at lower-numbered desk than Kael",
+          "  - So Mira at 3, Kael at 4",
+          "Testing (Wren, Joss) at (2,3): Remaining desks 1,4 for Mira and Kael",
+          "  - Mira cannot be at desk 1 (clue 5), so Mira would be at desk 4",
+          "  - Kael would be at desk 1",
+          "  - But clue 2 says Kael not at desk 1 or 2 ✗",
+          "Therefore: Wren=1, Joss=2, Mira=3, Kael=4",
+          "Verification of all clues:",
+          "  1. Wren(1) immediately left of Joss(2) ✓",
+          "  2. Kael(4) not at desk 1 or 2 ✓",
+          "  3. Mira(3) lower-numbered than Kael(4) ✓",
+          "  4. Joss(2) not at desk 4 ✓",
+          "  5. Mira(3) not at desk 1 ✓"
+        ]
+      },
+      "latencyMs": 3488,
+      "inputTokens": 356,
+      "outputTokens": 661,
+      "timestamp": "2026-04-17T21:06:42.264Z"
+    },
+    {
+      "taskId": "A003",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": {\n    \"Kael\": {\"floor\": 1, \"pet\": \"dog\"},\n    \"Mira\": {\"floor\": 2, \"pet\": \"lizard\"},\n    \"Tobin\": {\"floor\": 3, \"pet\": \"fish\"},\n    \"Joss\": {\"floor\": 4, \"pet\": \"bird\"},\n    \"Wren\": {\"floor\": 5, \"pet\": \"cat\"}\n  },\n  \"confidence\": 0.95,\n  \"working\": [\n    \"From clue 7: Wren lives on floor 5\",\n    \"From clue 5: The person on floor 1 owns the dog\",\n    \"From clue 2: The person on floor 3 owns the fish\",\n    \"From clue 4: Joss owns the bird\",\n    \"From clue 10: The person on floor 5 does not own the cat, so Wren does not own the cat\",\n    \"From clue 8: Tobin lives exactly two floors above Kael\",\n    \"  Possible pairs: (Kael=1, Tobin=3), (Kael=2, Tobin=4), (Kael=3, Tobin=5)\",\n    \"From clue 3: Tobin does not live on floor 1 or 5, so Tobin is on floor 2, 3, or 4\",\n    \"  Combined with clue 8: (Kael=1, Tobin=3) or (Kael=2, Tobin=4)\",\n    \"From clue 1: Mira lives higher than Kael but lower than Wren (floor 5)\",\n    \"  This means Kael < Mira < 5\",\n    \"Testing (Kael=1, Tobin=3):\",\n    \"  Then Mira must be between 1 and 5 (not Kael, not Tobin, not Wren)\",\n    \"  Mira can be 2 or 4\",\n    \"  If Mira=2, then Joss=4\",\n    \"  If Mira=4, then Joss=2, but clue 9 says Joss is not on floor 2, contradiction\",\n    \"  So: Kael=1, Mira=2, Tobin=3, Joss=4, Wren=5\",\n    \"Assigning pets:\",\n    \"  From clue 5: Kael (floor 1) owns dog\",\n    \"  From clue 2: Tobin (floor 3) owns fish\",\n    \"  From clue 4: Joss owns bird\",\n    \"  From clue 6: Kael does not own cat (already owns dog, so satisfied)\",\n    \"  From clue 10: Wren (floor 5) does not own cat\",\n    \"  Remaining pets for Mira and Wren: cat and lizard\",\n    \"  Since Wren cannot own cat, Wren owns lizard and Mira owns cat\",\n    \"Verification of all clues:\",\n    \"  1. Mira (2) > Kael (1) and Mira (2) < Wren (5) ✓\",\n    \"  2. Floor 3 (Tobin) owns fish ✓\",\n    \"  3. Tobin not on floor 1 or 5 (on floor 3) ✓\",\n    \"  4. Joss owns bird ✓\",\n    \"  5. Floor 1 (Kael) owns dog ✓\",\n    \"  6. Kael does not own cat (owns dog) ✓\",\n    \"  7. Wren on floor 5 ✓\",\n    \"  8. Tobin (3) exactly two floors above Kael (1) ✓\",\n    \"  9. Joss not on floor 2 (on floor 4) ✓\",\n    \"  10. Floor 5 (Wren) does not own cat (owns lizard) ✓\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": {
+          "Kael": {
+            "floor": 1,
+            "pet": "dog"
+          },
+          "Mira": {
+            "floor": 2,
+            "pet": "lizard"
+          },
+          "Tobin": {
+            "floor": 3,
+            "pet": "fish"
+          },
+          "Joss": {
+            "floor": 4,
+            "pet": "bird"
+          },
+          "Wren": {
+            "floor": 5,
+            "pet": "cat"
+          }
+        },
+        "confidence": 0.95,
+        "working": [
+          "From clue 7: Wren lives on floor 5",
+          "From clue 5: The person on floor 1 owns the dog",
+          "From clue 2: The person on floor 3 owns the fish",
+          "From clue 4: Joss owns the bird",
+          "From clue 10: The person on floor 5 does not own the cat, so Wren does not own the cat",
+          "From clue 8: Tobin lives exactly two floors above Kael",
+          "  Possible pairs: (Kael=1, Tobin=3), (Kael=2, Tobin=4), (Kael=3, Tobin=5)",
+          "From clue 3: Tobin does not live on floor 1 or 5, so Tobin is on floor 2, 3, or 4",
+          "  Combined with clue 8: (Kael=1, Tobin=3) or (Kael=2, Tobin=4)",
+          "From clue 1: Mira lives higher than Kael but lower than Wren (floor 5)",
+          "  This means Kael < Mira < 5",
+          "Testing (Kael=1, Tobin=3):",
+          "  Then Mira must be between 1 and 5 (not Kael, not Tobin, not Wren)",
+          "  Mira can be 2 or 4",
+          "  If Mira=2, then Joss=4",
+          "  If Mira=4, then Joss=2, but clue 9 says Joss is not on floor 2, contradiction",
+          "  So: Kael=1, Mira=2, Tobin=3, Joss=4, Wren=5",
+          "Assigning pets:",
+          "  From clue 5: Kael (floor 1) owns dog",
+          "  From clue 2: Tobin (floor 3) owns fish",
+          "  From clue 4: Joss owns bird",
+          "  From clue 6: Kael does not own cat (already owns dog, so satisfied)",
+          "  From clue 10: Wren (floor 5) does not own cat",
+          "  Remaining pets for Mira and Wren: cat and lizard",
+          "  Since Wren cannot own cat, Wren owns lizard and Mira owns cat",
+          "Verification of all clues:",
+          "  1. Mira (2) > Kael (1) and Mira (2) < Wren (5) ✓",
+          "  2. Floor 3 (Tobin) owns fish ✓",
+          "  3. Tobin not on floor 1 or 5 (on floor 3) ✓",
+          "  4. Joss owns bird ✓",
+          "  5. Floor 1 (Kael) owns dog ✓",
+          "  6. Kael does not own cat (owns dog) ✓",
+          "  7. Wren on floor 5 ✓",
+          "  8. Tobin (3) exactly two floors above Kael (1) ✓",
+          "  9. Joss not on floor 2 (on floor 4) ✓",
+          "  10. Floor 5 (Wren) does not own cat (owns lizard) ✓"
+        ]
+      },
+      "latencyMs": 5569,
+      "inputTokens": 447,
+      "outputTokens": 1006,
+      "timestamp": "2026-04-17T21:06:47.833Z"
+    },
+    {
+      "taskId": "B001",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"8\",\n  \"confidence\": 1.0,\n  \"working\": [\n    \"Start: counter = 0\",\n    \"Operation 1 - Add 5: 0 + 5 = 5\",\n    \"Operation 2 - Double the current value: 5 × 2 = 10\",\n    \"Operation 3 - Subtract 3: 10 - 3 = 7\",\n    \"Operation 4 - Add 1: 7 + 1 = 8\",\n    \"Final value: 8\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": "8",
+        "confidence": 1,
+        "working": [
+          "Start: counter = 0",
+          "Operation 1 - Add 5: 0 + 5 = 5",
+          "Operation 2 - Double the current value: 5 × 2 = 10",
+          "Operation 3 - Subtract 3: 10 - 3 = 7",
+          "Operation 4 - Add 1: 7 + 1 = 8",
+          "Final value: 8"
+        ]
+      },
+      "latencyMs": 1061,
+      "inputTokens": 247,
+      "outputTokens": 153,
+      "timestamp": "2026-04-17T21:06:48.894Z"
+    },
+    {
+      "taskId": "B002",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"6\",\n  \"confidence\": 0.99,\n  \"working\": [\n    \"Starting position: cell 1\",\n    \"Move 1: Move right 3 cells. 1 + 3 = 4. Token is now on cell 4.\",\n    \"Move 2: Move left 1 cell. 4 - 1 = 3. Token is now on cell 3.\",\n    \"Move 3: Move right 4 cells. 3 + 4 = 7. Token is now on cell 7.\",\n    \"Move 4: Move left 2 cells. 7 - 2 = 5. Token is now on cell 5.\",\n    \"Move 5: Move right 3 cells. 5 + 3 = 8. Token is now on cell 8.\",\n    \"Move 6: Move left 5 cells. 8 - 5 = 3. Token is now on cell 3.\",\n    \"Final position: cell 3\"\n  ]\n}\n```\n\nWait, let me recalculate move 6:\n\n```json\n{\n  \"final_answer\": \"3\",\n  \"confidence\": 0.99,\n  \"working\": [\n    \"Starting position: cell 1\",\n    \"Move 1: Move right 3 cells. 1 + 3 = 4. Token is now on cell 4.\",\n    \"Move 2: Move left 1 cell. 4 - 1 = 3. Token is now on cell 3.\",\n    \"Move 3: Move right 4 cells. 3 + 4 = 7. Token is now on cell 7.\",\n    \"Move 4: Move left 2 cells. 7 - 2 = 5. Token is now on cell 5.\",\n    \"Move 5: Move right 3 cells. 5 + 3 = 8. Token is now on cell 8.\",\n    \"Move 6: Move left 5 cells. 8 - 5 = 3. Token is now on cell 3.\",\n    \"Final position: cell 3\"\n  ]\n}\n```",
+      "parsedOutput": null,
+      "latencyMs": 2497,
+      "inputTokens": 358,
+      "outputTokens": 527,
+      "timestamp": "2026-04-17T21:06:51.391Z"
+    },
+    {
+      "taskId": "B003",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"A=3, B=12, C=15\",\n  \"confidence\": 0.99,\n  \"working\": [\n    \"Initial state: A=2, B=5, C=1\",\n    \"Operation 1: A = B - A = 5 - 2 = 3. State: A=3, B=5, C=1\",\n    \"Operation 2: C = A + C = 3 + 1 = 4. State: A=3, B=5, C=4\",\n    \"Operation 3: B = A * C = 3 * 4 = 12. State: A=3, B=12, C=4\",\n    \"Operation 4: A = B - C = 12 - 4 = 8. State: A=8, B=12, C=4\",\n    \"Operation 5: C = A + B = 8 + 12 = 20. State: A=8, B=12, C=20\",\n    \"Operation 6: B = C - A = 20 - 8 = 12. State: A=8, B=12, C=20\",\n    \"Final answer: A=8, B=12, C=20\"\n  ]\n}\n```\n\nWait, let me recalculate operation 6 carefully:\n\n```json\n{\n  \"final_answer\": \"A=8, B=12, C=20\",\n  \"confidence\": 0.99,\n  \"working\": [\n    \"Initial state: A=2, B=5, C=1\",\n    \"Operation 1: A = B - A. Read: B=5, A=2. Write: A = 5 - 2 = 3. State: A=3, B=5, C=1\",\n    \"Operation 2: C = A + C. Read: A=3, C=1. Write: C = 3 + 1 = 4. State: A=3, B=5, C=4\",\n    \"Operation 3: B = A * C. Read: A=3, C=4. Write: B = 3 * 4 = 12. State: A=3, B=12, C=4\",\n    \"Operation 4: A = B - C. Read: B=12, C=4. Write: A = 12 - 4 = 8. State: A=8, B=12, C=4\",\n    \"Operation 5: C = A + B. Read: A=8, B=12. Write: C = 8 + 12 = 20. State: A=8, B=12, C=20\",\n    \"Operation 6: B = C - A. Read: C=20, A=8. Write: B = 20 - 8 = 12. State: A=8, B=12, C=20\",\n    \"Final values: A=8, B=12, C=20\"\n  ]\n}\n```",
+      "parsedOutput": null,
+      "latencyMs": 3535,
+      "inputTokens": 332,
+      "outputTokens": 725,
+      "timestamp": "2026-04-17T21:06:54.926Z"
+    },
+    {
+      "taskId": "C001",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"Yes\",\n  \"confidence\": 0.95,\n  \"working\": [\n    \"Identify Kael's membership status: Premium member\",\n    \"Identify Kael's age: 15 years old\",\n    \"Identify Kael's current books checked out: 5 books\",\n    \"Identify overdue status: None are overdue\",\n    \"Identify request: Borrow 2 more books from adult section\",\n    \"Apply Rule 2 (Premium members): May borrow up to 7 books at a time. Kael currently has 5, so can borrow up to 2 more (5 + 2 = 7, which equals the limit)\",\n    \"Apply Rule 3 (Overdue books): Kael has no overdue books, so this restriction does not apply\",\n    \"Apply Rule 4 (Children's section): Kael is 15 years old (over 12), so this restriction does not apply. Additionally, Kael is borrowing from the adult section, which is permitted\",\n    \"Conclusion: All applicable rules allow Kael to borrow 2 more books\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": "Yes",
+        "confidence": 0.95,
+        "working": [
+          "Identify Kael's membership status: Premium member",
+          "Identify Kael's age: 15 years old",
+          "Identify Kael's current books checked out: 5 books",
+          "Identify overdue status: None are overdue",
+          "Identify request: Borrow 2 more books from adult section",
+          "Apply Rule 2 (Premium members): May borrow up to 7 books at a time. Kael currently has 5, so can borrow up to 2 more (5 + 2 = 7, which equals the limit)",
+          "Apply Rule 3 (Overdue books): Kael has no overdue books, so this restriction does not apply",
+          "Apply Rule 4 (Children's section): Kael is 15 years old (over 12), so this restriction does not apply. Additionally, Kael is borrowing from the adult section, which is permitted",
+          "Conclusion: All applicable rules allow Kael to borrow 2 more books"
+        ]
+      },
+      "latencyMs": 3439,
+      "inputTokens": 349,
+      "outputTokens": 286,
+      "timestamp": "2026-04-17T21:06:58.365Z"
+    },
+    {
+      "taskId": "C002",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": {\n    \"day_1_meals\": 75,\n    \"day_1_travel\": 150,\n    \"day_2_meals\": 80,\n    \"day_2_equipment\": 0,\n    \"total_reimbursable\": 305\n  },\n  \"confidence\": 0.95,\n  \"working\": [\n    \"Step 1: Verify Rule 4 (timeliness) - All expenses submitted 10 days after occurrence, which is within 30 days. All expenses pass this check.\",\n    \"Step 2: Verify Rule 6 (receipts) - All expenses have receipts provided. All expenses pass this check.\",\n    \"Step 3: Apply Rule 5 (international assignment) - Tobin is on approved international assignment, so meal limit is doubled from 40 to 80 credits per day.\",\n    \"Step 4: Day 1 Meals - Claimed 75 credits, limit is 80 credits per day (with international modifier). 75 ≤ 80, so reimbursable amount is 75 credits.\",\n    \"Step 5: Day 1 Travel - 300 km at 0.5 credits/km = 150 credits. No limit mentioned for travel, so 150 credits is reimbursable.\",\n    \"Step 6: Day 2 Meals - Claimed 90 credits, limit is 80 credits per day (with international modifier). 90 > 80, so reimbursable amount is capped at 80 credits.\",\n    \"Step 7: Day 2 Equipment Purchase - Single expense of 210 credits. Check Rule 3: 210 > 200, requires manager approval before reimbursement. The problem states 'all expenses' are submitted but does not explicitly confirm manager approval. However, given the context that we must apply the rules, and no manager approval is mentioned, this expense does not meet the requirement. Reimbursable amount is 0 credits.\",\n    \"Step 8: Calculate total - 75 + 150 + 80 + 0 = 305 credits total reimbursable amount.\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": {
+          "day_1_meals": 75,
+          "day_1_travel": 150,
+          "day_2_meals": 80,
+          "day_2_equipment": 0,
+          "total_reimbursable": 305
+        },
+        "confidence": 0.95,
+        "working": [
+          "Step 1: Verify Rule 4 (timeliness) - All expenses submitted 10 days after occurrence, which is within 30 days. All expenses pass this check.",
+          "Step 2: Verify Rule 6 (receipts) - All expenses have receipts provided. All expenses pass this check.",
+          "Step 3: Apply Rule 5 (international assignment) - Tobin is on approved international assignment, so meal limit is doubled from 40 to 80 credits per day.",
+          "Step 4: Day 1 Meals - Claimed 75 credits, limit is 80 credits per day (with international modifier). 75 ≤ 80, so reimbursable amount is 75 credits.",
+          "Step 5: Day 1 Travel - 300 km at 0.5 credits/km = 150 credits. No limit mentioned for travel, so 150 credits is reimbursable.",
+          "Step 6: Day 2 Meals - Claimed 90 credits, limit is 80 credits per day (with international modifier). 90 > 80, so reimbursable amount is capped at 80 credits.",
+          "Step 7: Day 2 Equipment Purchase - Single expense of 210 credits. Check Rule 3: 210 > 200, requires manager approval before reimbursement. The problem states 'all expenses' are submitted but does not explicitly confirm manager approval. However, given the context that we must apply the rules, and no manager approval is mentioned, this expense does not meet the requirement. Reimbursable amount is 0 credits.",
+          "Step 8: Calculate total - 75 + 150 + 80 + 0 = 305 credits total reimbursable amount."
+        ]
+      },
+      "latencyMs": 3827,
+      "inputTokens": 452,
+      "outputTokens": 516,
+      "timestamp": "2026-04-17T21:07:02.192Z"
+    },
+    {
+      "taskId": "C003",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": [\"Proposal B\", \"Proposal A\"],\n  \"confidence\": 0.95,\n  \"working\": [\n    \"Step 1: Apply Rule 3 (previous grant penalty) - Reduce Novelty by 5 for applicants with grants in previous 2 cycles\",\n    \"  - Proposal A (Kael, new applicant): No penalty applied\",\n    \"  - Proposal B (Mira, received grant 1 cycle ago): Novelty = 20 - 5 = 15\",\n    \"  - Proposal C (Tobin, no recent grants): No penalty applied\",\n    \"  - Proposal D (Wren, new applicant): No penalty applied\",\n    \"\",\n    \"Step 2: Apply Rule 4 (new applicant bonus) - Add 3 points to lowest criterion score\",\n    \"  - Proposal A (Kael, new applicant): Lowest is Feasibility=22. Add 3 → Feasibility=25. Adjusted: Impact=28, Feasibility=25, Novelty=18\",\n    \"  - Proposal B (Mira, not new): No bonus applied. Adjusted: Impact=35, Feasibility=25, Novelty=15\",\n    \"  - Proposal C (Tobin, not new): No bonus applied. Adjusted: Impact=30, Feasibility=20, Novelty=21\",\n    \"  - Proposal D (Wren, new applicant): Lowest is Feasibility=18. Add 3 → Feasibility=21. Adjusted: Impact=25, Feasibility=21, Novelty=24\",\n    \"\",\n    \"Step 3: Calculate total scores (Rule 1)\",\n    \"  - Proposal A: 28 + 25 + 18 = 71\",\n    \"  - Proposal B: 35 + 25 + 15 = 75\",\n    \"  - Proposal C: 30 + 20 + 21 = 71\",\n    \"  - Proposal D: 25 + 21 + 24 = 70\",\n    \"\",\n    \"Step 4: Apply Rule 2 eligibility (total ≥ 70 AND no criterion < 15)\",\n    \"  - Proposal A: Total=71 ✓, Impact=28 ✓, Feasibility=25 ✓, Novelty=18 ✓ → ELIGIBLE\",\n    \"  - Proposal B: Total=75 ✓, Impact=35 ✓, Feasibility=25 ✓, Novelty=15 ✓ → ELIGIBLE\",\n    \"  - Proposal C: Total=71 ✓, Impact=30 ✓, Feasibility=20 ✓, Novelty=21 ✓ → ELIGIBLE\",\n    \"  - Proposal D: Total=70 ✓, Impact=25 ✓, Feasibility=21 ✓, Novelty=24 ✓ → ELIGIBLE\",\n    \"\",\n    \"Step 5: Apply Rule 5 (tiebreaking for equal total scores)\",\n    \"  - Proposals A and C both have total=71. Compare Impact: A=28, C=30. C wins this tie.\",\n    \"  - Ranking by total score: B (75) > C (71) = A (71) > D (70)\",\n    \"  - Applying tiebreaker for A vs C: C has higher Impact (30 vs 28), so order is: B > C > A > D\",\n    \"\",\n    \"Step 6: Apply Rule 6 (fund at most 2 proposals)\",\n    \"  - Fund top 2: Proposal B (75) and Proposal C (71)\",\n    \"\",\n    \"Step 7: Verify final answer\",\n    \"  - Wait, rechecking tiebreaker: A=71, C=71. C has Impact=30, A has Impact=28. So C ranks higher than A.\",\n    \"  - Final ranking: B (75) > C (71) > A (71) > D (70)\",\n    \"  - Funded: B and C\",\n    \"\",\n    \"CORRECTION: Re-reading Rule 5 - if Impact ties, Feasibility breaks it. But Impact doesn't tie between A and C (A=28, C=30), so C simply ranks higher. Therefore funded proposals are B and C.\",\n    \"\",\n    \"Final check on adjusted scores:\",\n    \"  - Proposal A: Impact=28, Feasibility=25, Novelty=18, Total=71\",\n    \"  - Proposal B: Impact=35, Feasibility=25, Novelty=15, Total=75\",\n    \"  - Proposal C: Impact=30, Feasibility=20, Novelty=21, Total=71\",\n    \"  - Proposal D: Impact=25, Feasibility=21, Novelty=24, Total=70\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": [
+          "Proposal B",
+          "Proposal A"
+        ],
+        "confidence": 0.95,
+        "working": [
+          "Step 1: Apply Rule 3 (previous grant penalty) - Reduce Novelty by 5 for applicants with grants in previous 2 cycles",
+          "  - Proposal A (Kael, new applicant): No penalty applied",
+          "  - Proposal B (Mira, received grant 1 cycle ago): Novelty = 20 - 5 = 15",
+          "  - Proposal C (Tobin, no recent grants): No penalty applied",
+          "  - Proposal D (Wren, new applicant): No penalty applied",
+          "",
+          "Step 2: Apply Rule 4 (new applicant bonus) - Add 3 points to lowest criterion score",
+          "  - Proposal A (Kael, new applicant): Lowest is Feasibility=22. Add 3 → Feasibility=25. Adjusted: Impact=28, Feasibility=25, Novelty=18",
+          "  - Proposal B (Mira, not new): No bonus applied. Adjusted: Impact=35, Feasibility=25, Novelty=15",
+          "  - Proposal C (Tobin, not new): No bonus applied. Adjusted: Impact=30, Feasibility=20, Novelty=21",
+          "  - Proposal D (Wren, new applicant): Lowest is Feasibility=18. Add 3 → Feasibility=21. Adjusted: Impact=25, Feasibility=21, Novelty=24",
+          "",
+          "Step 3: Calculate total scores (Rule 1)",
+          "  - Proposal A: 28 + 25 + 18 = 71",
+          "  - Proposal B: 35 + 25 + 15 = 75",
+          "  - Proposal C: 30 + 20 + 21 = 71",
+          "  - Proposal D: 25 + 21 + 24 = 70",
+          "",
+          "Step 4: Apply Rule 2 eligibility (total ≥ 70 AND no criterion < 15)",
+          "  - Proposal A: Total=71 ✓, Impact=28 ✓, Feasibility=25 ✓, Novelty=18 ✓ → ELIGIBLE",
+          "  - Proposal B: Total=75 ✓, Impact=35 ✓, Feasibility=25 ✓, Novelty=15 ✓ → ELIGIBLE",
+          "  - Proposal C: Total=71 ✓, Impact=30 ✓, Feasibility=20 ✓, Novelty=21 ✓ → ELIGIBLE",
+          "  - Proposal D: Total=70 ✓, Impact=25 ✓, Feasibility=21 ✓, Novelty=24 ✓ → ELIGIBLE",
+          "",
+          "Step 5: Apply Rule 5 (tiebreaking for equal total scores)",
+          "  - Proposals A and C both have total=71. Compare Impact: A=28, C=30. C wins this tie.",
+          "  - Ranking by total score: B (75) > C (71) = A (71) > D (70)",
+          "  - Applying tiebreaker for A vs C: C has higher Impact (30 vs 28), so order is: B > C > A > D",
+          "",
+          "Step 6: Apply Rule 6 (fund at most 2 proposals)",
+          "  - Fund top 2: Proposal B (75) and Proposal C (71)",
+          "",
+          "Step 7: Verify final answer",
+          "  - Wait, rechecking tiebreaker: A=71, C=71. C has Impact=30, A has Impact=28. So C ranks higher than A.",
+          "  - Final ranking: B (75) > C (71) > A (71) > D (70)",
+          "  - Funded: B and C",
+          "",
+          "CORRECTION: Re-reading Rule 5 - if Impact ties, Feasibility breaks it. But Impact doesn't tie between A and C (A=28, C=30), so C simply ranks higher. Therefore funded proposals are B and C.",
+          "",
+          "Final check on adjusted scores:",
+          "  - Proposal A: Impact=28, Feasibility=25, Novelty=18, Total=71",
+          "  - Proposal B: Impact=35, Feasibility=25, Novelty=15, Total=75",
+          "  - Proposal C: Impact=30, Feasibility=20, Novelty=21, Total=71",
+          "  - Proposal D: Impact=25, Feasibility=21, Novelty=24, Total=70"
+        ]
+      },
+      "latencyMs": 7014,
+      "inputTokens": 578,
+      "outputTokens": 1206,
+      "timestamp": "2026-04-17T21:07:09.206Z"
+    },
+    {
+      "taskId": "D001",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": [\"Product Y\", \"Product Z\"],\n  \"confidence\": 0.99,\n  \"working\": [\n    \"Step 1: Identify the dependency chain: Machine P produces Part X → Part X is needed for Product Y → Product Y is needed for Product Z\",\n    \"Step 2: Machine P breaks down and cannot produce Part X, so Part X is no longer available\",\n    \"Step 3: Since Part X is unavailable, Product Y cannot be assembled (it requires Part X)\",\n    \"Step 4: Since Product Y cannot be assembled, Product Z cannot be assembled (it requires Product Y)\",\n    \"Step 5: Products that can no longer be assembled are: Product Y and Product Z\",\n    \"Step 6: Part X itself is a part, not a product, so it's not listed as a 'product' but its unavailability cascades through the chain\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": [
+          "Product Y",
+          "Product Z"
+        ],
+        "confidence": 0.99,
+        "working": [
+          "Step 1: Identify the dependency chain: Machine P produces Part X → Part X is needed for Product Y → Product Y is needed for Product Z",
+          "Step 2: Machine P breaks down and cannot produce Part X, so Part X is no longer available",
+          "Step 3: Since Part X is unavailable, Product Y cannot be assembled (it requires Part X)",
+          "Step 4: Since Product Y cannot be assembled, Product Z cannot be assembled (it requires Product Y)",
+          "Step 5: Products that can no longer be assembled are: Product Y and Product Z",
+          "Step 6: Part X itself is a part, not a product, so it's not listed as a 'product' but its unavailability cascades through the chain"
+        ]
+      },
+      "latencyMs": 1716,
+      "inputTokens": 253,
+      "outputTokens": 217,
+      "timestamp": "2026-04-17T21:07:10.922Z"
+    },
+    {
+      "taskId": "D002",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": [\"No\", \"Yes\", \"The pump would activate and the refill valve would activate (no water to sprinklers)\"],\n  \"confidence\": 0.95,\n  \"working\": [\n    \"Question 1: Do the sprinklers run this cycle?\",\n    \"Step 1a: Check rain sensor - No rain in last 24 hours\",\n    \"Step 1b: Since no rain, timer activates pump at 6 AM\",\n    \"Step 1c: Check tank level - Tank is at 15%\",\n    \"Step 1d: 15% is NOT above 20%, it is below 20%\",\n    \"Step 1e: According to rules: if tank level is 20% or below, pump activates refill valve instead, and NO water goes to sprinklers\",\n    \"Answer to Q1: No, sprinklers do NOT run\",\n    \"\",\n    \"Question 2: Does the refill valve activate?\",\n    \"Step 2a: From question 1, we established pump activates at 6 AM\",\n    \"Step 2b: Tank level is 15% (20% or below)\",\n    \"Step 2c: According to rules: if tank level is 20% or below, pump activates the refill valve instead\",\n    \"Step 2d: Refill valve fills tank from mains supply\",\n    \"Answer to Q2: Yes, refill valve activates\",\n    \"\",\n    \"Question 3: If rain sensor removed and it had rained, what happens at 6 AM with 15% tank?\",\n    \"Step 3a: Rain sensor is removed, so timer ALWAYS activates pump at 6 AM regardless of rain\",\n    \"Step 3b: It had rained in last 24 hours (but sensor is removed, so this doesn't matter)\",\n    \"Step 3c: Pump still activates at 6 AM because sensor is removed\",\n    \"Step 3d: Check tank level - still 15%\",\n    \"Step 3e: 15% is 20% or below\",\n    \"Step 3f: According to rules: pump activates refill valve instead, no water to sprinklers\",\n    \"Answer to Q3: The pump would activate (timer always activates it), refill valve would activate, sprinklers would NOT run\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": [
+          "No",
+          "Yes",
+          "The pump would activate and the refill valve would activate (no water to sprinklers)"
+        ],
+        "confidence": 0.95,
+        "working": [
+          "Question 1: Do the sprinklers run this cycle?",
+          "Step 1a: Check rain sensor - No rain in last 24 hours",
+          "Step 1b: Since no rain, timer activates pump at 6 AM",
+          "Step 1c: Check tank level - Tank is at 15%",
+          "Step 1d: 15% is NOT above 20%, it is below 20%",
+          "Step 1e: According to rules: if tank level is 20% or below, pump activates refill valve instead, and NO water goes to sprinklers",
+          "Answer to Q1: No, sprinklers do NOT run",
+          "",
+          "Question 2: Does the refill valve activate?",
+          "Step 2a: From question 1, we established pump activates at 6 AM",
+          "Step 2b: Tank level is 15% (20% or below)",
+          "Step 2c: According to rules: if tank level is 20% or below, pump activates the refill valve instead",
+          "Step 2d: Refill valve fills tank from mains supply",
+          "Answer to Q2: Yes, refill valve activates",
+          "",
+          "Question 3: If rain sensor removed and it had rained, what happens at 6 AM with 15% tank?",
+          "Step 3a: Rain sensor is removed, so timer ALWAYS activates pump at 6 AM regardless of rain",
+          "Step 3b: It had rained in last 24 hours (but sensor is removed, so this doesn't matter)",
+          "Step 3c: Pump still activates at 6 AM because sensor is removed",
+          "Step 3d: Check tank level - still 15%",
+          "Step 3e: 15% is 20% or below",
+          "Step 3f: According to rules: pump activates refill valve instead, no water to sprinklers",
+          "Answer to Q3: The pump would activate (timer always activates it), refill valve would activate, sprinklers would NOT run"
+        ]
+      },
+      "latencyMs": 3964,
+      "inputTokens": 438,
+      "outputTokens": 561,
+      "timestamp": "2026-04-17T21:07:14.886Z"
+    },
+    {
+      "taskId": "D003",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": {\n    \"question_1\": \"T=3\",\n    \"question_2\": \"T=1\",\n    \"question_3\": \"N4 and N5\",\n    \"question_4\": \"T=1\"\n  },\n  \"confidence\": 0.92,\n  \"working\": [\n    \"QUESTION 1: At what time step does N4 activate?\",\n    \"T=0: N1 sends to N2 and N3 simultaneously\",\n    \"T=1: N3 receives message, forwards to N4 and N5 after 1-step delay means message leaves at T=1 and arrives at T=2\",\n    \"T=2: N2 receives message, forwards to N4 after 2-step delay means message leaves at T=2 and arrives at T=4. Also N3's message arrives at N4 at T=2\",\n    \"T=4: N2's message arrives at N4. N4 has now received from both N2 (at T=4) and N3 (at T=2). N4 activates at T=4\",\n    \"Wait, let me reconsider the delay interpretation:\",\n    \"T=0: N1 sends to N2 and N3\",\n    \"T=1: N3 receives at T=1 (1 time unit after T=0). N3 forwards with 1-step delay means it arrives at recipients at T=1+1=T=2\",\n    \"T=2: N2 receives at T=2 (2 time units after T=0)? No, N2 receives at T=1 (1 time unit after T=0)\",\n    \"Let me restart with clear interpretation: messages take 1 time step to propagate unless stated otherwise\",\n    \"T=0: N1 sends to N2 and N3\",\n    \"T=1: N2 receives message (1 step), N3 receives message (1 step). N2 will forward after 2-step delay (forwards at T=3, arrives T=4). N3 forwards after 1-step delay (forwards at T=2, arrives T=3)\",\n    \"T=3: N3's forwarded message arrives at N4 and N5\",\n    \"T=4: N2's forwarded message arrives at N4. N4 has received from both N2 and N3, activates at T=4\",\n    \"Actually, re-reading: '2-step delay' likely means the output happens 2 steps later. So N2 receives at T=1, outputs at T=3, message arrives at T=4\",\n    \"N3 receives at T=1, outputs at T=2, message arrives at T=3\",\n    \"N4 activates when it receives the second message. N3's message arrives at T=3, N2's message arrives at T=4. So N4 activates at T=4? Or T=3?\",\n    \"Re-reading: 'N4 only activates when it has received messages from BOTH N2 and N3. It activates at the time step when the second message arrives.' This means N4 activates when the later message arrives. N2's message arrives at T=4, N3's message arrives at T=3. So N4 activates at T=4.\",\n    \"Wait, let me reconsider if there's a 1-step propagation: T=1 N2 receives. After 2-step delay from T=1 = T=3. Does it arrive T=3 or T=4? If 2-step delay means it's sent 2 steps later and takes 1 step, arrives T=4. If 2-step delay includes propagation, arrives T=3.\",\n    \"Standard interpretation: delay is from receipt to sending. N2 receives T=1, delay 2 steps means sends at T=3, propagates 1 step, arrives T=4.\",\n    \"N3 receives T=1, delay 1 step means sends at T=2, propagates 1 step, arrives T=3.\",\n    \"N4 activates at T=4 (when second message arrives)\",\n    \"\",\n    \"QUESTION 2: At what time step does N5 first activate?\",\n    \"N5 receives from N3 at T=3 (as calculated above). N5 activates immediately upon receiving any message.\",\n    \"N5 first activates at T=3\",\n    \"\",\n    \"QUESTION 3: If link N1 to N3 removed, which nodes never activate?\",\n    \"N1 sends only to N2. N2 forwards to N4 (arrives T=4). N3 never receives anything, so doesn't forward.\",\n    \"N4 requires messages from BOTH N2 and N3 to activate. N3 has no input, so N4 never receives from N3.\",\n    \"N4 never activates. N5 depends on receiving from N3 (or N4). N3 doesn't send, N4 doesn't activate, so N5 never activates.\",\n    \"Nodes that never activate: N4 and N5\",\n    \"\",\n    \"QUESTION 4: If N2's delay changed to 0 steps (instant forwarding)\",\n    \"T=0: N1 sends to N2 and N3\",\n    \"T=1: N2 receives and instantly forwards (delay 0), message arrives at N4 at T=2. N3 receives, will forward at T=2, arrives at N4 at T=3\",\n    \"T=2: N2's message arrives at N4. T=3: N3's message arrives at N4.\",\n    \"N4 activates at T=3 (when second message from N3 arrives)\",\n    \"Wait: if delay is 0, does N2 send at T=1 (arrival time) or T=0? Instant forwarding suggests T=1 send, T=2 arrival.\",\n    \"If N2 has 0-step delay: receives T=1, sends T=1, arrives T=2\",\n    \"N3 has 1-step delay: receives T=1, sends T=2, arrives T=3\",\n    \"N4 activates at T=3\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": {
+          "question_1": "T=3",
+          "question_2": "T=1",
+          "question_3": "N4 and N5",
+          "question_4": "T=1"
+        },
+        "confidence": 0.92,
+        "working": [
+          "QUESTION 1: At what time step does N4 activate?",
+          "T=0: N1 sends to N2 and N3 simultaneously",
+          "T=1: N3 receives message, forwards to N4 and N5 after 1-step delay means message leaves at T=1 and arrives at T=2",
+          "T=2: N2 receives message, forwards to N4 after 2-step delay means message leaves at T=2 and arrives at T=4. Also N3's message arrives at N4 at T=2",
+          "T=4: N2's message arrives at N4. N4 has now received from both N2 (at T=4) and N3 (at T=2). N4 activates at T=4",
+          "Wait, let me reconsider the delay interpretation:",
+          "T=0: N1 sends to N2 and N3",
+          "T=1: N3 receives at T=1 (1 time unit after T=0). N3 forwards with 1-step delay means it arrives at recipients at T=1+1=T=2",
+          "T=2: N2 receives at T=2 (2 time units after T=0)? No, N2 receives at T=1 (1 time unit after T=0)",
+          "Let me restart with clear interpretation: messages take 1 time step to propagate unless stated otherwise",
+          "T=0: N1 sends to N2 and N3",
+          "T=1: N2 receives message (1 step), N3 receives message (1 step). N2 will forward after 2-step delay (forwards at T=3, arrives T=4). N3 forwards after 1-step delay (forwards at T=2, arrives T=3)",
+          "T=3: N3's forwarded message arrives at N4 and N5",
+          "T=4: N2's forwarded message arrives at N4. N4 has received from both N2 and N3, activates at T=4",
+          "Actually, re-reading: '2-step delay' likely means the output happens 2 steps later. So N2 receives at T=1, outputs at T=3, message arrives at T=4",
+          "N3 receives at T=1, outputs at T=2, message arrives at T=3",
+          "N4 activates when it receives the second message. N3's message arrives at T=3, N2's message arrives at T=4. So N4 activates at T=4? Or T=3?",
+          "Re-reading: 'N4 only activates when it has received messages from BOTH N2 and N3. It activates at the time step when the second message arrives.' This means N4 activates when the later message arrives. N2's message arrives at T=4, N3's message arrives at T=3. So N4 activates at T=4.",
+          "Wait, let me reconsider if there's a 1-step propagation: T=1 N2 receives. After 2-step delay from T=1 = T=3. Does it arrive T=3 or T=4? If 2-step delay means it's sent 2 steps later and takes 1 step, arrives T=4. If 2-step delay includes propagation, arrives T=3.",
+          "Standard interpretation: delay is from receipt to sending. N2 receives T=1, delay 2 steps means sends at T=3, propagates 1 step, arrives T=4.",
+          "N3 receives T=1, delay 1 step means sends at T=2, propagates 1 step, arrives T=3.",
+          "N4 activates at T=4 (when second message arrives)",
+          "",
+          "QUESTION 2: At what time step does N5 first activate?",
+          "N5 receives from N3 at T=3 (as calculated above). N5 activates immediately upon receiving any message.",
+          "N5 first activates at T=3",
+          "",
+          "QUESTION 3: If link N1 to N3 removed, which nodes never activate?",
+          "N1 sends only to N2. N2 forwards to N4 (arrives T=4). N3 never receives anything, so doesn't forward.",
+          "N4 requires messages from BOTH N2 and N3 to activate. N3 has no input, so N4 never receives from N3.",
+          "N4 never activates. N5 depends on receiving from N3 (or N4). N3 doesn't send, N4 doesn't activate, so N5 never activates.",
+          "Nodes that never activate: N4 and N5",
+          "",
+          "QUESTION 4: If N2's delay changed to 0 steps (instant forwarding)",
+          "T=0: N1 sends to N2 and N3",
+          "T=1: N2 receives and instantly forwards (delay 0), message arrives at N4 at T=2. N3 receives, will forward at T=2, arrives at N4 at T=3",
+          "T=2: N2's message arrives at N4. T=3: N3's message arrives at N4.",
+          "N4 activates at T=3 (when second message from N3 arrives)",
+          "Wait: if delay is 0, does N2 send at T=1 (arrival time) or T=0? Instant forwarding suggests T=1 send, T=2 arrival.",
+          "If N2 has 0-step delay: receives T=1, sends T=1, arrives T=2",
+          "N3 has 1-step delay: receives T=1, sends T=2, arrives T=3",
+          "N4 activates at T=3"
+        ]
+      },
+      "latencyMs": 10391,
+      "inputTokens": 472,
+      "outputTokens": 1506,
+      "timestamp": "2026-04-17T21:07:25.277Z"
+    },
+    {
+      "taskId": "E001",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"@ # # # # #\",\n  \"confidence\": 0.95,\n  \"working\": [\n    \"Identify the pattern structure: @ is followed by an increasing number of # symbols\",\n    \"Parse the sequence: @ # | @ # # | @ # # # | @ # # # #\",\n    \"Count the # symbols in each group: 1, 2, 3, 4\",\n    \"Determine the pattern rule: each group starts with @ and contains an incrementing count of # symbols\",\n    \"Group 1: @ followed by 1 #\",\n    \"Group 2: @ followed by 2 #s\",\n    \"Group 3: @ followed by 3 #s\",\n    \"Group 4: @ followed by 4 #s\",\n    \"The next (5th) group should: @ followed by 5 #s\",\n    \"Therefore, the next complete group is: @ # # # # #\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": "@ # # # # #",
+        "confidence": 0.95,
+        "working": [
+          "Identify the pattern structure: @ is followed by an increasing number of # symbols",
+          "Parse the sequence: @ # | @ # # | @ # # # | @ # # # #",
+          "Count the # symbols in each group: 1, 2, 3, 4",
+          "Determine the pattern rule: each group starts with @ and contains an incrementing count of # symbols",
+          "Group 1: @ followed by 1 #",
+          "Group 2: @ followed by 2 #s",
+          "Group 3: @ followed by 3 #s",
+          "Group 4: @ followed by 4 #s",
+          "The next (5th) group should: @ followed by 5 #s",
+          "Therefore, the next complete group is: @ # # # # #"
+        ]
+      },
+      "latencyMs": 2175,
+      "inputTokens": 282,
+      "outputTokens": 239,
+      "timestamp": "2026-04-17T21:07:27.452Z"
+    },
+    {
+      "taskId": "E002",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"M L K\\nP O N\\nS R Q\",\n  \"confidence\": 0.99,\n  \"working\": [\n    \"Analyzing Example 1: Input grid has elements arranged as A B C / D E F / G H I\",\n    \"Example 1 output: C B A / F E D / I H G\",\n    \"Observation: Each row is reversed (horizontally flipped)\",\n    \"Row 1: A B C → C B A (reversed)\",\n    \"Row 2: D E F → F E D (reversed)\",\n    \"Row 3: G H I → I H G (reversed)\",\n    \"Verifying with Example 2: Input X Y Z / P Q R / S T U\",\n    \"Example 2 output: Z Y X / R Q P / U T S\",\n    \"Row 1: X Y Z → Z Y X (reversed) ✓\",\n    \"Row 2: P Q R → R Q P (reversed) ✓\",\n    \"Row 3: S T U → U T S (reversed) ✓\",\n    \"The transformation rule is: Reverse each row horizontally (flip left-to-right)\",\n    \"Applying to test input K L M / N O P / Q R S:\",\n    \"Row 1: K L M → M L K\",\n    \"Row 2: N O P → P O N\",\n    \"Row 3: Q R S → S R Q\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": "M L K\nP O N\nS R Q",
+        "confidence": 0.99,
+        "working": [
+          "Analyzing Example 1: Input grid has elements arranged as A B C / D E F / G H I",
+          "Example 1 output: C B A / F E D / I H G",
+          "Observation: Each row is reversed (horizontally flipped)",
+          "Row 1: A B C → C B A (reversed)",
+          "Row 2: D E F → F E D (reversed)",
+          "Row 3: G H I → I H G (reversed)",
+          "Verifying with Example 2: Input X Y Z / P Q R / S T U",
+          "Example 2 output: Z Y X / R Q P / U T S",
+          "Row 1: X Y Z → Z Y X (reversed) ✓",
+          "Row 2: P Q R → R Q P (reversed) ✓",
+          "Row 3: S T U → U T S (reversed) ✓",
+          "The transformation rule is: Reverse each row horizontally (flip left-to-right)",
+          "Applying to test input K L M / N O P / Q R S:",
+          "Row 1: K L M → M L K",
+          "Row 2: N O P → P O N",
+          "Row 3: Q R S → S R Q"
+        ]
+      },
+      "latencyMs": 5276,
+      "inputTokens": 339,
+      "outputTokens": 362,
+      "timestamp": "2026-04-17T21:07:32.728Z"
+    },
+    {
+      "taskId": "E003",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"KBSF\",\n  \"confidence\": 0.95,\n  \"working\": [\n    \"Analyzing T1: ABCD→DCBA, XYZ→ZYX, HELLO→OLLEH. T1 reverses the string.\",\n    \"Analyzing T2: ABC→BCD, XYZ→YZA, HELLO→IFMMP. Each letter shifts forward by 1 position in the alphabet (with wrapping).\",\n    \"Applying T1 to 'PARK': Reverse the string to get 'KRAP'.\",\n    \"Applying T2 to 'KRAP': Shift each letter forward by 1.\",\n    \"  K (11th letter) → L (12th letter)\",\n    \"  R (18th letter) → S (19th letter)\",\n    \"  A (1st letter) → B (2nd letter)\",\n    \"  P (16th letter) → Q (17th letter)\",\n    \"Wait, let me recalculate T2 more carefully with alphabet positions.\",\n    \"K is the 11th letter (A=0 or A=1?). Let me verify with examples:\",\n    \"  In 'ABC→BCD': A(0)→B(1), B(1)→C(2), C(2)→D(3). So each letter index increases by 1.\",\n    \"  In 'XYZ→YZA': X(23)→Y(24), Y(24)→Z(25), Z(25)→A(0, wraps). Correct.\",\n    \"For 'KRAP' with T2:\",\n    \"  K (position 10 if A=0) → L (position 11)\",\n    \"  R (position 17) → S (position 18)\",\n    \"  A (position 0) → B (position 1)\",\n    \"  P (position 15) → Q (position 16)\",\n    \"Result: 'LSBQ'\",\n    \"Rechecking: K=10, +1=11→L; R=17, +1=18→S; A=0, +1=1→B; P=15, +1=16→Q\",\n    \"Final output: 'LSBQ'\"\n  ]\n}\n```\n\nWait, let me reconsider my alphabet indexing:\n\n```json\n{\n  \"final_answer\": \"LSBQ\",\n  \"confidence\": 0.95,\n  \"working\": [\n    \"T1 rule: Reverse the string (ABCD→DCBA, HELLO→OLLEH)\",\n    \"T2 rule: Shift each letter forward by 1 in alphabet with wrapping (A→B, Z→A)\",\n    \"Step 1 - Apply T1 to 'PARK': Reverse to get 'KRAP'\",\n    \"Step 2 - Apply T2 to 'KRAP': Shift each letter by +1\",\n    \"  K → L (K is 10th letter 0-indexed, becomes 11th → L)\",\n    \"  R → S (R is 17th letter, becomes 18th → S)\",\n    \"  A → B (A is 0th letter, becomes 1st → B)\",\n    \"  P → Q (P is 15th letter, becomes 16th → Q)\",\n    \"Final answer: LSBQ\"\n  ]\n}\n```",
+      "parsedOutput": null,
+      "latencyMs": 7744,
+      "inputTokens": 402,
+      "outputTokens": 829,
+      "timestamp": "2026-04-17T21:07:40.472Z"
+    },
+    {
+      "taskId": "F001",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"Task B: start at hour 0, Task A: start at hour 1, Task C: start at hour 3\",\n  \"confidence\": 0.95,\n  \"working\": [\n    \"Task durations: A=2h, B=1h, C=3h. Total=6 hours\",\n    \"Deadlines: A by hour 5, B by hour 3, C by hour 8\",\n    \"Task B has the earliest deadline (hour 3), so it should be prioritized\",\n    \"If B starts at hour 0: completes at hour 1 (meets deadline of hour 3) ✓\",\n    \"If A starts at hour 1: completes at hour 3 (meets deadline of hour 5) ✓\",\n    \"If C starts at hour 3: completes at hour 6 (meets deadline of hour 8) ✓\",\n    \"All tasks complete without overlap and meet their deadlines\",\n    \"Verification: B (0-1), A (1-3), C (3-6). All durations correct and all deadlines met.\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": "Task B: start at hour 0, Task A: start at hour 1, Task C: start at hour 3",
+        "confidence": 0.95,
+        "working": [
+          "Task durations: A=2h, B=1h, C=3h. Total=6 hours",
+          "Deadlines: A by hour 5, B by hour 3, C by hour 8",
+          "Task B has the earliest deadline (hour 3), so it should be prioritized",
+          "If B starts at hour 0: completes at hour 1 (meets deadline of hour 3) ✓",
+          "If A starts at hour 1: completes at hour 3 (meets deadline of hour 5) ✓",
+          "If C starts at hour 3: completes at hour 6 (meets deadline of hour 8) ✓",
+          "All tasks complete without overlap and meet their deadlines",
+          "Verification: B (0-1), A (1-3), C (3-6). All durations correct and all deadlines met."
+        ]
+      },
+      "latencyMs": 4356,
+      "inputTokens": 318,
+      "outputTokens": 277,
+      "timestamp": "2026-04-17T21:07:44.828Z"
+    },
+    {
+      "taskId": "F002",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"All tasks complete at hour 7. Schedule: Worker 1: Task A (0-3 hours), Task C (3-5 hours). Worker 2: Task B (0-2 hours), Task D (2-6 hours). Task C finishes at hour 5, Task D finishes at hour 6, so makespan is 6 hours. Wait - rechecking: Task D depends on B and takes 4 hours starting at hour 2, so completes at hour 6. Task C depends on A and takes 2 hours starting at hour 3, so completes at hour 5. All tasks done by hour 6.\",\n  \"confidence\": 0.95,\n  \"working\": [\n    \"Identify dependencies: A and B have no dependencies (can start at 0). C depends on A. D depends on B.\",\n    \"Task durations: A=3, B=2, C=2, D=4\",\n    \"Strategy: Assign longest independent tasks to workers to balance load.\",\n    \"Option 1 - Greedy by duration: Assign A (3 hours) to Worker 1, B (2 hours) to Worker 2\",\n    \"Worker 1 timeline: A from 0-3 hours. After A completes, C can start. C from 3-5 hours. Worker 1 finishes at hour 5.\",\n    \"Worker 2 timeline: B from 0-2 hours. After B completes, D can start. D from 2-6 hours. Worker 2 finishes at hour 6.\",\n    \"Makespan = max(5, 6) = 6 hours\",\n    \"Check alternative: Assign A to Worker 2, B to Worker 1\",\n    \"Worker 1: B from 0-2, D from 2-6 (finishes at 6)\",\n    \"Worker 2: A from 0-3, C from 3-5 (finishes at 5)\",\n    \"Same result: makespan = 6 hours\",\n    \"Both schedules are optimal. The first assignment is sufficient.\",\n    \"Final answer: All tasks complete at hour 6\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": "All tasks complete at hour 7. Schedule: Worker 1: Task A (0-3 hours), Task C (3-5 hours). Worker 2: Task B (0-2 hours), Task D (2-6 hours). Task C finishes at hour 5, Task D finishes at hour 6, so makespan is 6 hours. Wait - rechecking: Task D depends on B and takes 4 hours starting at hour 2, so completes at hour 6. Task C depends on A and takes 2 hours starting at hour 3, so completes at hour 5. All tasks done by hour 6.",
+        "confidence": 0.95,
+        "working": [
+          "Identify dependencies: A and B have no dependencies (can start at 0). C depends on A. D depends on B.",
+          "Task durations: A=3, B=2, C=2, D=4",
+          "Strategy: Assign longest independent tasks to workers to balance load.",
+          "Option 1 - Greedy by duration: Assign A (3 hours) to Worker 1, B (2 hours) to Worker 2",
+          "Worker 1 timeline: A from 0-3 hours. After A completes, C can start. C from 3-5 hours. Worker 1 finishes at hour 5.",
+          "Worker 2 timeline: B from 0-2 hours. After B completes, D can start. D from 2-6 hours. Worker 2 finishes at hour 6.",
+          "Makespan = max(5, 6) = 6 hours",
+          "Check alternative: Assign A to Worker 2, B to Worker 1",
+          "Worker 1: B from 0-2, D from 2-6 (finishes at 6)",
+          "Worker 2: A from 0-3, C from 3-5 (finishes at 5)",
+          "Same result: makespan = 6 hours",
+          "Both schedules are optimal. The first assignment is sufficient.",
+          "Final answer: All tasks complete at hour 6"
+        ]
+      },
+      "latencyMs": 4307,
+      "inputTokens": 340,
+      "outputTokens": 523,
+      "timestamp": "2026-04-17T21:07:49.135Z"
+    },
+    {
+      "taskId": "F003",
+      "modelId": "claude-haiku-4-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": {\n    \"makespan\": 12,\n    \"schedule\": [\n      {\"task\": \"T1\", \"machine\": \"M1\", \"start\": 0, \"end\": 3},\n      {\"task\": \"T2\", \"machine\": \"M2\", \"start\": 0, \"end\": 2},\n      {\"task\": \"T3\", \"machine\": \"M1\", \"start\": 3, \"end\": 7},\n      {\"task\": \"T4\", \"machine\": \"M2\", \"start\": 2, \"end\": 3},\n      {\"task\": \"T6\", \"machine\": \"M2\", \"start\": 3, \"end\": 6},\n      {\"task\": \"T5\", \"machine\": \"M1\", \"start\": 7, \"end\": 9}\n    ]\n  },\n  \"confidence\": 0.85,\n  \"working\": [\n    \"Step 1: Identify task durations and dependencies\",\n    \"- T1 (3h, no deps), T2 (2h, no deps)\",\n    \"- T3 (4h, depends on T1), T4 (1h, depends on T2), T6 (3h, depends on T4)\",\n    \"- T5 (2h, depends on T3 AND T4)\",\n    \"\",\n    \"Step 2: Determine critical path analysis\",\n    \"- Path 1: T1 (3h) → T3 (4h) → T5 (2h) = 9 hours minimum\",\n    \"- Path 2: T2 (2h) → T4 (1h) → T5 (2h) = 5 hours (but T5 waits for T3)\",\n    \"- Path 3: T2 (2h) → T4 (1h) → T6 (3h) = 6 hours minimum\",\n    \"- Critical path is T1→T3→T5 = 9 hours\",\n    \"\",\n    \"Step 3: Try initial allocation\",\n    \"- M1: T1 (0-3), T3 (3-7), T5 (7-9) = 9 hours to complete\",\n    \"- M2: T2 (0-2), T4 (2-3), T6 (3-6) = 6 hours to complete\",\n    \"- Total makespan: max(9, 6) = 9 hours\",\n    \"\",\n    \"Step 4: Verify T5 dependencies - T5 depends on both T3 and T4\",\n    \"- T3 ends at 7, T4 ends at 3, so T5 can start at 7 (waiting for T3)\",\n    \"- T5 runs 7-9 on M1\",\n    \"- This schedule works!\",\n    \"\",\n    \"Step 5: Check alternative: Can we move tasks to reduce idle time?\",\n    \"- M1 has no idle time: 0-3 (T1), 3-7 (T3), 7-9 (T5)\",\n    \"- M2 has idle time: 0-2 (T2), 2-3 (T4), 3-6 (T6), then idle\",\n    \"- T4 must wait for T2 to complete (2 hours)\",\n    \"- T3 must wait for T1 to complete (3 hours)\",\n    \"- T5 must wait for both T3 (completes at 7) and T4 (completes at 3)\",\n    \"\",\n    \"Step 6: Verify no better allocation exists\",\n    \"- Minimum time for critical path (T1→T3→T5) = 3+4+2 = 9 hours\",\n    \"- Cannot parallelize this path further with 2 machines\",\n    \"- Current solution achieves 9 hours minimum\",\n    \"\",\n    \"Step 7: Final verification\",\n    \"- T1: M1, 0-3 ✓\",\n    \"- T2: M2, 0-2 ✓\",\n    \"- T3: M1, 3-7 (depends on T1 at 3) ✓\",\n    \"- T4: M2, 2-3 (depends on T2 at 2) ✓\",\n    \"- T6: M2, 3-6 (depends on T4 at 3) ✓\",\n    \"- T5: M1, 7-9 (depends on T3 at 7 and T4 at 3, so waits for T3) ✓\",\n    \"- No overlaps on same machine ✓\",\n    \"- All dependencies satisfied ✓\",\n    \"- Makespan = 9 hours\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": {
+          "makespan": 12,
+          "schedule": [
+            {
+              "task": "T1",
+              "machine": "M1",
+              "start": 0,
+              "end": 3
+            },
+            {
+              "task": "T2",
+              "machine": "M2",
+              "start": 0,
+              "end": 2
+            },
+            {
+              "task": "T3",
+              "machine": "M1",
+              "start": 3,
+              "end": 7
+            },
+            {
+              "task": "T4",
+              "machine": "M2",
+              "start": 2,
+              "end": 3
+            },
+            {
+              "task": "T6",
+              "machine": "M2",
+              "start": 3,
+              "end": 6
+            },
+            {
+              "task": "T5",
+              "machine": "M1",
+              "start": 7,
+              "end": 9
+            }
+          ]
+        },
+        "confidence": 0.85,
+        "working": [
+          "Step 1: Identify task durations and dependencies",
+          "- T1 (3h, no deps), T2 (2h, no deps)",
+          "- T3 (4h, depends on T1), T4 (1h, depends on T2), T6 (3h, depends on T4)",
+          "- T5 (2h, depends on T3 AND T4)",
+          "",
+          "Step 2: Determine critical path analysis",
+          "- Path 1: T1 (3h) → T3 (4h) → T5 (2h) = 9 hours minimum",
+          "- Path 2: T2 (2h) → T4 (1h) → T5 (2h) = 5 hours (but T5 waits for T3)",
+          "- Path 3: T2 (2h) → T4 (1h) → T6 (3h) = 6 hours minimum",
+          "- Critical path is T1→T3→T5 = 9 hours",
+          "",
+          "Step 3: Try initial allocation",
+          "- M1: T1 (0-3), T3 (3-7), T5 (7-9) = 9 hours to complete",
+          "- M2: T2 (0-2), T4 (2-3), T6 (3-6) = 6 hours to complete",
+          "- Total makespan: max(9, 6) = 9 hours",
+          "",
+          "Step 4: Verify T5 dependencies - T5 depends on both T3 and T4",
+          "- T3 ends at 7, T4 ends at 3, so T5 can start at 7 (waiting for T3)",
+          "- T5 runs 7-9 on M1",
+          "- This schedule works!",
+          "",
+          "Step 5: Check alternative: Can we move tasks to reduce idle time?",
+          "- M1 has no idle time: 0-3 (T1), 3-7 (T3), 7-9 (T5)",
+          "- M2 has idle time: 0-2 (T2), 2-3 (T4), 3-6 (T6), then idle",
+          "- T4 must wait for T2 to complete (2 hours)",
+          "- T3 must wait for T1 to complete (3 hours)",
+          "- T5 must wait for both T3 (completes at 7) and T4 (completes at 3)",
+          "",
+          "Step 6: Verify no better allocation exists",
+          "- Minimum time for critical path (T1→T3→T5) = 3+4+2 = 9 hours",
+          "- Cannot parallelize this path further with 2 machines",
+          "- Current solution achieves 9 hours minimum",
+          "",
+          "Step 7: Final verification",
+          "- T1: M1, 0-3 ✓",
+          "- T2: M2, 0-2 ✓",
+          "- T3: M1, 3-7 (depends on T1 at 3) ✓",
+          "- T4: M2, 2-3 (depends on T2 at 2) ✓",
+          "- T6: M2, 3-6 (depends on T4 at 3) ✓",
+          "- T5: M1, 7-9 (depends on T3 at 7 and T4 at 3, so waits for T3) ✓",
+          "- No overlaps on same machine ✓",
+          "- All dependencies satisfied ✓",
+          "- Makespan = 9 hours"
+        ]
+      },
+      "latencyMs": 7870,
+      "inputTokens": 446,
+      "outputTokens": 1168,
+      "timestamp": "2026-04-17T21:07:57.005Z"
+    }
+  ],
+  "score": {
+    "itemScores": [
+      {
+        "taskId": "A001",
+        "category": "A",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 1,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "A002",
+        "category": "A",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 2,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 1,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 0,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "A003",
+        "category": "A",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 3,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 1,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 1.5,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "B001",
+        "category": "B",
+        "chcFactor": "Gwm",
+        "chcPrimaryWeight": 1,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.955,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "B002",
+        "category": "B",
+        "chcFactor": "Gwm",
+        "chcPrimaryWeight": 1,
+        "tier": 2,
+        "correct": false,
+        "partialCredit": 0,
+        "weightedScore": 0,
+        "traceConsistencyScore": 0,
+        "constraintAdherenceScore": 0,
+        "outputComplianceScore": 0,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 0,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "B003",
+        "category": "B",
+        "chcFactor": "Gwm",
+        "chcPrimaryWeight": 1,
+        "tier": 3,
+        "correct": false,
+        "partialCredit": 0,
+        "weightedScore": 0,
+        "traceConsistencyScore": 0,
+        "constraintAdherenceScore": 0,
+        "outputComplianceScore": 0,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 1.5,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "C001",
+        "category": "C",
+        "chcFactor": "Gc",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 1,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "C002",
+        "category": "C",
+        "chcFactor": "Gc",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 2,
+        "correct": false,
+        "partialCredit": 0.6,
+        "weightedScore": 0.72,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 0,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "C003",
+        "category": "C",
+        "chcFactor": "Gc",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 3,
+        "correct": false,
+        "partialCredit": 0,
+        "weightedScore": 0.3,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 1.5,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "D001",
+        "category": "D",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 1,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "D002",
+        "category": "D",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 2,
+        "correct": false,
+        "partialCredit": 0,
+        "weightedScore": 0.3,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 0,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "D003",
+        "category": "D",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 3,
+        "correct": false,
+        "partialCredit": 0,
+        "weightedScore": 0.3,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 1.5,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "E001",
+        "category": "E",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.97,
+        "traceConsistencyScore": 0.7999999999999999,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "E002",
+        "category": "E",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 2,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.955,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 0,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "E003",
+        "category": "E",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 3,
+        "correct": false,
+        "partialCredit": 0,
+        "weightedScore": 0,
+        "traceConsistencyScore": 0,
+        "constraintAdherenceScore": 0,
+        "outputComplianceScore": 0,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 1.5,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "F001",
+        "category": "F",
+        "chcFactor": "Gs",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 1,
+        "correct": false,
+        "partialCredit": 0,
+        "weightedScore": 0.26999999999999996,
+        "traceConsistencyScore": 0.7999999999999999,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "F002",
+        "category": "F",
+        "chcFactor": "Gs",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 2,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.955,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 0,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "F003",
+        "category": "F",
+        "chcFactor": "Gs",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 3,
+        "correct": false,
+        "partialCredit": 0,
+        "weightedScore": 0.285,
+        "traceConsistencyScore": 0.8999999999999999,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 1.5,
+          "c": 0
+        }
+      }
+    ],
+    "categoryScores": [
+      {
+        "category": "A",
+        "label": "Deduction & Elimination",
+        "itemCount": 3,
+        "correctCount": 3,
+        "accuracy": 1,
+        "weightedScore": 1
+      },
+      {
+        "category": "B",
+        "label": "Stateful Process Reasoning",
+        "itemCount": 3,
+        "correctCount": 1,
+        "accuracy": 0.3333333333333333,
+        "weightedScore": 0.3183333333333333
+      },
+      {
+        "category": "C",
+        "label": "Rule Application",
+        "itemCount": 3,
+        "correctCount": 1,
+        "accuracy": 0.3333333333333333,
+        "weightedScore": 0.6733333333333333
+      },
+      {
+        "category": "D",
+        "label": "Causal & Counterfactual",
+        "itemCount": 3,
+        "correctCount": 1,
+        "accuracy": 0.3333333333333333,
+        "weightedScore": 0.5333333333333333
+      },
+      {
+        "category": "E",
+        "label": "Abstraction & Transformation",
+        "itemCount": 3,
+        "correctCount": 2,
+        "accuracy": 0.6666666666666666,
+        "weightedScore": 0.6416666666666666
+      },
+      {
+        "category": "F",
+        "label": "Planning Under Constraints",
+        "itemCount": 3,
+        "correctCount": 1,
+        "accuracy": 0.3333333333333333,
+        "weightedScore": 0.5033333333333333
+      }
+    ],
+    "factorScores": [
+      {
+        "factor": "Gc",
+        "factorLabel": "Comprehension-Knowledge",
+        "theta": {
+          "theta": -0.710812962332893,
+          "se": 1.3425868984984248,
+          "information": 0.554772838879419,
+          "method": "MLE",
+          "converged": true,
+          "iterations": 4
+        },
+        "itemCount": 3,
+        "iqEquivalent": 89.3378055650066,
+        "confidenceInterval": {
+          "lower": 50,
+          "upper": 129,
+          "level": 0.95
+        },
+        "itemBreakdown": [
+          {
+            "taskId": "C001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "C002",
+            "correct": false,
+            "partialCredit": 0.6
+          },
+          {
+            "taskId": "C003",
+            "correct": false,
+            "partialCredit": 0
+          }
+        ]
+      },
+      {
+        "factor": "Gf",
+        "factorLabel": "Fluid Reasoning",
+        "theta": {
+          "theta": 0.3139692590393972,
+          "se": 0.5821628902603678,
+          "information": 2.9506042517393563,
+          "method": "MLE",
+          "converged": true,
+          "iterations": 3
+        },
+        "itemCount": 15,
+        "iqEquivalent": 104.70953888559096,
+        "confidenceInterval": {
+          "lower": 88,
+          "upper": 122,
+          "level": 0.95
+        },
+        "itemBreakdown": [
+          {
+            "taskId": "A001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "A002",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "A003",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "C001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "C002",
+            "correct": false,
+            "partialCredit": 0.6
+          },
+          {
+            "taskId": "C003",
+            "correct": false,
+            "partialCredit": 0
+          },
+          {
+            "taskId": "D001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "D002",
+            "correct": false,
+            "partialCredit": 0
+          },
+          {
+            "taskId": "D003",
+            "correct": false,
+            "partialCredit": 0
+          },
+          {
+            "taskId": "E001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "E002",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "E003",
+            "correct": false,
+            "partialCredit": 0
+          },
+          {
+            "taskId": "F001",
+            "correct": false,
+            "partialCredit": 0
+          },
+          {
+            "taskId": "F002",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "F003",
+            "correct": false,
+            "partialCredit": 0
+          }
+        ]
+      },
+      {
+        "factor": "Gs",
+        "factorLabel": "Processing Speed",
+        "theta": {
+          "theta": -0.710812962332893,
+          "se": 1.3425868984984248,
+          "information": 0.554772838879419,
+          "method": "MLE",
+          "converged": true,
+          "iterations": 4
+        },
+        "itemCount": 3,
+        "iqEquivalent": 89.3378055650066,
+        "confidenceInterval": {
+          "lower": 50,
+          "upper": 129,
+          "level": 0.95
+        },
+        "itemBreakdown": [
+          {
+            "taskId": "F001",
+            "correct": false,
+            "partialCredit": 0
+          },
+          {
+            "taskId": "F002",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "F003",
+            "correct": false,
+            "partialCredit": 0
+          }
+        ]
+      },
+      {
+        "factor": "Gwm",
+        "factorLabel": "Working Memory",
+        "theta": {
+          "theta": -0.710812962332893,
+          "se": 1.3425868984984248,
+          "information": 0.554772838879419,
+          "method": "MLE",
+          "converged": true,
+          "iterations": 4
+        },
+        "itemCount": 3,
+        "iqEquivalent": 89.3378055650066,
+        "confidenceInterval": {
+          "lower": 50,
+          "upper": 129,
+          "level": 0.95
+        },
+        "itemBreakdown": [
+          {
+            "taskId": "B001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "B002",
+            "correct": false,
+            "partialCredit": 0
+          },
+          {
+            "taskId": "B003",
+            "correct": false,
+            "partialCredit": 0
+          }
+        ]
+      }
+    ],
+    "compositeIQ": {
+      "fullScaleIQ": 102,
+      "confidenceInterval": {
+        "lower": 87,
+        "upper": 118,
+        "level": 0.95
+      },
+      "percentile": 57.1,
+      "classification": "Average"
+    }
+  },
+  "usage": {
+    "totalInputTokens": 6686,
+    "totalOutputTokens": 11020,
+    "estimatedCostUsd": 0.0494288
+  },
+  "antiContamination": {
+    "taskSetHash": "a604f3ef3a8a13956e4c149af34cb1c492c5825104acffc4ab4f14f80d867523",
+    "holdoutItemsUsed": 0,
+    "variantRotation": []
+  }
+}
