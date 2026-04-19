@@ -73,17 +73,29 @@ export async function callModel(
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) throw new Error("OPENAI_API_KEY required");
 
+    // gpt-5.x / o-series are reasoning models: they use max_completion_tokens
+    // instead of max_tokens and reject meta-reasoning system prompts. Fold the
+    // system prompt into the user message so the instruction survives.
+    const isReasoning = /^gpt-5(\.|$)/.test(model) || model.startsWith("o");
+    const body: any = isReasoning
+      ? {
+          model,
+          max_completion_tokens: 8192,
+          messages: [{ role: "user", content: `${SYSTEM_PROMPT}\n\n---\n\n${prompt}` }],
+        }
+      : {
+          model,
+          max_tokens: 8192,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: prompt },
+          ],
+        };
+
     const res = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
-      body: JSON.stringify({
-        model,
-        max_tokens: 8192,
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          { role: "user", content: prompt },
-        ],
-      }),
+      body: JSON.stringify(body),
     });
     const data = (await res.json()) as any;
     if (data.error) throw new Error(`OpenAI: ${data.error.message}`);

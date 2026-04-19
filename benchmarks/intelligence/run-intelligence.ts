@@ -190,6 +190,9 @@ const MODEL_PRICING: Array<{ match: RegExp; price: PricePerMillion }> = [
   { match: /^gpt-5\.4-nano/,          price: { input: 0.10, output: 0.40 } },
   { match: /^gpt-5\.4-mini/,          price: { input: 0.40, output: 1.60 } },
   { match: /^gpt-5\.4/,               price: { input: 2.50, output: 10.0 } },
+  { match: /^gpt-4\.1-nano/,          price: { input: 0.10, output: 0.40 } },
+  { match: /^gpt-4\.1-mini/,          price: { input: 0.40, output: 1.60 } },
+  { match: /^gpt-4\.1/,               price: { input: 2.00, output: 8.00 } },
 ];
 
 function estimateModelCost(model: string, inputTokens: number, outputTokens: number): number {
