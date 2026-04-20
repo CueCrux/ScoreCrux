@@ -1,19 +1,19 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-04-19T03:00:58.971Z",
+  "generatedAt": "2026-04-20T03:08:39.371Z",
   "embargoHours": 48,
   "surfaces": {
     "intelligence": {
-      "published": 2,
-      "embargoed": 22
+      "published": 21,
+      "embargoed": 3
     },
     "coding": {
       "published": 0,
       "embargoed": 7
     },
     "scale": {
-      "published": 102,
-      "embargoed": 79
+      "published": 158,
+      "embargoed": 34
     },
     "topfloor": {
       "published": 3,
