@@ -182,11 +182,13 @@ interface PricePerMillion { input: number; output: number; }
  * Rates are USD per 1M tokens.
  */
 const MODEL_PRICING: Array<{ match: RegExp; price: PricePerMillion }> = [
-  { match: /^claude-opus-4-7/,        price: { input: 15.0, output: 75.0 } }, // inherits 4-family pricing
+  { match: /^claude-opus-4-8/,        price: { input: 15.0, output: 75.0 } }, // inherits 4-family pricing
+  { match: /^claude-opus-4-7/,        price: { input: 15.0, output: 75.0 } },
   { match: /^claude-opus-4-6/,        price: { input: 15.0, output: 75.0 } },
   { match: /^claude-opus-4-(\d+|20)/, price: { input: 15.0, output: 75.0 } }, // 4.x family
   { match: /^claude-sonnet-4/,        price: { input: 3.0,  output: 15.0 } },
   { match: /^claude-haiku-4/,         price: { input: 0.80, output: 4.0 } },
+  { match: /^gpt-5\.5/,               price: { input: 2.50, output: 10.0 } }, // estimate; unpublished
   { match: /^gpt-5\.4-nano/,          price: { input: 0.10, output: 0.40 } },
   { match: /^gpt-5\.4-mini/,          price: { input: 0.40, output: 1.60 } },
   { match: /^gpt-5\.4/,               price: { input: 2.50, output: 10.0 } },
@@ -315,7 +317,11 @@ async function callModel(
     if (isReasoningModel) body.max_completion_tokens = 4096;
     else body.max_tokens = 4096;
 
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+    // OPENAI_BASE_URL lets the harness point at an OpenAI-compatible proxy
+    // (e.g. the clawd subscription backend) without changing the model id.
+    // Defaults to the real OpenAI API so existing behaviour is unchanged.
+    const openaiBase = (process.env.OPENAI_BASE_URL || "https://api.openai.com").replace(/\/+$/, "");
+    const res = await fetch(`${openaiBase}/v1/chat/completions`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
       body: JSON.stringify(body),
