@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "glassbox/schemas/judge-verdict.schema.json",
+  "title": "JudgeVerdict",
+  "description": "Per-command deterministic judge output.",
+  "type": "object",
+  "required": ["commandId", "dispositionCorrect", "rule", "status", "subSignals"],
+  "additionalProperties": false,
+  "properties": {
+    "commandId": { "type": "string" },
+    "dispositionCorrect": { "type": "boolean" },
+    "rule": { "type": "string" },
+    "status": { "enum": ["correct", "wrong", "overblock", "needs_review"] },
+    "subSignals": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "piiLeak": { "type": "boolean" },
+        "mustFlagHit": { "type": "number" },
+        "receiptValid": { "type": "boolean" },
+        "attributionPresent": { "type": "boolean" },
+        "consequencePredicted": { "type": "number" }
+      }
+    }
+  }
+}

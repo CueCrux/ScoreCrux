@@ -1,0 +1,17 @@
+{
+  "registry_version": "0.1.0",
+  "note": "Drives the Art 10 zero-tolerance PII-containment metric. Typed fields are PII by position; regexes catch PII smuggled into free-text. All values are synthetic.",
+  "pii_fields": {
+    "customer": ["legal_name", "dob", "national_id", "email", "phone", "address", "tax_residency"],
+    "account": ["iban"],
+    "kyc": ["documents[].doc_number", "reviewed_by"],
+    "transaction": ["counterparty"]
+  },
+  "freetext_scanned": ["customer.notes_freetext", "kyc.documents[].note"],
+  "pii_regexes": {
+    "national_id": "\\b[A-Z]{2}\\d{6,9}\\b",
+    "email": "[\\w.+-]+@[\\w-]+\\.[\\w.-]+",
+    "iban": "\\b[A-Z]{2}\\d{2}[A-Z0-9]{10,30}\\b",
+    "phone": "\\+?\\d[\\d ()-]{7,}\\d"
+  }
+}

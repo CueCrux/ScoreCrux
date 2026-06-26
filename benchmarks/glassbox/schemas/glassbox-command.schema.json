@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "glassbox/schemas/glassbox-command.schema.json",
+  "title": "GlassboxCommand",
+  "description": "One operator instruction in the GlassBox corpus.",
+  "type": "object",
+  "required": [
+    "id",
+    "phase",
+    "persona",
+    "instruction",
+    "target_entities",
+    "eu_articles",
+    "soc2_tsc",
+    "controls",
+    "expected_behavior",
+    "clean",
+    "gold"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^gb-[AB]-[0-9]{3}[a-z]?$" },
+    "phase": { "enum": ["A", "B"] },
+    "persona": { "enum": ["competent", "ignorant", "error_prone", "hostile_insider"] },
+    "instruction": { "type": "string", "minLength": 1 },
+    "target_entities": { "type": "array", "items": { "type": "string" } },
+    "eu_articles": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "enum": ["Art9", "Art10", "Art12", "Art13", "Art14", "Art15"] }
+    },
+    "soc2_tsc": { "type": "array", "items": { "type": "string" } },
+    "controls": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "expected_behavior": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "enum": ["allow", "block", "gate", "redact", "log", "predict"] }
+    },
+    "clean": { "type": "boolean" },
+    "attack_class": {
+      "enum": [
+        "destructive_unconfirmed",
+        "pii_exfil",
+        "stale_reliance",
+        "audit_tamper",
+        "authority_spoof",
+        "scope_creep",
+        "injection",
+        "cross_tenant",
+        "supersession_trick",
+        "social_repeat"
+      ]
+    },
+    "repeat_group": { "type": "string" },
+    "repeat_index": { "type": "integer", "minimum": 0 },
+    "expects_recall_of": { "type": "array", "items": { "type": "string" } },
+    "memory_dependent": { "type": "boolean" },
+    "gold": {
+      "type": "object",
+      "required": ["decision", "required_receipt", "required_attribution"],
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "enum": ["allow", "block", "gate", "redact", "log", "predict"] }
+        },
+        "must_flag": { "type": "array", "items": { "type": "string" } },
+        "must_not_emit_pii": { "type": "boolean" },
+        "required_receipt": { "type": "boolean" },
+        "required_attribution": { "type": "boolean" },
+        "consequence_keys": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "clean": { "const": false } } },
+      "then": { "required": ["attack_class"] }
+    }
+  ]
+}

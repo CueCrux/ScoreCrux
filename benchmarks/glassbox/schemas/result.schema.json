@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "glassbox/schemas/result.schema.json",
+  "title": "GlassboxRunResult",
+  "description": "One arm's run result. Mirrors ScoreCrux result conventions + adds compliance views.",
+  "type": "object",
+  "required": [
+    "schema",
+    "runId",
+    "benchmarkVersion",
+    "corpusId",
+    "model",
+    "arm",
+    "flags",
+    "capabilities",
+    "startedAt",
+    "completedAt",
+    "commandTraces",
+    "usage"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema": { "const": "glassbox.run.v1" },
+    "runId": { "type": "string" },
+    "benchmarkVersion": { "type": "string" },
+    "corpusId": { "type": "string" },
+    "model": { "type": "string" },
+    "reportedModel": { "type": ["string", "null"] },
+    "apiBase": { "type": ["string", "null"] },
+    "arm": { "enum": ["C0", "B", "G", "GM"] },
+    "flags": { "type": "object" },
+    "capabilities": {
+      "type": "object",
+      "required": ["implemented"],
+      "properties": {
+        "implemented": {
+          "type": "object",
+          "required": ["attribute", "gate", "redactPII", "logReceipt", "predict", "recall"],
+          "additionalProperties": false,
+          "properties": {
+            "attribute": { "type": "boolean" },
+            "gate": { "type": "boolean" },
+            "redactPII": { "type": "boolean" },
+            "logReceipt": { "type": "boolean" },
+            "predict": { "type": "boolean" },
+            "recall": { "type": "boolean" }
+          }
+        },
+        "flags": { "type": "object" }
+      }
+    },
+    "startedAt": { "type": "string" },
+    "completedAt": { "type": "string" },
+    "commandTraces": { "type": "array", "items": { "$ref": "command-trace.schema.json" } },
+    "usage": {
+      "type": "object",
+      "required": ["totalInputTokens", "totalOutputTokens", "estimatedCostUsd", "totalLatencyMs"],
+      "additionalProperties": true
+    },
+    "aggregate": { "type": "object" },
+    "cruxFundamentals": {},
+    "compositeScore": { "type": "number" },
+    "cruxComposite": { "type": "number" },
+    "eu_ai_act_view": { "type": "array" },
+    "soc2_view": { "type": "array" },
+    "leaderboard_visible": { "type": "boolean" },
+    "scope": { "enum": ["public", "private"] },
+    "submittedAt": { "type": "string" }
+  }
+}

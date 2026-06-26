@@ -1,0 +1,19 @@
+{
+  "name": "scorecrux-glassbox-benchmark",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "GlassBox — open-source EU AI Act + SOC2 compliance benchmark for agentic systems. Neutral and pluggable; CueCrux/Crux is the reference arm.",
+  "scripts": {
+    "generate": "tsx dataset/generate.ts",
+    "build:corpus": "tsx corpus/build.ts",
+    "run": "tsx run-glassbox.ts",
+    "score": "tsx scoring/score-glassbox.ts",
+    "reference": "tsx run-glassbox.ts --arm C0 --dry-run && tsx run-glassbox.ts --arm G --dry-run && tsx run-glassbox.ts --arm GM --dry-run && node scripts/build-reference.mjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "bash scripts/smoke.sh"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.74.0"
+  }
+}
