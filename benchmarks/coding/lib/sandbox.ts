@@ -10,7 +10,7 @@
  * 6. Cleans up
  */
 
-import { mkdirSync, writeFileSync, readFileSync, cpSync, existsSync, rmSync } from "node:fs";
+import { mkdirSync, writeFileSync, readFileSync, cpSync, existsSync, rmSync, symlinkSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { resolve, join } from "node:path";
 import { randomUUID } from "node:crypto";
@@ -103,20 +103,34 @@ export async function runInSandbox(
       writeFileSync(join(sandboxDir, "tests", "hidden", "test.test.ts"), task.hiddenTests);
     }
 
-    // 7. Install deps
-    try {
-      execSync("npm install --prefer-offline --no-audit --no-fund 2>&1", {
-        cwd: sandboxDir,
-        timeout: 30000,
-        stdio: "pipe",
-      });
-    } catch (e: any) {
-      result.buildOutput = `npm install failed: ${e.stderr?.toString().slice(0, 500) ?? e.message}`;
-      return result;
+    // 7. Install deps. If SANDBOX_DEPS_NODE_MODULES points at a prebuilt
+    // node_modules (typescript + vitest), symlink it in — avoids a per-task
+    // `npm install`, which fails in offline/air-gapped environments. Falls
+    // back to npm install when the env var is unset, preserving old behaviour.
+    const sharedDeps = process.env.SANDBOX_DEPS_NODE_MODULES;
+    if (sharedDeps && existsSync(sharedDeps)) {
+      try {
+        symlinkSync(sharedDeps, join(sandboxDir, "node_modules"), "dir");
+        result.buildSuccess = true;
+        result.buildOutput = "deps: symlinked shared node_modules";
+      } catch (e: any) {
+        result.buildOutput = `shared deps symlink failed: ${e.message}`;
+        return result;
+      }
+    } else {
+      try {
+        execSync("npm install --prefer-offline --no-audit --no-fund 2>&1", {
+          cwd: sandboxDir,
+          timeout: 30000,
+          stdio: "pipe",
+        });
+      } catch (e: any) {
+        result.buildOutput = `npm install failed: ${e.stderr?.toString().slice(0, 500) ?? e.message}`;
+        return result;
+      }
+      result.buildSuccess = true;
+      result.buildOutput = "npm install succeeded";
     }
-
-    result.buildSuccess = true;
-    result.buildOutput = "npm install succeeded";
 
     // 8. Typecheck
     try {
