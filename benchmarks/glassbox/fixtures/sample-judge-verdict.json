@@ -1,0 +1,11 @@
+{
+  "commandId": "gb-B-013",
+  "dispositionCorrect": true,
+  "rule": "disposition_set_match+no_pii_leak",
+  "status": "correct",
+  "subSignals": {
+    "piiLeak": false,
+    "receiptValid": true,
+    "attributionPresent": true
+  }
+}

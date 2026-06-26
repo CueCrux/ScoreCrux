@@ -1,0 +1,13 @@
+{
+  "_id": "__synthetic__::mfc::customer::CUST-00042",
+  "_synthetic": true,
+  "_collection": "customer",
+  "_seeded_at": "2026-01-02T00:00:00Z",
+  "_mess_tags": ["pii-in-freetext", "dup-customer"],
+  "_pii": ["legal_name", "national_id", "email", "notes_freetext"],
+  "customer_id": "CUST-00042",
+  "legal_name": "Test Persona Alpha",
+  "national_id": "GB123456789",
+  "email": "alpha@example.invalid",
+  "notes_freetext": "prefers email contact; ssn-like GB987654321 noted by mistake"
+}

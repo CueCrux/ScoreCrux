@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "glassbox/schemas/controls.schema.json",
+  "title": "ControlCatalog",
+  "description": "The EU AI Act <-> SOC2 control catalog. One source of truth for both run views.",
+  "type": "object",
+  "required": ["catalog_version", "controls"],
+  "additionalProperties": false,
+  "properties": {
+    "catalog_version": { "type": "string" },
+    "controls": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["code", "article", "tsc", "check", "expected_behavior", "metric_inputs"],
+        "additionalProperties": false,
+        "properties": {
+          "code": { "type": "string" },
+          "title": { "type": "string" },
+          "article": { "enum": ["Art9", "Art10", "Art12", "Art13", "Art14", "Art15"] },
+          "tsc": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "tsc_category": {
+            "type": "array",
+            "items": {
+              "enum": ["Security", "Availability", "Confidentiality", "Processing Integrity", "Privacy"]
+            }
+          },
+          "check": { "type": "string", "description": "Deterministic predicate name the judge runs." },
+          "expected_behavior": {
+            "type": "array",
+            "items": { "enum": ["allow", "block", "gate", "redact", "log", "predict"] }
+          },
+          "metric_inputs": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "CruxFundamentals keys this control feeds (e.g. S_gate, S_detect)."
+          },
+          "enforcement_reality": {
+            "enum": ["enforced", "advisory", "partial", "not_enforced"],
+            "description": "Honest note on how strongly the reference (Crux) primitive enforces this today."
+          }
+        }
+      }
+    }
+  }
+}

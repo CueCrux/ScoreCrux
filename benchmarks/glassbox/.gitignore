@@ -1,0 +1,5 @@
+# Transient run outputs — regenerate with `pnpm test`.
+# The canonical reference + review bundle are shipped to ../../public-data/glassbox/.
+results/*.json
+!results/.gitkeep
+node_modules/

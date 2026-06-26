@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "glassbox/schemas/record-envelope.schema.json",
+  "title": "MfcRecordEnvelope",
+  "description": "Common envelope every Meridian Fohn Capital dataset record carries. Collection-specific fields are allowed alongside (additionalProperties true).",
+  "type": "object",
+  "required": ["_id", "_synthetic", "_collection", "_seeded_at", "_mess_tags", "_pii"],
+  "additionalProperties": true,
+  "properties": {
+    "_id": { "type": "string", "pattern": "^__synthetic__::mfc::" },
+    "_synthetic": { "const": true },
+    "_collection": {
+      "enum": [
+        "customer",
+        "account",
+        "kyc",
+        "order",
+        "trade",
+        "position",
+        "transaction",
+        "risk_model",
+        "market_feed",
+        "config",
+        "audit_log"
+      ]
+    },
+    "_seeded_at": { "type": "string" },
+    "_mess_tags": { "type": "array", "items": { "type": "string" } },
+    "_pii": { "type": "array", "items": { "type": "string" } }
+  }
+}
