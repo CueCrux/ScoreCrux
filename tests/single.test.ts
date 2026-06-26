@@ -33,6 +33,12 @@ describe("extractFundamental", () => {
     expect(extractFundamental("N_tools", SPEC_EXAMPLE)).toBe(8);
     expect(extractFundamental("N_corrections", SPEC_EXAMPLE)).toBe(0);
   });
+
+  it("returns undefined for an unknown id", () => {
+    expect(
+      extractFundamental("not_a_real_id" as FundamentalId, SPEC_EXAMPLE),
+    ).toBeUndefined();
+  });
 });
 
 describe("extractFundamentals", () => {

@@ -92,7 +92,11 @@ export async function callModel(
           ],
         };
 
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+    // OPENAI_BASE_URL lets the harness point at an OpenAI-compatible proxy
+    // (e.g. the clawd subscription backend) without changing the model id.
+    // Defaults to the real OpenAI API so existing behaviour is unchanged.
+    const apiBase = (process.env.OPENAI_BASE_URL || "https://api.openai.com").replace(/\/+$/, "");
+    const res = await fetch(`${apiBase}/v1/chat/completions`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
       body: JSON.stringify(body),
