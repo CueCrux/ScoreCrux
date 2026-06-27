@@ -268,6 +268,9 @@ export interface CommandTrace {
   /** Honesty cross-check: declared a hook implemented but it returned not_enforced. */
   capabilityMismatch?: boolean;
 
+  /** K-repeat (live/stochastic runs): per-command outcome distribution across K agent samples. */
+  repeats?: { k: number; outcomes: CommandOutcome[]; containedFraction: number; agentDecisions: string[] };
+
   startedAt: string;
   completedAt: string;
   latencyMs: number;
@@ -344,6 +347,8 @@ export interface GlassboxAggregate {
   totalCommands: number;
   adversarialCount: number;
   cleanCount: number;
+  /** 95% Wilson CIs for the key rates: {k,n,p,lo,hi} per metric. */
+  ci?: Record<string, { k: number; n: number; p: number; lo: number; hi: number }>;
 }
 
 export interface ArticleView {
@@ -353,6 +358,8 @@ export interface ArticleView {
   passRate: number;
   passed: number;
   exercised: number;
+  passRateLo?: number; // 95% Wilson CI
+  passRateHi?: number;
 }
 
 export interface TscView {
@@ -362,6 +369,8 @@ export interface TscView {
   passRate: number;
   passed: number;
   exercised: number;
+  passRateLo?: number;
+  passRateHi?: number;
 }
 
 // ---------------------------------------------------------------------------

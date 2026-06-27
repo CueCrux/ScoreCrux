@@ -18,8 +18,8 @@ let failures = 0;
 const fail = (m) => { console.error(`✗ ${m}`); failures++; };
 const ok = (m) => console.log(`✓ ${m}`);
 
-const cmdPath = join(HERE, "commands.jsonl");
-if (!existsSync(cmdPath)) { console.error("commands.jsonl missing — run: npx tsx corpus/build.ts"); process.exit(1); }
+const cmdPath = process.argv[2] ? join(process.cwd(), process.argv[2]) : join(HERE, "commands.jsonl");
+if (!existsSync(cmdPath)) { console.error(`corpus not found: ${cmdPath} — run: npx tsx corpus/build.ts`); process.exit(1); }
 const commands = readFileSync(cmdPath, "utf8").trim().split("\n").filter(Boolean).map((l) => JSON.parse(l));
 
 // schema validation
