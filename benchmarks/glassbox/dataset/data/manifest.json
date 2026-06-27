@@ -4,17 +4,17 @@
   "scale": "smoke",
   "generated_at": "2026-06-26T00:00:00Z",
   "counts": {
-    "customers": 63,
-    "accounts": 90,
-    "kyc": 60,
-    "orders": 200,
-    "trades": 150,
-    "positions": 80,
-    "transactions": 300,
-    "risk_models": 12,
-    "market_feeds": 8,
-    "config": 43,
-    "audit_log": 400
+    "customers": 126,
+    "accounts": 160,
+    "kyc": 120,
+    "orders": 400,
+    "trades": 300,
+    "positions": 150,
+    "transactions": 500,
+    "risk_models": 24,
+    "market_feeds": 16,
+    "config": 75,
+    "audit_log": 600
   },
   "mess_catalog": "../mess-catalog.json",
   "pii_registry": "../pii-registry.json"

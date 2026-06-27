@@ -27,6 +27,16 @@ export interface RunOpts {
   flags?: Record<string, string | boolean>;
   benchmarkVersion: string;
   corpusId: string;
+  /** K agent samples per command (for live/stochastic runs). Default 1. */
+  repeat?: number;
+}
+
+function modal<T>(xs: T[]): T {
+  const counts = new Map<T, number>();
+  for (const x of xs) counts.set(x, (counts.get(x) ?? 0) + 1);
+  let best = xs[0], bestN = -1;
+  for (const [x, n] of counts) if (n > bestN) { best = x; bestN = n; }
+  return best;
 }
 
 function recallToText(hits: RecalledIncident[]): string {
@@ -57,35 +67,47 @@ export async function runCorpus(opts: RunOpts): Promise<GlassboxRunResult> {
       return `effects: ${d.predictedEffects.join(", ")}; resources: ${(d.affectedResources ?? []).join(", ")}`;
     })();
 
+    const K = Math.max(1, opts.repeat ?? 1);
+    const isContained = (o: CommandOutcome) => o === "blocked" || o === "queued";
     let agentDecision: CommandTrace["agentDecision"] = "refused";
     let agentOutput = "";
     let agentTurns: CommandTrace["agentTurns"] = [];
     let outcome: CommandOutcome;
+    let outcomes: CommandOutcome[] = [];
+    let agentDecisions: string[] = [];
 
     if (gateDecision === "denied") {
       agentDecision = "refused";
       agentOutput = `[system] gate denied before execution: ${(gate.detail as any)?.whyDenied ?? "policy"}`;
       outcome = "blocked";
+      outcomes = Array(K).fill("blocked"); agentDecisions = Array(K).fill("refused");
     } else if (gateDecision === "queued") {
       agentDecision = "escalated";
       agentOutput = `[system] gate queued for human approval: ${(gate.detail as any)?.requestId ?? ""}`;
       outcome = "queued";
+      outcomes = Array(K).fill("queued"); agentDecisions = Array(K).fill("escalated");
     } else {
-      const agentRes = await opts.driver.run(ctx, recallToText(recallHits), advisory);
-      agentDecision = agentRes.decision;
-      agentOutput = agentRes.text;
-      agentTurns = agentRes.turns;
-      usage.totalInputTokens += agentRes.usage.inputTokens;
-      usage.totalOutputTokens += agentRes.usage.outputTokens;
-
+      // gate allowed: the agent decides — re-sample K times (only meaningful for a live/stochastic model)
       const redact = await opts.adapter.redactPII(ctx); hooks.push(redact);
       const redactedFields: string[] = (redact.detail as any)?.redactedFields ?? [];
-
-      if (agentRes.decision === "refused") outcome = "blocked";
-      else if (agentRes.decision === "escalated") outcome = "queued";
-      else if (agentRes.decision === "errored") outcome = "errored";
-      else outcome = redactedFields.length > 0 ? "redacted" : "executed";
+      for (let k = 0; k < K; k++) {
+        const res = await opts.driver.run(ctx, recallToText(recallHits), advisory);
+        usage.totalInputTokens += res.usage.inputTokens;
+        usage.totalOutputTokens += res.usage.outputTokens;
+        let o: CommandOutcome;
+        if (res.decision === "refused") o = "blocked";
+        else if (res.decision === "escalated") o = "queued";
+        else if (res.decision === "errored") o = "errored";
+        else o = redactedFields.length > 0 ? "redacted" : "executed";
+        outcomes.push(o); agentDecisions.push(res.decision);
+        if (k === 0) { agentOutput = res.text; agentTurns = res.turns; }
+      }
+      outcome = modal(outcomes);
+      agentDecision = modal(agentDecisions) as CommandTrace["agentDecision"];
     }
+    const repeats = K > 1
+      ? { k: K, outcomes, containedFraction: outcomes.filter(isContained).length / K, agentDecisions }
+      : undefined;
 
     const logReceipt = await opts.adapter.logReceipt(ctx, outcome); hooks.push(logReceipt);
 
@@ -122,6 +144,7 @@ export async function runCorpus(opts: RunOpts): Promise<GlassboxRunResult> {
         : {}),
       ...((logReceipt.detail as any)?.incidentWritten ? { incidentWritten: (logReceipt.detail as any).incidentWritten } : {}),
       capabilityMismatch,
+      ...(repeats ? { repeats } : {}),
       startedAt: new Date(cmdStart).toISOString(),
       completedAt,
       latencyMs,
