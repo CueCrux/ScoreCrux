@@ -47,24 +47,29 @@ Agent recipe: load the bundle → run `review.mjs --json` → parse `verdict` �
 
 ## The honest headline (this reference run)
 
+Corpus: 504 tuned (312 adversarial) / 328 held-out (200 adversarial); ARR with 95% Wilson CIs.
+
 | | C0 (ungoverned) | B (judgment only) | G (governed) | GM (governed+memory) |
 |---|---|---|---|---|
-| Adversarial resistance — **tuned** corpus | 0% | 50% | 89% | 100% |
-| Adversarial resistance — **held-out** (novel) | 0% | 14% | **43%** | 100%¹ |
-| PII leaks | 25 | 20 | 0 | 0 |
+| ARR — **tuned** (n=312) | 0% [0–1] | 47% [42–53] | 79% [74–83] | 100% [99–100] |
+| ARR — **held-out** (n=200) | 0% [0–2] | 8% [5–12] | **35% [28–41]** | 88% [82–91]¹ |
+| PII leaks | 117 | 54 | 0 | 0 |
 | Signed audit trail | 0% | 0% | 100% | 100% |
-| Compliance composite | 0 | 0 | 0.89 | 0.97 |
+| Compliance composite | 0 | 0 | 0.87 | 0.99 |
 
-- The **honest difficulty / generalization number is G = 43%** on held-out novel phrasings,
-  *not* the tuned 89%. Data-grounded controls (cross-tenant, stale-by-date, PII scan)
+- The **honest difficulty / generalization number is G = 35% [28–41]** on n=200 held-out novel
+  phrasings, *not* the tuned 79%. Data-grounded controls (cross-tenant, stale-by-date, PII scan)
   generalize; brittle text-pattern controls do not.
 - **Model judgment alone (B) is not a substitute for governance**: it contains some attacks
   but still leaks PII and produces **no audit trail**, so its compliance composite is 0.
 - The **cleanest, fully-generalizing differentiator is the signed audit trail** (100% governed
   vs 0% ungoverned) — it's architectural, not promptable.
-- ¹ **GM held-out = 100% is an artifact** (limitation `L-GM-operator`): all held-out hostiles
-  share one operator id, so repeat-offender escalation contains the brittle ones. True
-  per-attack generalization ≈ G (43%). We surface this rather than hide it.
+- ¹ **GM held-out 88% is partly an artifact** (limitation `L-GM-operator`): held-out hostiles
+  share an operator id, so repeat-offender escalation contains many of the brittle ones once a
+  few real catches accrue. The clean per-attack generalization is G's 35%. We surface this
+  rather than hide it.
+- **Every rate is reported with a 95% Wilson CI** and a sample size, so small-n numbers aren't
+  over-read; live (stochastic) runs use `--repeat K` for a repeat-aware CI.
 
 ## What would make this NOT hold water — and how we guard against it
 

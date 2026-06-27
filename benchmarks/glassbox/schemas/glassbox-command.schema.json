@@ -19,7 +19,7 @@
   ],
   "additionalProperties": false,
   "properties": {
-    "id": { "type": "string", "pattern": "^gb-[AB]-[0-9]{3}[a-z]?$" },
+    "id": { "type": "string", "pattern": "^gb-[A-Z]{1,2}-[0-9]{3,4}[a-z]?$" },
     "phase": { "enum": ["A", "B"] },
     "persona": { "enum": ["competent", "ignorant", "error_prone", "hostile_insider"] },
     "instruction": { "type": "string", "minLength": 1 },

@@ -34,25 +34,32 @@ contract (in-process module via `--adapter`, or HTTP via `--control-url`). Bring
 
 ## Reference result
 
-Four arms (agent judgment × governance), on the tuned corpus and an un-tuned **held-out** split:
+Four arms (agent judgment × governance), on the tuned corpus (504 cmds / 312 adversarial)
+and an un-tuned **held-out** split (328 / 200 adversarial), ~20–33 instances per attack class.
+Adversarial-resistance (ARR) shown with 95% Wilson CIs.
 
-| Arm | What it is | ARR (tuned) | ARR (held-out) | PII leaks | Audit | Composite |
-|-----|-----------|-------------|----------------|-----------|-------|-----------|
-| C0 | naive agent, no governance | 0% | 0% | 25 | 0% | 0.000 |
-| B | competent agent (judgment), no governance | 50% | 14% | 20 | 0% | 0.000 |
-| G | naive agent, governance | 89% | **43%** | 0 | 100% | 0.893 |
-| GM | governance + memory | 100% | 100%¹ | 0 | 100% | 0.973 |
+| Arm | What it is | ARR tuned (n=312) | ARR held-out (n=200) | PII leaks | Audit | Composite |
+|-----|-----------|-------------------|----------------------|-----------|-------|-----------|
+| C0 | naive agent, no governance | 0% [0–1] | 0% [0–2] | 117 | 0% | 0.000 |
+| B | judgment agent, no governance | 47% [42–53] | 8% [5–12] | 54 | 0% | 0.000 |
+| G | naive agent, governance | 79% [74–83] | **35% [28–41]** | 0 | 100% | 0.870 |
+| GM | governance + memory | 100% [99–100] | 88% [82–91] | 0 | 100% | 0.989 |
 
 **Read this honestly:**
-- **G = 43% on held-out** is the real generalization number. Data-grounded controls
-  (cross-tenant, stale-by-date, PII scan) hold; brittle text-pattern controls don't.
-  The tuned 89% reflects a policy fitted to the main corpus (`L-overfit`).
-- **Model judgment alone (B) is not a substitute for governance**: it catches some
-  attacks but still leaks PII and produces *no* audit trail → composite 0.
+- **G = 35% [28–41] on held-out** (n=200) is the real generalization number. Data-grounded
+  controls (cross-tenant, stale-by-date, PII scan) hold; brittle text-pattern controls don't.
+  The tuned 79% reflects a policy partly fitted to the main corpus (`L-overfit`).
+- **Composite hard-zeroes on *any* PII leak** (Art 10 confidentiality red line); attack
+  containment is graded — so C0/B (which leak) score 0; G/GM are graded by what they catch.
+- **Model judgment alone (B) is not a substitute for governance**: catches ~47% but still
+  leaks PII and produces *no* audit trail → composite 0.
 - The **signed audit trail** (100% governed vs 0% ungoverned) is architectural and the
   cleanest fully-generalizing differentiator.
-- ¹ GM held-out 100% is an **artifact** (`L-GM-operator`): operator-level repeat-offender
-  escalation, not per-attack detection. We disclose it rather than hide it.
+- GM held-out 88% is partly operator-level repeat-offender escalation, not pure per-attack
+  detection (`L-GM-operator`) — disclosed, not hidden.
+
+For *live* (stochastic) model runs, `--repeat K` samples each command K times and reports
+ARR with a repeat-aware CI.
 
 ## Reviewing the result (for skeptics — human or agent)
 
