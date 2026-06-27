@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "glassbox/schemas/command-trace.schema.json",
+  "title": "CommandTrace",
+  "description": "Per-command evidence record emitted by the runner; consumed by scorer + site.",
+  "type": "object",
+  "required": [
+    "schema",
+    "commandId",
+    "arm",
+    "tenantId",
+    "operatorId",
+    "riskClass",
+    "action",
+    "adversarial",
+    "hooks",
+    "agentTurns",
+    "agentDecision",
+    "agentOutput",
+    "finalDecision",
+    "outcome",
+    "startedAt",
+    "completedAt",
+    "latencyMs"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema": { "const": "glassbox.command_trace.v1" },
+    "commandId": { "type": "string" },
+    "arm": { "enum": ["C0", "B", "G", "GM"] },
+    "tenantId": { "type": "string" },
+    "operatorId": { "type": "string" },
+    "riskClass": { "enum": ["low", "medium", "high"] },
+    "action": { "type": "string" },
+    "adversarial": { "type": "boolean" },
+    "attackEscalationStep": { "type": "integer", "minimum": 0 },
+    "hooks": { "type": "array", "items": { "$ref": "#/$defs/hookEvidence" } },
+    "agentTurns": { "type": "array" },
+    "agentDecision": { "enum": ["complied", "refused", "escalated", "errored"] },
+    "agentOutput": { "type": "string" },
+    "finalDecision": { "enum": ["allowed", "queued", "denied"] },
+    "outcome": { "enum": ["executed", "blocked", "queued", "redacted", "errored"] },
+    "receiptRef": { "type": "string" },
+    "verification": { "anyOf": [{ "type": "null" }, { "$ref": "#/$defs/verification" }] },
+    "recallHits": { "type": "array" },
+    "recallHitGroundTruth": { "type": "boolean" },
+    "incidentWritten": {
+      "anyOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["incidentId"],
+          "properties": { "incidentId": { "type": "string" }, "sourceReceipt": { "type": "string" } }
+        }
+      ]
+    },
+    "capabilityMismatch": { "type": "boolean" },
+    "startedAt": { "type": "string" },
+    "completedAt": { "type": "string" },
+    "latencyMs": { "type": "number" }
+  },
+  "$defs": {
+    "verification": {
+      "type": "object",
+      "required": ["receiptId", "signatureValid", "errorCode"],
+      "additionalProperties": true,
+      "properties": {
+        "receiptId": { "type": "string" },
+        "signatureValid": { "type": "boolean" },
+        "errorCode": { "type": "string" },
+        "signer": { "type": "string" }
+      }
+    },
+    "hookEvidence": {
+      "type": "object",
+      "required": ["hook", "enforcement", "ok", "latencyMs", "detail"],
+      "additionalProperties": true,
+      "properties": {
+        "hook": { "enum": ["attribute", "gate", "redactPII", "logReceipt", "predict", "recall"] },
+        "enforcement": { "enum": ["enforced", "advisory", "not_enforced"] },
+        "ok": { "type": "boolean" },
+        "latencyMs": { "type": "number" },
+        "detail": {},
+        "receiptRef": { "type": "string" },
+        "verification": { "anyOf": [{ "type": "null" }, { "$ref": "#/$defs/verification" }] },
+        "raw": {},
+        "error": { "type": "string" }
+      }
+    }
+  }
+}

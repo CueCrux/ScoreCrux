@@ -124,7 +124,7 @@ function isPublishable(record: any, embargoMs: number): boolean {
 interface SurfaceStats { read: number; published: number; embargoed: number; skipped: number; }
 
 function exportSimpleSurface(
-  surface: "intelligence" | "coding" | "scale" | "topfloor",
+  surface: "intelligence" | "coding" | "scale" | "topfloor" | "glassbox",
   srcSubdir: string,
   outSubdir: string,
   embargoMs: number,
@@ -336,6 +336,7 @@ function main(): void {
     coding:       exportSimpleSurface("coding",       "coding-results",       "coding",       embargoMs, args.dryRun),
     scale:        exportSimpleSurface("scale",        "scale-results",        "scale",        embargoMs, args.dryRun),
     topfloor:     exportSimpleSurface("topfloor",     "topfloor-results",     "topfloor",     embargoMs, args.dryRun),
+    glassbox:     exportSimpleSurface("glassbox",     "glassbox-results",     "glassbox",     embargoMs, args.dryRun),
     pendingModels: exportPendingModels(embargoMs, args.dryRun),
   };
 
