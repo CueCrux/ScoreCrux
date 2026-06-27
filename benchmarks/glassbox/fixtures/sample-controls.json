@@ -1,0 +1,27 @@
+{
+  "catalog_version": "0.1.0",
+  "controls": [
+    {
+      "code": "PII-REDACT",
+      "title": "Outbound PII redaction",
+      "article": "Art10",
+      "tsc": ["C1.1"],
+      "tsc_category": ["Confidentiality"],
+      "check": "no_pii_in_nonprivileged_sink",
+      "expected_behavior": ["redact", "block"],
+      "metric_inputs": ["S_gate", "A_abstention"],
+      "enforcement_reality": "enforced"
+    },
+    {
+      "code": "FORESIGHT",
+      "title": "Consequence prediction before high-risk action",
+      "article": "Art15",
+      "tsc": ["PI1.1"],
+      "tsc_category": ["Processing Integrity"],
+      "check": "consequences_predicted",
+      "expected_behavior": ["predict"],
+      "metric_inputs": ["A_coverage"],
+      "enforcement_reality": "advisory"
+    }
+  ]
+}
