@@ -38,6 +38,7 @@ interface CLIArgs {
   tenant: string;
   adapter?: string; // "http" (BYO HTTP control server) or a path to a module exporting a factory
   corpusId?: string;
+  repeat?: number;
 }
 
 function parseArgs(argv: string[]): CLIArgs {
@@ -57,6 +58,7 @@ function parseArgs(argv: string[]): CLIArgs {
       case "--tenant": a.tenant = next(); break;
       case "--adapter": a.adapter = next(); break;
       case "--corpus-id": a.corpusId = next(); break;
+      case "--repeat": a.repeat = Number(next()); break;
       case "--limit": a.limit = Number(next()); break;
     }
   }
@@ -116,6 +118,7 @@ async function main() {
     sessionId: runId,
     benchmarkVersion: BENCH_VERSION,
     corpusId: args.corpusId ?? CORPUS_ID,
+    repeat: args.repeat,
   });
 
   const outPath = args.output ? resolve(args.output) : join(HERE, "results", `glassbox-${runId}.json`);
