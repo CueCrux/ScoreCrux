@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-01T03:03:38.522Z",
+  "generatedAt": "2026-07-02T03:08:55.275Z",
   "embargoHours": 48,
   "surfaces": {
     "intelligence": {
       "published": 30,
-      "embargoed": 0
+      "embargoed": 1
     },
     "coding": {
       "published": 8,
@@ -25,7 +25,7 @@
     },
     "pendingModels": {
       "published": 0,
-      "embargoed": 0
+      "embargoed": 1
     }
   },
   "policy": {
