@@ -183,7 +183,9 @@ interface PricePerMillion { input: number; output: number; }
  */
 const MODEL_PRICING: Array<{ match: RegExp; price: PricePerMillion }> = [
   { match: /^claude-opus-4-8/,        price: { input: 15.0, output: 75.0 } }, // inherits 4-family pricing
-  { match: /^claude-opus-4-7/,        price: { input: 15.0, output: 75.0 } },
+  { match: /^claude-fable-5/,         price: { input: 10.0, output: 50.0 } }, // Fable 5 tier
+  { match: /^claude-mythos-5/,        price: { input: 10.0, output: 50.0 } }, // Mythos 5 (same tier as Fable 5)
+  { match: /^claude-opus-4-7/,        price: { input: 15.0, output: 75.0 } }, // inherits 4-family pricing
   { match: /^claude-opus-4-6/,        price: { input: 15.0, output: 75.0 } },
   { match: /^claude-opus-4-(\d+|20)/, price: { input: 15.0, output: 75.0 } }, // 4.x family
   { match: /^claude-sonnet-4/,        price: { input: 3.0,  output: 15.0 } },
