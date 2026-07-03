@@ -14,7 +14,7 @@ The package computes the canonical ScoreCrux core metrics: foundational fundamen
 
 ### Suites
 
-- **Context Dependence** ([`benchmarks/context`](benchmarks/context)) — how much a task depends on carried context, per knowledge-type section, for any memory/context backend. Backend-agnostic, seeded, with published negative controls. See its [README](benchmarks/context/README.md).
+- **Context** ([`benchmarks/context`](benchmarks/context)) — the *context-dependence* benchmark: how much a task depends on carried context, per knowledge-type section, for any memory/context backend. Backend-agnostic, seeded, with published negative controls. See its [README](benchmarks/context/README.md).
 
 ## Installation
 

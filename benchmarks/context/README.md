@@ -1,4 +1,6 @@
-# Context Dependence Benchmark (CDB) — ScoreCrux suite
+# Context — the context-dependence benchmark (ScoreCrux suite)
+
+*Suite/tab name: **Context**. Full page title: **Context Dependence**. Internal id: `context`.*
 
 **How much does an agent task depend on carried context, and how well does a memory/context
 backend supply it?** CDB measures this for **any agent stack** and **any backend**, broken into
