@@ -201,5 +201,7 @@
   "cost_basis": "measured",
   "date": "2026-07-03",
   "metrics_version": "1.6",
-  "submittedAt": "2026-07-03T00:00:00.000Z"
+  "submittedAt": "2026-07-03T00:00:00.000Z",
+  "axis": null,
+  "in_composite": true
 }

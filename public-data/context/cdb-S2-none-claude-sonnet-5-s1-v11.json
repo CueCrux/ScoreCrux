@@ -25,7 +25,7 @@
   },
   "cx_em": 0.0,
   "s_gate": 1,
-  "c_tokens_usd": 1.195812,
+  "c_tokens_usd": 1.043698,
   "probes": [
     {
       "id": "P1",
@@ -128,7 +128,7 @@
       "question": "gRPC port assigned?",
       "gold": "7619",
       "gold_pattern": "(?<!\\d)7619(?!\\d)",
-      "answer": "UNKNOWN",
+      "answer": "4007",
       "correct": 0
     },
     {
@@ -191,15 +191,17 @@
   "context_tokens": 0,
   "context_tokens_method": "char4-estimate",
   "correct_per_1k_ctx": null,
-  "latency_ms": 80305,
+  "latency_ms": 57205,
   "submitter": "Myles Bryning",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
   "gold_sha256": "095965888d853bc3cef6b88a57f148d6af9dd1db3298e29a877ac966f7bcffca",
   "block_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-  "manifest_sha256": "31c5f5c9b19dd30d7cdf76cc6e700d1967b44cdb193148c31748bf9fbe7169b5",
+  "manifest_sha256": "1b71f8e42c20f93cb22408c8b8088858e5e7faf3d39f7fed0e2d3b27dd75ac1f",
   "cost_basis": "measured",
   "date": "2026-07-03",
   "metrics_version": "1.6",
-  "submittedAt": "2026-07-03T00:00:00.000Z"
+  "submittedAt": "2026-07-03T00:00:00.000Z",
+  "axis": null,
+  "in_composite": true
 }
