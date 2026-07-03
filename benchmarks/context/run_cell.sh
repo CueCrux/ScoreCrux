@@ -3,12 +3,14 @@
 # the context block already prepended to the prompt, not tool-reach (Protocol §2).
 # usage: run_cell.sh <sandbox-cwd> <prompt-file> <out-dir> [model] [max-turns]
 set -euo pipefail
-CWD=$(cd "$1" && pwd); PROMPT=$2; OUT=$3; MODEL=${4:-sonnet}; MAXT=${5:-20}
 # Pluggable model driver: bring your own model by pointing CDB_DRIVER at an
 # executable taking the same args (see BACKENDS.md). Default = the claude CLI.
 if [ -n "${CDB_DRIVER:-}" ]; then exec "$CDB_DRIVER" "$@"; fi
+# Resolve to ABSOLUTE paths before we cd into the sandbox — otherwise a relative
+# --out makes the prompt/mcp paths resolve relative to $CWD (doubled/missing).
+CWD=$(cd "$1" && pwd); PROMPT=$(readlink -f "$2"); mkdir -p "$3"; OUT=$(readlink -f "$3"); MODEL=${4:-sonnet}; MAXT=${5:-20}
 ALLOWED="Bash,Read,Write,Edit,Glob,Grep,TodoWrite"
-mkdir -p "$OUT"; cp "$PROMPT" "$OUT/prompt.md"
+cp "$PROMPT" "$OUT/prompt.md"
 EMPTY_MCP="$OUT/empty.mcp.json"; echo '{"mcpServers":{}}' > "$EMPTY_MCP"
 # Tolerate non-zero exits (e.g. error_max_turns): a cold agent that can't answer
 # should score 0 via a missing/partial answers.json, NOT abort the matrix.
