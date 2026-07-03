@@ -13,6 +13,7 @@ import gen, adapters
 
 HERE = pathlib.Path(__file__).resolve().parent
 PRICES = {  # USD per 1e6 tokens
+    "claude-sonnet-5":   {"input": 3.0, "cache_write": 3.75, "cache_read": 0.30, "output": 15.0},  # sonnet-tier default; confirm list price
     "claude-sonnet-4-6": {"input": 3.0, "cache_write": 3.75, "cache_read": 0.30, "output": 15.0},
     "claude-sonnet-4-5": {"input": 3.0, "cache_write": 3.75, "cache_read": 0.30, "output": 15.0},
     "claude-haiku-4-5":  {"input": 1.0, "cache_write": 1.25, "cache_read": 0.10, "output": 5.0},
@@ -96,6 +97,27 @@ def read_latency(result_json):
     return j.get("duration_ms") or j.get("duration") or None
 
 
+def read_result(result_json):
+    """Usage + real cost + model + latency from the claude CLI result.json — the
+    reliable source (the transcript-path guess in run_cell.sh can miss). Returns
+    (usage_dict, model, cost_usd_or_None, latency_ms_or_None)."""
+    keys = ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens", "output_tokens")
+    usage = dict.fromkeys(keys, 0); model = ""; cost = None; lat = None
+    if not result_json.exists():
+        return usage, model, cost, lat
+    try:
+        j = json.loads(result_json.read_text())
+    except Exception:
+        return usage, model, cost, lat
+    u = j.get("usage") or {}
+    for k in keys:
+        usage[k] = u.get(k) or 0
+    model = next(iter(j.get("modelUsage") or {}), "") or j.get("model", "")
+    cost = j.get("total_cost_usd")
+    lat = j.get("duration_ms") or j.get("duration")
+    return usage, model, cost, lat
+
+
 def score(answers, probes):
     out = {}
     for pr in probes:
@@ -149,9 +171,14 @@ def run_one_session(sb_root, case, block, body_probes, model):
         answers = json.loads(af.read_text())
     except Exception:
         answers = {}
-    u, model_id = read_usage(sb_root / "session" / "transcript.jsonl")
-    lat = read_latency(sb_root / "session" / "result.json")
-    return answers, u, model_id, lat
+    # result.json is the reliable source for usage/cost/latency; fall back to the
+    # transcript only if it's absent (the transcript-path guess can miss).
+    u, model_id, cost, lat = read_result(sb_root / "session" / "result.json")
+    if not any(u.values()):
+        u2, m2 = read_usage(sb_root / "session" / "transcript.jsonl")
+        if any(u2.values()):
+            u, model_id = u2, (m2 or model_id)
+    return answers, u, model_id, cost, lat
 
 
 def run_cell(section, seed, backend, model, out_root, version="v1", batch_size=5):
@@ -187,8 +214,9 @@ def run_cell(section, seed, backend, model, out_root, version="v1", batch_size=5
                              "cache_read_input_tokens", "output_tokens"), 0)
         model_id = model
         lat = 0
+        cost_sum = 0.0; cost_seen = False
         for bi, bp in enumerate(batches):
-            ba, bu, bmid, blat = run_one_session(cell / f"batch_{bi:02d}", case, block, bp, model)
+            ba, bu, bmid, bcost, blat = run_one_session(cell / f"batch_{bi:02d}", case, block, bp, model)
             answers.update(ba)
             for k in agg:
                 agg[k] += bu.get(k, 0)
@@ -196,7 +224,10 @@ def run_cell(section, seed, backend, model, out_root, version="v1", batch_size=5
                 model_id = bmid
             if blat:
                 lat += blat
-        cost = usd(agg, model_id)
+            if bcost is not None:
+                cost_sum += bcost; cost_seen = True
+        # prefer the real total_cost_usd (summed across batches); else price tokens
+        cost = round(cost_sum, 6) if cost_seen else usd(agg, model_id)
         if backend == "crux":
             adapters.crux_teardown(case)
 
