@@ -85,9 +85,40 @@ def crux_teardown(case):
         pass
 
 
+def assemble_crux_retrieval(case, top_k=6):
+    """S6 path: instead of dumping all N facts, BM25-RETRIEVE the top-k for each
+    probe's query and render only those — O(1) context regardless of haystack size.
+    This is the structural difference from vendor-native's O(N) dump."""
+    ent = crux_entity(case)
+    seen = {}
+    for pr in case["probes"]:
+        import urllib.parse
+        q = urllib.parse.quote(pr.get("query", pr["question"]))
+        try:
+            req = urllib.request.Request(f"{CRUX_BASE}/v1/facts?q={q}&limit={top_k}",
+                                         headers={"Authorization": f"Bearer {_jwt()}"})
+            with urllib.request.urlopen(req, timeout=15) as r:
+                data = json.loads(r.read())
+        except Exception:
+            data = {}
+        for f in (data.get("facts") or data.get("rows") or []):
+            if f.get("entity") == ent or ent in str(f.get("entity", "")):
+                seen[f.get("key")] = f
+    lines = ["## Crux Context (context_bundle/v1, retrieved)", "", "### memory",
+             "| entity | key | value | conf | freshness |", "|---|---|---|---|---|"]
+    for k in sorted(seen):
+        f = seen[k]
+        lines.append(f"| {_md_cell(ent)} | {_md_cell(k)} | {_md_cell(f.get('value'))} "
+                     f"| {f.get('confidence',1.0):.2f} | fresh |")
+    return "\n".join(lines) + "\n"
+
+
 def assemble_crux(case):
     """Read back the planted facts, resolve each key to its CURRENT (max-version)
-    value — the freshness behavior — and render the canonical bundle."""
+    value — the freshness behavior — and render the canonical bundle. For S6
+    (scale) delegate to retrieval instead of a full read."""
+    if case.get("section") == "S6":
+        return assemble_crux_retrieval(case)
     ent = crux_entity(case)
     req = urllib.request.Request(f"{CRUX_BASE}/v1/facts/entity/{ent}",
                                  headers={"Authorization": f"Bearer {_jwt()}"})

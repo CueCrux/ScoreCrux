@@ -1,0 +1,32 @@
+{
+  "id": "cdb-S6-oracle-synthetic-s1",
+  "type": "context",
+  "suite_version": "CDB-v1",
+  "benchmark_name": "Context Dependence \u2014 S6",
+  "section": "S6",
+  "section_hypothesis": null,
+  "backend": "oracle",
+  "memory_system": {
+    "used": true
+  },
+  "model": "synthetic",
+  "reportedModel": "synthetic",
+  "corpus": "CDB-synthetic-v1-N300",
+  "seed": 1,
+  "n_probes": 3,
+  "correct": 3,
+  "recall": 1.0,
+  "delta_vs_none": null,
+  "delta_vs_vendor_native": null,
+  "mcnemar_vs_none": null,
+  "cx_em": 15.0,
+  "s_gate": 1,
+  "c_tokens_usd": 0.0,
+  "submitter": "Myles Bryning",
+  "organization": "CueCrux Labs",
+  "githubLogin": "CueCrux-Myles",
+  "manifest_sha256": "cabf1bc263ed1ca368322179cc2b54f54760c885c699ba9bf7908d0e901545b8",
+  "date": "2026-07-03",
+  "metrics_version": "1.5",
+  "submittedAt": "2026-07-03T00:00:00.000Z"
+}

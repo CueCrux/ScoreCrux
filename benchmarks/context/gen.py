@@ -10,7 +10,7 @@ A case is: {section, seed, corpus, prior[], probes[], files{}} where
   probes[] = {id, question, must_contain}  (must_contain matches the CURRENT gold)
   files{}  = sandbox files (S1 only: makes the answer rederivable => the control)
 """
-import hashlib, json, random, sys
+import hashlib, json, os, random, sys
 
 CORPUS = "CDB-synthetic-v1"
 
@@ -112,6 +112,29 @@ def gen_case(section, seed):
             {"id": "P1", "question": "What is the CURRENT internal port (it was changed)?", "must_contain": str(new_port)},
             {"id": "P2", "question": "What is the CURRENT feature flag (it was renamed)?", "must_contain": new_flag},
             {"id": "P3", "question": "What is the service codename?", "must_contain": slug}]
+    elif section == "S6":  # scale / needle-in-haystack
+        # N distractors + a few needles; vendor dumps all (O(N)), crux retrieves (O(1)).
+        n = int(os.environ.get("CDB_S6_N", "300"))
+        needle_port = r.randint(2000, 9999)
+        prior = []
+        for i in range(n):
+            prior.append({"key": f"note_{i:04d}",
+                          "value": f"routine operational note {i}: nightly batch, log rotation, cache warm, healthcheck ok"})
+        prior.append({"key": "needle_codename", "value": cn})
+        prior.append({"key": "needle_port", "value": str(needle_port)})
+        prior.append({"key": "needle_rotation", "value": rot})
+        # shuffle so the needle isn't at a fixed position
+        r.shuffle(prior)
+        files = {}
+        probes = [
+            {"id": "P1", "question": f"Among the notes, what internal codename was recorded?",
+             "must_contain": slug, "query": "codename project recorded"},
+            {"id": "P2", "question": "What internal port was recorded in the notes?",
+             "must_contain": str(needle_port), "query": "internal port recorded"},
+            {"id": "P3", "question": "What on-call rotation name was recorded?",
+             "must_contain": rot.replace('-', '[- ]?'), "query": "on-call rotation name"}]
+        return {"section": section, "seed": seed, "corpus": f"{CORPUS}-N{n}",
+                "prior": prior, "probes": probes, "files": files, "haystack_n": n}
     else:
         raise SystemExit(f"unknown section {section}")
 
