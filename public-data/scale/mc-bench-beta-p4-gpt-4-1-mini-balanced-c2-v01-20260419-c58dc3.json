@@ -10,7 +10,7 @@
   "arm": "C2",
   "arm_name": "Context-stuffing",
   "agent": "gpt-4.1-mini (C2)",
-  "submitter": "Myles Bryning",
+  "submitter": "CueCrux Labs",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
   "cx_em": 2.5,

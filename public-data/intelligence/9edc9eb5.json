@@ -5,7 +5,7 @@
   "benchmarkVersion": "1.0",
   "model": "claude-sonnet-4-6",
   "runMode": "closed_prompt_only",
-  "submitter": "Myles Bryning",
+  "submitter": "CueCrux Labs",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
   "fullScaleIQ": 80,

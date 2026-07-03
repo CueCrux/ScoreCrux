@@ -7,7 +7,7 @@
   "arm": "C0",
   "arm_name": "Bare (no context, no tools)",
   "agent": "gpt-5.4 (C0)",
-  "submitter": "Myles Bryning",
+  "submitter": "CueCrux Labs",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
   "cx_em": 49.98,

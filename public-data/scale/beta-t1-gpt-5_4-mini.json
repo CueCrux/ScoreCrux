@@ -7,7 +7,7 @@
   "arm": "T1",
   "arm_name": "VaultCrux query tools (no persistent memory)",
   "agent": "gpt-5.4-mini (T1)",
-  "submitter": "Myles Bryning",
+  "submitter": "CueCrux Labs",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
   "cx_em": 0.27,

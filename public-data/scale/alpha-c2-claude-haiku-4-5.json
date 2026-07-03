@@ -7,7 +7,7 @@
   "arm": "C2",
   "arm_name": "Context-stuffed (full corpus in prompt)",
   "agent": "claude-haiku-4-5 (C2)",
-  "submitter": "Myles Bryning",
+  "submitter": "CueCrux Labs",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
   "cx_em": 50.72,
