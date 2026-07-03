@@ -55,9 +55,9 @@ def prepare(model, seeds, sections, backends, version="v1"):
             suite_version = case.get("suite_version", "CDB-v1")
             scored = case.get("scored", section != "S1")
             for backend in backends:
-                if backend == "crux":
+                if backend.startswith("crux"):
                     adapters.crux_teardown(case); adapters.crux_plant(case)
-                    block = adapters.assemble_crux(case); adapters.crux_teardown(case)
+                    block = adapters.ASSEMBLERS[backend](case); adapters.crux_teardown(case)
                 elif backend in adapters.ASSEMBLERS:
                     block = adapters.ASSEMBLERS[backend](case)
                 else:
