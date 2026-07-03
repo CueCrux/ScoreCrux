@@ -324,6 +324,40 @@ def gen_case_v11(section, seed):
         return {"section": section, "seed": seed, "corpus": f"{CORPUS}-N{n}", "suite_version": "CDB-v1.1",
                 "scored": True, "prior": prior, "probes": _probes(facts), "files": {}, "haystack_n": n}
 
+    if section == "S9":  # drift / longitudinal supersession — SEPARATE axis (not in /100)
+        # Each key is updated K times over the session (v1 → … → vK); only vK is
+        # current. A backend that RESOLVES to current (crux, or a retriever that
+        # stores the current value) tracks the latest and stays cheap. A backend
+        # that dumps the full ACCUMULATED, INTERLEAVED log (vendor-native) makes the
+        # model find the latest among K×20 stale values and drifts — worse the
+        # longer the session runs. Arbitrary values ⇒ no prior. This is the drift
+        # Crux is meant to stop.
+        KEYS = ["api_endpoint", "db_dsn", "cache_ttl", "feature_flag", "rollout_pct",
+                "retry_budget", "rate_limit", "shard_count", "region_code", "queue_depth",
+                "timeout_ms", "batch_size", "worker_pool", "log_level", "sample_rate",
+                "circuit_threshold", "lease_ttl", "prefetch_count", "compaction_window", "gc_interval"]
+
+        def _dval():
+            return f"{r.choice(ADJ)}-{r.randint(100, 999)}"
+
+        prior = []; probes = []
+        for i, key in enumerate(KEYS[:N_SCORED]):
+            k_updates = r.randint(4, 8)
+            hist = []
+            for _ in range(k_updates):
+                v = _dval()
+                while v in hist:
+                    v = _dval()
+                hist.append(v)
+            prior.append({"key": key, "history": hist, "value": hist[-1]})
+            probes.append({"id": f"P{i+1}",
+                           "question": f"The {key} was updated {k_updates} times this session. "
+                                       f"What is its CURRENT (latest) value?",
+                           "must_contain": re.escape(hist[-1]), "gold": hist[-1], "query": key})
+        return {"section": "S9", "seed": seed, "corpus": CORPUS, "suite_version": "CDB-v1.1",
+                "scored": True, "in_composite": False, "axis": "drift",
+                "prior": prior, "probes": probes, "files": {}}
+
     if section == "S8":  # provenance / trust arbitration — SEPARATE axis (not in /100)
         # Two sources disagree on each topic; only the CONFIDENCE tells you which
         # to trust. Values are arbitrary (no model prior), so guessing = 50%. A
