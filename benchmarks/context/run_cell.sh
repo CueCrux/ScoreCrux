@@ -4,6 +4,9 @@
 # usage: run_cell.sh <sandbox-cwd> <prompt-file> <out-dir> [model] [max-turns]
 set -euo pipefail
 CWD=$(cd "$1" && pwd); PROMPT=$2; OUT=$3; MODEL=${4:-sonnet}; MAXT=${5:-20}
+# Pluggable model driver: bring your own model by pointing CDB_DRIVER at an
+# executable taking the same args (see BACKENDS.md). Default = the claude CLI.
+if [ -n "${CDB_DRIVER:-}" ]; then exec "$CDB_DRIVER" "$@"; fi
 ALLOWED="Bash,Read,Write,Edit,Glob,Grep,TodoWrite"
 mkdir -p "$OUT"; cp "$PROMPT" "$OUT/prompt.md"
 EMPTY_MCP="$OUT/empty.mcp.json"; echo '{"mcpServers":{}}' > "$EMPTY_MCP"
