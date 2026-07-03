@@ -25,7 +25,7 @@
   },
   "cx_em": 14.25,
   "s_gate": 1,
-  "c_tokens_usd": 0.868792,
+  "c_tokens_usd": 0.865066,
   "probes": [
     {
       "id": "P1",
@@ -191,7 +191,7 @@
   "context_tokens": 186,
   "context_tokens_method": "char4-estimate",
   "correct_per_1k_ctx": 102.151,
-  "latency_ms": 34065,
+  "latency_ms": 29328,
   "submitter": "Myles Bryning",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
