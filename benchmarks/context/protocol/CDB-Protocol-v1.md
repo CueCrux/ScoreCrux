@@ -83,3 +83,20 @@ Each cell emits a manifest `{suite_version, section, backend, model, seed, corpu
 prompt_sha256, gold_sha256, answers_sha256, scores}`. Published seeds regenerate identical
 gold; a third party reproduces a row on a clean machine with no CueCrux software (the crux
 backend is optional — the `none`/`vendor-native`/`oracle`/`random` arms need nothing).
+
+## 9. Errata (dated; per the freeze rule in the header)
+
+- **2026-07-03 (CDB-v1.1 prep):** §3 states the backend interface as `plant(prior_knowledge)` +
+  `assemble(probes, token_budget) -> block`. The shipped v1 code implements a single
+  `assemble(case) -> block` where `case` bundles `prior`, `probes`, and `files` (see
+  `adapters.py`), and `plant` exists only on the `crux` backend. This is an interface-naming
+  erratum, not a scoring change — no gold, grading rule, or hypothesis is affected. **CDB-v1.1**
+  (`context-bench-v2-100point-thirdparty-board-2026-07-03`) formalizes the symmetric
+  `plant()/assemble(task, token_budget)` contract so every backend is on equal footing.
+- **2026-07-03:** Published records now carry `gold_sha256` (the canonical
+  `sha256(gen_case(section, seed))`) so a third party can run `verify_manifest.py` directly on a
+  `public-data/context/*.json` file — previously the field lived only in the per-cell
+  `runs/.../manifest.json`. Integrity semantics per §8 are unchanged.
+- **2026-07-03:** The `crux` adapter's default `CRUX_BASE` is `http://127.0.0.1:14800` (was a
+  hardcoded tailnet IP). The daemon endpoint is operator-supplied via env; this does not affect
+  any non-`crux` arm, none of which touch the network.
