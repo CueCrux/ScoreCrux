@@ -32,12 +32,12 @@ def _md_cell(s):
 
 
 # ---- none -----------------------------------------------------------------
-def assemble_none(case):
+def assemble_none(case, token_budget=None):
     return ""
 
 
 # ---- vendor-native --------------------------------------------------------
-def assemble_vendor_native(case):
+def assemble_vendor_native(case, token_budget=None):
     """A rules-file (CLAUDE.md-style) dump. For S5 it lists the FULL history
     in write order WITHOUT marking which is current — the realistic naive-file
     failure mode (same information as crux, but unresolved)."""
@@ -113,7 +113,7 @@ def assemble_crux_retrieval(case, top_k=6):
     return "\n".join(lines) + "\n"
 
 
-def assemble_crux(case):
+def assemble_crux(case, token_budget=None):
     """Read back the planted facts, resolve each key to its CURRENT (max-version)
     value — the freshness behavior — and render the canonical bundle. For S6
     (scale) delegate to retrieval instead of a full read."""
@@ -173,4 +173,25 @@ ASSEMBLERS = {
     "none": assemble_none,
     "vendor-native": assemble_vendor_native,
     "crux": assemble_crux,
+}
+
+
+# ---- symmetric backend contract (CDB-v1.1) --------------------------------
+def plant_noop(case):
+    """Stateless backends (none/vendor-native) plant nothing — the block is
+    rendered directly from the case at assemble time. Defined so every backend
+    presents the SAME (plant, assemble) interface and a third party is on equal
+    footing with crux (which has a real plant step)."""
+    return None
+
+
+# BACKENDS is the canonical registry a third party extends (see BACKENDS.md):
+#   plant(case)                    -> record prior knowledge in your own store
+#   assemble(case, token_budget)   -> return the context block the agent boots with
+# oracle/random are calibration arms graded synthetically and are not here.
+BACKENDS = {
+    "none":          {"plant": plant_noop, "assemble": assemble_none,          "stateful": False},
+    "vendor-native": {"plant": plant_noop, "assemble": assemble_vendor_native, "stateful": False},
+    "crux":          {"plant": crux_plant, "assemble": assemble_crux,          "stateful": True,
+                      "teardown": crux_teardown},
 }

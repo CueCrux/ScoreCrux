@@ -10,7 +10,7 @@ A case is: {section, seed, corpus, prior[], probes[], files{}} where
   probes[] = {id, question, must_contain}  (must_contain matches the CURRENT gold)
   files{}  = sandbox files (S1 only: makes the answer rederivable => the control)
 """
-import hashlib, json, os, random, sys
+import hashlib, json, os, random, re, sys
 
 CORPUS = "CDB-synthetic-v1"
 
@@ -32,7 +32,12 @@ def _codename(r):
     return f"Project {r.choice(ADJ).capitalize()}"
 
 
-def gen_case(section, seed):
+def gen_case(section, seed, version="v1"):
+    """Dispatch on suite version. v1 (default) is byte-identical to CDB-v1 so the
+    62 published v1 records still verify; v1.1 uses the expanded /100 banks below.
+    `version` accepts "v1"/"v1.1" or a full suite id ("CDB-v1.1")."""
+    if str(version).replace("CDB-", "").replace("_", ".") in ("v1.1", "1.1"):
+        return gen_case_v11(section, seed)
     r = rng(section, seed)
     cn = _codename(r)
     slug = cn.split()[1].lower()
@@ -142,7 +147,187 @@ def gen_case(section, seed):
             "prior": prior, "probes": probes, "files": files}
 
 
+# ---------------------------------------------------------------------------
+# CDB-v1.1 — expanded seeded probe banks for the /100 composite.
+#
+# The v1 code above is frozen (byte-identical) so CDB-v1 records still verify.
+# v1.1 scores 20 probes per section for S2-S6 => 5 x 20 = /100. S1 stays a
+# pass/fail LEAK GATE (its own 5 probes, EXCLUDED from the composite): any
+# real-backend lift over `none` on S1 fails the build. Determinism is preserved
+# — every value is drawn from random.Random(hash(section, seed)).
+# ---------------------------------------------------------------------------
+
+N_SCORED = 20  # scored probes per section (S2-S6)
+N_LEAK = 5     # S1 leak-gate probes (not in the composite)
+
+REGION = ["us-fen-1", "eu-moor-2", "ap-tide-3", "sa-salt-4", "us-gantry-5", "eu-cistern-6"]
+WINDOW = ["02:00-04:00 UTC", "23:00-01:00 UTC", "06:00-07:30 UTC", "14:00-15:30 UTC"]
+
+# S4 causal bank: (topic, options, reasons). chosen/rejected/reason drawn per seed.
+DECISIONS = [
+    ("wire format", ["cbor", "protobuf", "msgpack", "flatbuffers"], ["zero-copy", "self-describing", "schema-evolution", "smaller-frames"]),
+    ("storage engine", ["postgres", "mysql", "duckdb", "sqlite"], ["mvcc", "column-store", "embeddability", "wal-durability"]),
+    ("cache layer", ["redis", "memcached", "hazelcast"], ["persistence", "pubsub", "lru-eviction"]),
+    ("message queue", ["kafka", "nats", "rabbitmq", "sqs"], ["log-compaction", "at-least-once", "low-latency", "managed-ops"]),
+    ("rpc framework", ["grpc", "rest", "graphql", "thrift"], ["streaming", "codegen", "backpressure", "schema-first"]),
+    ("auth scheme", ["oidc", "mtls", "hmac", "paseto"], ["revocation", "mutual-trust", "stateless", "no-alg-confusion"]),
+    ("hash function", ["blake3", "sha256", "xxhash"], ["speed", "fips-compliance", "simd"]),
+    ("lb strategy", ["ewma", "round-robin", "least-conn"], ["tail-latency", "simplicity", "even-load"]),
+    ("columnar format", ["arrow", "parquet", "avro"], ["in-memory", "predicate-pushdown", "row-append"]),
+    ("compression", ["zstd", "lz4", "gzip", "snappy"], ["ratio", "decode-speed", "ubiquity", "low-cpu"]),
+    ("container base", ["chainguard", "alpine", "distroless", "ubuntu"], ["zero-cve", "small-size", "no-shell", "familiarity"]),
+    ("migration tool", ["sqlx", "flyway", "goose", "atlas"], ["compile-checked", "versioned", "embedded", "declarative"]),
+    ("id scheme", ["uuidv7", "ulid", "ksuid", "snowflake"], ["time-sortable", "lexical-sort", "compactness", "coordination-free"]),
+    ("tracing", ["otel", "jaeger", "zipkin"], ["vendor-neutral", "adaptive-sampling", "span-links"]),
+    ("secrets store", ["vault", "sops", "kms"], ["dynamic-leases", "gitops", "envelope-encryption"]),
+    ("search index", ["tantivy", "lucene", "meilisearch"], ["rust-native", "maturity", "typo-tolerance"]),
+    ("vector store", ["qdrant", "pgvector", "milvus"], ["filtering", "single-db", "scale-out"]),
+    ("build system", ["bazel", "nx", "turbo"], ["hermetic", "graph-cache", "js-first"]),
+    ("proxy", ["envoy", "nginx", "haproxy"], ["xds-api", "config-simplicity", "raw-throughput"]),
+    ("runtime", ["wasmtime", "v8-isolates", "firecracker"], ["sandboxing", "fast-cold-start", "microvm-isolation"]),
+]
+
+
+def _num_mc(v):
+    """Word-boundaried numeric match so '42' doesn't hit inside '426'."""
+    return rf"(?<!\d){re.escape(str(v))}(?!\d)"
+
+
+def _recall_bank(r):
+    """20 arbitrary, non-rederivable facts. Each: {key, value, q, mc}. rng is
+    consumed in list order => deterministic."""
+    cn = _codename(r); slug = cn.split()[1].lower()
+    a = [r.choice(ADJ) for _ in range(4)]
+    n = [r.choice(NOUN) for _ in range(4)]
+    prefix = slug[:5].upper()
+    flagv = r.randint(2, 6)
+    facts = [
+        {"key": "codename", "value": cn, "q": "Internal service codename decided by the prior team?", "mc": slug},
+        {"key": "internal_port", "value": str(r.randint(2000, 9999)), "q": "Internal port assigned (no derivable pattern)?", "mc": None},
+        {"key": "log_prefix", "value": prefix, "q": "Log-line prefix standardised on?", "mc": None},
+        {"key": "oncall_rotation", "value": r.choice(ROTATION), "q": "On-call rotation name agreed?", "mc": None},
+        {"key": "feature_flag", "value": f"ff_{slug}_v{flagv}", "q": "Feature flag gating the new path?", "mc": None},
+        {"key": "error_budget_pct", "value": str(r.choice([1.5, 2.0, 2.5, 3.0, 5.0])), "q": "Agreed monthly error budget (percent)?", "mc": None},
+        {"key": "cache_ttl_seconds", "value": str(r.randint(30, 3600)), "q": "Cache TTL in seconds configured?", "mc": None},
+        {"key": "shard_count", "value": str(r.randint(3, 64)), "q": "Number of shards provisioned?", "mc": None},
+        {"key": "api_version", "value": f"v{r.randint(2, 9)}", "q": "Internal API version pinned?", "mc": None},
+        {"key": "retry_limit", "value": str(r.randint(2, 10)), "q": "Maximum retry attempts set?", "mc": None},
+        {"key": "region_code", "value": r.choice(REGION), "q": "Primary region code chosen?", "mc": None},
+        {"key": "rate_limit_rps", "value": str(r.randint(50, 5000)), "q": "Rate limit in requests-per-second?", "mc": None},
+        {"key": "grpc_port", "value": str(r.randint(2000, 9999)), "q": "gRPC port assigned?", "mc": None},
+        {"key": "lock_ttl_ms", "value": str(r.randint(100, 9000)), "q": "Distributed-lock TTL in milliseconds?", "mc": None},
+        {"key": "canary_pct", "value": str(r.choice([1, 5, 10, 25])), "q": "Canary rollout percentage?", "mc": None},
+        {"key": "metrics_namespace", "value": f"{slug}_{n[0]}", "q": "Metrics namespace prefix?", "mc": None},
+        {"key": "backup_bucket", "value": f"{a[1]}-{n[1]}-bkp", "q": "Backup bucket name?", "mc": None},
+        {"key": "queue_name", "value": f"{a[2]}.{n[2]}.q", "q": "Work queue name?", "mc": None},
+        {"key": "alert_channel", "value": f"#{a[3]}-{n[3]}", "q": "Alert channel decided?", "mc": None},
+        {"key": "deploy_window", "value": r.choice(WINDOW), "q": "Approved deploy window (start time)?", "mc": None},
+    ]
+    for f in facts:
+        if f["mc"] is not None:
+            continue
+        v = f["value"]
+        if f["key"] == "oncall_rotation":
+            f["mc"] = re.escape(v).replace("\\-", "[- ]?")
+        elif f["key"] == "deploy_window":
+            f["mc"] = re.escape(v.split()[0])          # match the "02:00-04:00" span
+        elif v.lstrip("v").split(".")[0].isdigit():
+            f["mc"] = _num_mc(v.split()[0])            # bare/prefixed number -> word-boundaried
+        else:
+            f["mc"] = re.escape(v)
+    return facts[:N_SCORED]
+
+
+def _probes(facts):
+    return [{"id": f"P{i+1}", "question": f["q"], "must_contain": f["mc"],
+             **({"query": f.get("query")} if f.get("query") else {})}
+            for i, f in enumerate(facts)]
+
+
+def gen_case_v11(section, seed):
+    r = rng(section, seed)
+
+    if section == "S1":  # rederivable LEAK GATE (excluded from the /100 composite)
+        cn = _codename(r); slug = cn.split()[1].lower()
+        port = r.randint(2000, 9999); prefix = slug[:5].upper()
+        ttl = r.randint(30, 3600); shards = r.randint(3, 64)
+        prior = [{"key": "codename", "value": cn}, {"key": "internal_port", "value": str(port)},
+                 {"key": "log_prefix", "value": prefix}, {"key": "cache_ttl_seconds", "value": str(ttl)},
+                 {"key": "shard_count", "value": str(shards)}]
+        files = {"config/service.yaml":
+                 f"# service config (committed)\ncodename: {cn}\ninternal_port: {port}\n"
+                 f"log_prefix: {prefix}\ncache_ttl_seconds: {ttl}\nshard_count: {shards}\n"}
+        probes = [
+            {"id": "P1", "question": "Service internal codename? (check the repo)", "must_contain": slug},
+            {"id": "P2", "question": "Internal port configured? (check the repo)", "must_contain": _num_mc(port)},
+            {"id": "P3", "question": "Log-line prefix set? (check the repo)", "must_contain": re.escape(prefix)},
+            {"id": "P4", "question": "Cache TTL seconds? (check the repo)", "must_contain": _num_mc(ttl)},
+            {"id": "P5", "question": "Shard count? (check the repo)", "must_contain": _num_mc(shards)}]
+        return {"section": section, "seed": seed, "corpus": CORPUS, "suite_version": "CDB-v1.1",
+                "scored": False, "prior": prior, "probes": probes, "files": files}
+
+    if section == "S2":  # arbitrary decisions — direct recall
+        facts = _recall_bank(r)
+        prior = [{"key": f["key"], "value": f["value"]} for f in facts]
+        return {"section": section, "seed": seed, "corpus": CORPUS, "suite_version": "CDB-v1.1",
+                "scored": True, "prior": prior, "probes": _probes(facts), "files": {}}
+
+    if section == "S3":  # cross-session continuity — prior-session decisions govern
+        facts = _recall_bank(r)
+        prior = [{"key": f"session_a_{f['key']}", "value": f["value"]} for f in facts]
+        for f in facts:
+            f["q"] = f"Continuing the prior session — {f['q'][0].lower() + f['q'][1:]}"
+        return {"section": section, "seed": seed, "corpus": CORPUS, "suite_version": "CDB-v1.1",
+                "scored": True, "prior": prior, "probes": _probes(facts), "files": {}}
+
+    if section == "S4":  # causal / why-chains — 20 decisions, gold = the reason
+        facts = []
+        for i, (topic, opts, reasons) in enumerate(DECISIONS[:N_SCORED]):
+            chosen = r.choice(opts)
+            rejected = r.choice([o for o in opts if o != chosen])
+            reason = r.choice(reasons)
+            facts.append({"key": f"decision_{i:02d}",
+                          "value": f"chose {chosen} over {rejected}: {reason}",
+                          "q": f"Why was {chosen} chosen over {rejected} for the {topic}?",
+                          "mc": re.escape(reason)})
+        prior = [{"key": f["key"], "value": f["value"]} for f in facts]
+        return {"section": section, "seed": seed, "corpus": CORPUS, "suite_version": "CDB-v1.1",
+                "scored": True, "prior": prior, "probes": _probes(facts), "files": {}}
+
+    if section == "S5":  # supersession CONTROL — only the CURRENT value is gold
+        keys = ["internal_port", "grpc_port", "cache_ttl_seconds", "rate_limit_rps",
+                "lock_ttl_ms", "shard_count", "retry_limit", "max_connections",
+                "batch_size", "poll_interval_ms", "session_ttl_seconds", "backlog_limit",
+                "worker_count", "flush_bytes", "read_timeout_ms", "write_timeout_ms",
+                "heartbeat_ms", "prefetch_count", "keepalive_ms", "circuit_threshold"]
+        facts = []
+        for k in keys[:N_SCORED]:
+            old = r.randint(1000, 9000); new = old + r.randint(11, 900)
+            facts.append({"key": k, "history": [str(old), str(new)], "value": str(new),
+                          "q": f"What is the CURRENT {k.replace('_', ' ')} (it was changed)?",
+                          "mc": _num_mc(new)})
+        prior = [{"key": f["key"], "history": f["history"], "value": f["value"]} for f in facts]
+        return {"section": section, "seed": seed, "corpus": CORPUS, "suite_version": "CDB-v1.1",
+                "scored": True, "prior": prior, "probes": _probes(facts), "files": {}}
+
+    if section == "S6":  # scale / needle — 20 needles among N distractors
+        n = int(os.environ.get("CDB_S6_N", "300"))
+        facts = _recall_bank(r)
+        for f in facts:
+            f["query"] = f["key"].replace("_", " ")
+        prior = [{"key": f"note_{i:04d}",
+                  "value": f"routine operational note {i}: nightly batch, log rotation, cache warm, healthcheck ok"}
+                 for i in range(n)]
+        prior += [{"key": f"needle_{f['key']}", "value": f["value"]} for f in facts]
+        r.shuffle(prior)
+        return {"section": section, "seed": seed, "corpus": f"{CORPUS}-N{n}", "suite_version": "CDB-v1.1",
+                "scored": True, "prior": prior, "probes": _probes(facts), "files": {}, "haystack_n": n}
+
+    raise SystemExit(f"unknown section {section}")
+
+
 if __name__ == "__main__":
     sec = sys.argv[1] if len(sys.argv) > 1 else "S2"
     seed = int(sys.argv[2]) if len(sys.argv) > 2 else 1
-    print(json.dumps(gen_case(sec, seed), indent=2))
+    ver = sys.argv[3] if len(sys.argv) > 3 else "v1"
+    print(json.dumps(gen_case(sec, seed, ver), indent=2))

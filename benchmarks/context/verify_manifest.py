@@ -23,7 +23,10 @@ def main():
     rec = json.loads(pathlib.Path(sys.argv[1]).read_text())
     m = rec.get("manifest", rec)  # accept a record or a bare manifest
     section, seed = m["section"], m["seed"]
-    case = gen.gen_case(section, int(seed))
+    # Recompute gold with the record's own suite version so v1 AND v1.1 records
+    # both verify against the generator that produced them.
+    suite = m.get("suite_version") or rec.get("suite_version") or "CDB-v1"
+    case = gen.gen_case(section, int(seed), suite)
     recomputed = sha(json.dumps(case, sort_keys=True))
     want = m.get("gold_sha256") or rec.get("gold_sha256")
     ok = recomputed == want
