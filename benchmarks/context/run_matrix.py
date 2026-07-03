@@ -202,6 +202,11 @@ def run_cell(section, seed, backend, model, out_root, version="v1", batch_size=5
 
     (cell / "answers.json").write_text(json.dumps(answers, indent=2))
     sc = score(answers, case["probes"])
+    probes_detail = [{"id": p["id"], "question": p["question"],
+                      "gold": p.get("gold") or adapters._gold_literal(case, p),
+                      "gold_pattern": p["must_contain"],
+                      "answer": str(answers.get(p["id"], "")), "correct": sc[p["id"]]}
+                     for p in case["probes"]]
     manifest = {"suite_version": suite_version, "section": section, "backend": backend,
                 "seed": seed, "corpus": case["corpus"], "model": model_id,
                 "block_sha256": sha(block), "gold_sha256": gold_sha,
@@ -209,8 +214,8 @@ def run_cell(section, seed, backend, model, out_root, version="v1", batch_size=5
     (cell / "manifest.json").write_text(json.dumps(manifest, indent=2))
     return {"section": section, "seed": seed, "backend": backend, "model": model_id,
             "corpus": case["corpus"], "n_probes": len(case["probes"]),
-            "correct": sum(sc.values()), "per_probe": sc, "cost_usd": cost,
-            "context_tokens": ctx_tokens, "context_tokens_method": ctx_method,
+            "correct": sum(sc.values()), "per_probe": sc, "probes_detail": probes_detail,
+            "cost_usd": cost, "context_tokens": ctx_tokens, "context_tokens_method": ctx_method,
             "latency_ms": lat, "suite_version": suite_version, "scored": scored,
             "s_gate": 1, "manifest": manifest}
 
@@ -374,6 +379,7 @@ def emit_scorecrux(cells, date):
             "mcnemar_vs_none": c.get("mcnemar_vs_none"),
             "cx_em": em(c["correct"], c["n_probes"], c["cost_usd"], c["s_gate"]),
             "s_gate": c["s_gate"], "c_tokens_usd": c["cost_usd"],
+            "probes": c.get("probes_detail"),
             "context_tokens": c.get("context_tokens"),
             "context_tokens_method": c.get("context_tokens_method"),
             "correct_per_1k_ctx": (round(c["correct"] / (c["context_tokens"] / 1000), 3)

@@ -103,8 +103,12 @@ def grade():
                 answers = json.loads(mt.group(0)) if mt else {}
         case = gen.gen_case(m["section"], m["seed"], suite)
         sc = RM.score(answers, case["probes"])
+        pd = [{"id": p["id"], "question": p["question"],
+               "gold": p.get("gold") or adapters._gold_literal(case, p),
+               "gold_pattern": p["must_contain"], "answer": str(answers.get(p["id"], "")),
+               "correct": sc[p["id"]]} for p in case["probes"]]
         cells.append({**m, "n_probes": len(case["probes"]), "correct": sum(sc.values()),
-                      "per_probe": sc, "cost_usd": None, "s_gate": 1,
+                      "per_probe": sc, "probes_detail": pd, "cost_usd": None, "s_gate": 1,
                       "manifest": {**m, "answers_sha256": sha(json.dumps(answers, sort_keys=True))}})
     # synth oracle/random per (section,seed) — model-agnostic calibration
     for (section, seed) in sorted(seen):
@@ -114,11 +118,15 @@ def grade():
         for backend, ans in (("oracle", adapters.synth_oracle_answers(case)),
                              ("random", adapters.synth_random_answers(case))):
             sc = RM.score(ans, case["probes"])
+            pd = [{"id": p["id"], "question": p["question"],
+                   "gold": p.get("gold") or adapters._gold_literal(case, p),
+                   "gold_pattern": p["must_contain"], "answer": str(ans.get(p["id"], "")),
+                   "correct": sc[p["id"]]} for p in case["probes"]]
             cells.append({"cell_id": f"synthetic-{section}-{backend}-s{seed}", "model": "synthetic",
                           "section": section, "backend": backend, "seed": seed, "corpus": case["corpus"],
                           "suite_version": suite, "scored": scored,
                           "n_probes": len(case["probes"]), "correct": sum(sc.values()), "per_probe": sc,
-                          "cost_usd": 0.0, "s_gate": 1,
+                          "probes_detail": pd, "cost_usd": 0.0, "s_gate": 1,
                           "manifest": {"suite_version": suite, "section": section, "backend": backend,
                                        "seed": seed, "gold_sha256": sha(json.dumps(case, sort_keys=True))}})
 
