@@ -190,9 +190,9 @@ def run_cell(section, seed, backend, model, out_root, version="v1", batch_size=5
     gold_sha = sha(json.dumps(case, sort_keys=True))
 
     # assemble the backend's context block
-    if backend == "crux":
+    if backend.startswith("crux"):  # crux / crux-prov / crux-auto — all plant to the daemon
         adapters.crux_teardown(case); adapters.crux_plant(case)
-        block = adapters.assemble_crux(case)
+        block = adapters.ASSEMBLERS[backend](case)
     elif backend in adapters.ASSEMBLERS:
         block = adapters.ASSEMBLERS[backend](case)
     else:
@@ -228,7 +228,7 @@ def run_cell(section, seed, backend, model, out_root, version="v1", batch_size=5
                 cost_sum += bcost; cost_seen = True
         # prefer the real total_cost_usd (summed across batches); else price tokens
         cost = round(cost_sum, 6) if cost_seen else usd(agg, model_id)
-        if backend == "crux":
+        if backend.startswith("crux"):
             adapters.crux_teardown(case)
 
     (cell / "answers.json").write_text(json.dumps(answers, indent=2))
