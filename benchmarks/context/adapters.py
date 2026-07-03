@@ -52,9 +52,9 @@ def assemble_vendor_native(case, token_budget=None):
 
 
 # ---- crux -----------------------------------------------------------------
-def _crux_put(entity, key, value):
+def _crux_put(entity, key, value, confidence=1.0):
     body = json.dumps({"entity": entity, "key": key, "value": value,
-                       "confidence": 1.0, "private": False}).encode()
+                       "confidence": confidence, "private": False}).encode()
     req = urllib.request.Request(f"{CRUX_BASE}/v1/facts", data=body, method="PUT",
                                  headers={"Authorization": f"Bearer {_jwt()}",
                                           "Content-Type": "application/json"})
@@ -69,9 +69,10 @@ def crux_entity(case):
 def crux_plant(case):
     ent = crux_entity(case)
     for p in case["prior"]:
+        conf = p.get("confidence", 1.0)
         # plant full history in order => the store versions it; latest = current.
         for v in (p["history"] if "history" in p else [p["value"]]):
-            _crux_put(ent, p["key"], v)
+            _crux_put(ent, p["key"], v, confidence=conf)
     return ent
 
 
@@ -99,7 +100,50 @@ def crux_teardown(case):
             pass
 
 
-def assemble_crux_retrieval(case, top_k=6):
+def _crux_row_meta(f):
+    """(conf, freshness) from a daemon fact record. NOTE: `changed` is NOT taken
+    from the daemon's version field — that increments on any re-plant and would
+    false-flag every key. Supersession comes from the case (see _changed_keys)."""
+    conf = f.get("confidence", 1.0) or 1.0
+    hz = str(f.get("horizon_class", "") or "")
+    fresh = "stale" if hz == "volatile" else "fresh"
+    return conf, fresh
+
+
+def _changed_keys(case):
+    """Keys that were genuinely superseded — the case carries a >1-entry history.
+    The authoritative freshness signal (vs the daemon's re-plant versioning)."""
+    return {p["key"] for p in case.get("prior", []) if len(p.get("history", []) or []) > 1}
+
+
+def _render_crux(ent, items, mode, title="Crux Context"):
+    """Render a crux bundle. The entity is hoisted to the header ONCE (not repeated
+    per row), and the header is compact. `items` = list of (key, value, conf,
+    freshness, changed). Modes:
+      lean       -> | key | value |                     (answer only; cheapest)
+      provenance -> | key | value | conf | fresh |       (full audit trail)
+      auto       -> | key | value | note |               (provenance note ONLY on
+                    non-trivial facts: changed / conf<1 / stale; empty otherwise)
+    """
+    if mode == "provenance":
+        head = [f"## {title} — {ent}", "", "| key | value | conf | fresh |", "|---|---|---|---|"]
+        body = [f"| {_md_cell(k)} | {_md_cell(v)} | {c:.2f} | {fr} |" for k, v, c, fr, ch in items]
+    elif mode == "auto":
+        def note(c, fr, ch):
+            if ch:
+                return "current (was changed)"
+            if c < 1.0:
+                return f"conf {c:.2f}"
+            return "" if fr == "fresh" else fr
+        head = [f"## {title} — {ent}", "", "| key | value | note |", "|---|---|---|"]
+        body = [f"| {_md_cell(k)} | {_md_cell(v)} | {note(c, fr, ch)} |" for k, v, c, fr, ch in items]
+    else:  # lean
+        head = [f"## {title} — {ent}", "", "| key | value |", "|---|---|"]
+        body = [f"| {_md_cell(k)} | {_md_cell(v)} |" for k, v, c, fr, ch in items]
+    return "\n".join(head + body) + "\n"
+
+
+def assemble_crux_retrieval(case, top_k=6, mode="lean"):
     """S6 path: instead of dumping all N facts, BM25-RETRIEVE the top-k for each
     probe's query and render only those — O(1) context regardless of haystack size.
     This is the structural difference from vendor-native's O(N) dump.
@@ -123,21 +167,22 @@ def assemble_crux_retrieval(case, top_k=6):
         for f in (data.get("facts") or data.get("rows") or []):
             if f.get("entity") == ent or ent in str(f.get("entity", "")):
                 seen[f.get("key")] = f
-    lines = ["## Crux Context (context_bundle/v1, retrieved)", "", "### memory",
-             "| entity | key | value | conf | freshness |", "|---|---|---|---|---|"]
+    changed = _changed_keys(case)
+    items = []
     for k in sorted(seen):
         f = seen[k]
-        lines.append(f"| {_md_cell(ent)} | {_md_cell(k)} | {_md_cell(f.get('value'))} "
-                     f"| {f.get('confidence',1.0):.2f} | fresh |")
-    return "\n".join(lines) + "\n"
+        c, fr = _crux_row_meta(f)
+        items.append((k, f.get("value"), c, fr, k in changed))
+    return _render_crux(ent, items, mode, title="Crux Context (retrieved)")
 
 
-def assemble_crux(case, token_budget=None):
+def assemble_crux(case, token_budget=None, mode="lean"):
     """Read back the planted facts, resolve each key to its CURRENT (max-version)
-    value — the freshness behavior — and render the canonical bundle. For S6
-    (scale) delegate to retrieval instead of a full read."""
+    value — the freshness behavior — and render the bundle. For S6 (scale) delegate
+    to retrieval. `mode` (lean|provenance|auto) controls how much provenance the
+    bundle carries — see _render_crux."""
     if case.get("section") == "S6":
-        return assemble_crux_retrieval(case)
+        return assemble_crux_retrieval(case, mode=mode)
     ent = crux_entity(case)
     req = urllib.request.Request(f"{CRUX_BASE}/v1/facts/entity/{ent}",
                                  headers={"Authorization": f"Bearer {_jwt()}"})
@@ -153,13 +198,13 @@ def assemble_crux(case, token_budget=None):
         ver = f.get("version", 0) or 0
         if k not in cur or ver >= cur[k][0]:
             cur[k] = (ver, f)
-    lines = ["## Crux Context (context_bundle/v1)", "", "### memory",
-             "| entity | key | value | conf | freshness |", "|---|---|---|---|---|"]
+    changed = _changed_keys(case)
+    items = []
     for k in sorted(cur):
         f = cur[k][1]
-        lines.append(f"| {_md_cell(ent)} | {_md_cell(k)} | {_md_cell(f.get('value'))} "
-                     f"| {f.get('confidence',1.0):.2f} | fresh |")
-    return "\n".join(lines) + "\n"
+        c, fr = _crux_row_meta(f)
+        items.append((k, f.get("value"), c, fr, k in changed))
+    return _render_crux(ent, items, mode)
 
 
 # ---- neutral retrieval / compression backends (NO CueCrux infra) ----------
@@ -299,7 +344,9 @@ def _gold_literal(case, probe):
 ASSEMBLERS = {
     "none": assemble_none,
     "vendor-native": assemble_vendor_native,
-    "crux": assemble_crux,
+    "crux": assemble_crux,                                                              # lean (default)
+    "crux-prov": lambda case, token_budget=None: assemble_crux(case, mode="provenance"),  # full audit trail
+    "crux-auto": lambda case, token_budget=None: assemble_crux(case, mode="auto"),        # provenance only when non-trivial
     "rag-bm25": assemble_rag_bm25,
     "compaction": assemble_compaction,
     "sqlite-fts": assemble_sqlite_fts,
@@ -323,6 +370,10 @@ BACKENDS = {
     "none":          {"plant": plant_noop, "assemble": assemble_none,          "stateful": False},
     "vendor-native": {"plant": plant_noop, "assemble": assemble_vendor_native, "stateful": False},
     "crux":          {"plant": crux_plant, "assemble": assemble_crux,          "stateful": True,
+                      "teardown": crux_teardown},
+    "crux-prov":     {"plant": crux_plant, "assemble": ASSEMBLERS["crux-prov"], "stateful": True,
+                      "teardown": crux_teardown},
+    "crux-auto":     {"plant": crux_plant, "assemble": ASSEMBLERS["crux-auto"], "stateful": True,
                       "teardown": crux_teardown},
     "rag-bm25":      {"plant": plant_noop, "assemble": assemble_rag_bm25,      "stateful": False},
     "compaction":    {"plant": plant_noop, "assemble": assemble_compaction,    "stateful": False},
