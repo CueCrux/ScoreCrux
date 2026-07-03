@@ -392,11 +392,12 @@ def emit_scorecrux(cells, date):
     section_names = {"S1": "Rederivable (control)", "S2": "Arbitrary decisions",
                      "S3": "Cross-session continuity", "S4": "Causal / why-chains",
                      "S5": "Supersession (control)", "S6": "Scale / needle",
-                     "S7": "Coordination / multi-agent", "S8": "Provenance / trust"}
+                     "S7": "Coordination / multi-agent", "S8": "Provenance / trust",
+                     "S9": "Drift / longitudinal"}
     hyp = {"S1": "no-lift-control", "S2": "high-lift", "S3": "high-lift",
            "S4": "high-lift", "S5": "naive-fails-control",
            "S6": "retrieval-vs-stuffing", "S7": "coordination-cuts-collisions",
-           "S8": "provenance-earns-tokens"}
+           "S8": "provenance-earns-tokens", "S9": "resolve-vs-drift"}
     for c in cells:
         suite = c.get("suite_version", "CDB-v1")
         # v1.1 records get a -v11 filename suffix so they never overwrite the
