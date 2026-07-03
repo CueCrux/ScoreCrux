@@ -76,26 +76,45 @@ def crux_plant(case):
 
 
 def crux_teardown(case):
+    """Purge the test entity. There is NO entity-level DELETE route (only GET on
+    /v1/facts/entity/{ent}); delete is per fact_id — so fetch the entity's facts
+    and DELETE each. (The old DELETE /v1/facts/entity/{ent} was a silent no-op, so
+    test facts accumulated across runs.)"""
     ent = crux_entity(case)
-    req = urllib.request.Request(f"{CRUX_BASE}/v1/facts/entity/{ent}", method="DELETE",
-                                 headers={"Authorization": f"Bearer {_jwt()}"})
     try:
-        urllib.request.urlopen(req, timeout=10)
+        req = urllib.request.Request(f"{CRUX_BASE}/v1/facts/entity/{ent}",
+                                     headers={"Authorization": f"Bearer {_jwt()}"})
+        data = json.loads(urllib.request.urlopen(req, timeout=20).read())
     except Exception:
-        pass
+        return
+    for f in (data.get("facts") or data.get("rows") or []):
+        fid = f.get("fact_id")
+        if not fid:
+            continue
+        try:
+            d = urllib.request.Request(f"{CRUX_BASE}/v1/facts/{fid}", method="DELETE",
+                                       headers={"Authorization": f"Bearer {_jwt()}"})
+            urllib.request.urlopen(d, timeout=10)
+        except Exception:
+            pass
 
 
 def assemble_crux_retrieval(case, top_k=6):
     """S6 path: instead of dumping all N facts, BM25-RETRIEVE the top-k for each
     probe's query and render only those — O(1) context regardless of haystack size.
-    This is the structural difference from vendor-native's O(N) dump."""
+    This is the structural difference from vendor-native's O(N) dump.
+
+    Uses the daemon's GET /v1/facts BM25 retrieval with the CORRECT param names:
+    `query=` (free-text BM25 over fact values) + `top_k=` + `entity=` (server-side
+    scope). (The prior `q=`/`limit=` were silently ignored → unranked results.)"""
+    import urllib.parse
     ent = crux_entity(case)
     seen = {}
     for pr in case["probes"]:
-        import urllib.parse
         q = urllib.parse.quote(pr.get("query", pr["question"]))
+        e = urllib.parse.quote(ent)
         try:
-            req = urllib.request.Request(f"{CRUX_BASE}/v1/facts?q={q}&limit={top_k}",
+            req = urllib.request.Request(f"{CRUX_BASE}/v1/facts?query={q}&top_k={top_k}&entity={e}",
                                          headers={"Authorization": f"Bearer {_jwt()}"})
             with urllib.request.urlopen(req, timeout=15) as r:
                 data = json.loads(r.read())
