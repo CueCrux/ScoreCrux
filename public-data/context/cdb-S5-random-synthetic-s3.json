@@ -1,5 +1,5 @@
 {
-  "id": "cdb-S5-random-synthetic-s1",
+  "id": "cdb-S5-random-synthetic-s3",
   "type": "context",
   "suite_version": "CDB-v1",
   "benchmark_name": "Context Dependence \u2014 Supersession (control)",
@@ -12,7 +12,7 @@
   "model": "synthetic",
   "reportedModel": "synthetic",
   "corpus": "CDB-synthetic-v1",
-  "seed": 1,
+  "seed": 3,
   "n_probes": 3,
   "correct": 0,
   "recall": 0.0,
@@ -25,7 +25,7 @@
   "submitter": "Myles Bryning",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
-  "manifest_sha256": "133d25858c28ad4007ef848a2a090ddec9a71732489ce0e25229a5f14aa45426",
+  "manifest_sha256": "d6de01b6e329f15ee55c88b39b4fa466848631c42c0a00b58482b0405a61fc23",
   "date": "2026-07-03",
   "metrics_version": "1.5",
   "submittedAt": "2026-07-03T00:00:00.000Z"
