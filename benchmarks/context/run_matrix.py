@@ -240,9 +240,11 @@ def emit_scorecrux(cells, date):
     dest.mkdir(parents=True, exist_ok=True)
     section_names = {"S1": "Rederivable (control)", "S2": "Arbitrary decisions",
                      "S3": "Cross-session continuity", "S4": "Causal / why-chains",
-                     "S5": "Supersession (control)"}
+                     "S5": "Supersession (control)", "S6": "Scale / needle",
+                     "S7": "Coordination / multi-agent"}
     hyp = {"S1": "no-lift-control", "S2": "high-lift", "S3": "high-lift",
-           "S4": "high-lift", "S5": "naive-fails-control"}
+           "S4": "high-lift", "S5": "naive-fails-control",
+           "S6": "retrieval-vs-stuffing", "S7": "coordination-cuts-collisions"}
     for c in cells:
         rid = f"cdb-{c['section']}-{c['backend']}-{c['model'].replace('.','-')}-s{c['seed']}"
         rec = {
@@ -261,7 +263,9 @@ def emit_scorecrux(cells, date):
             "s_gate": c["s_gate"], "c_tokens_usd": c["cost_usd"],
             "submitter": "Myles Bryning", "organization": "CueCrux Labs",
             "githubLogin": "CueCrux-Myles",
+            "gold_sha256": c["manifest"].get("gold_sha256"),
             "manifest_sha256": sha(json.dumps(c["manifest"], sort_keys=True)),
+            "cost_basis": "measured" if c.get("cost_usd") is not None else "unmeasured-subagent",
             "date": date, "metrics_version": "1.5",
             "submittedAt": f"{date}T00:00:00.000Z",
         }

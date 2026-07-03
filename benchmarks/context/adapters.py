@@ -16,7 +16,7 @@ presentation/resolution — which is the fair, load-bearing distinction:
 """
 import json, os, subprocess, urllib.request
 
-CRUX_BASE = os.environ.get("CRUX_BASE", "http://100.70.12.73:14800")
+CRUX_BASE = os.environ.get("CRUX_BASE", "http://127.0.0.1:14800")
 JWT_FILE = os.environ.get("CRUX_JWT_FILE", os.path.expanduser("~/.config/cuecrux/crux-tokens/anthropic.jwt"))
 
 

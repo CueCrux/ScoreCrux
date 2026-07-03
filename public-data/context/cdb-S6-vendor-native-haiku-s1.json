@@ -2,9 +2,9 @@
   "id": "cdb-S6-vendor-native-haiku-s1",
   "type": "context",
   "suite_version": "CDB-v1",
-  "benchmark_name": "Context Dependence \u2014 S6",
+  "benchmark_name": "Context Dependence \u2014 Scale / needle",
   "section": "S6",
-  "section_hypothesis": null,
+  "section_hypothesis": "retrieval-vs-stuffing",
   "backend": "vendor-native",
   "memory_system": {
     "used": true
@@ -31,5 +31,7 @@
   "manifest_sha256": "0b2c76a3657b2750fa4f7067ccbca676bb29fbabc205a72a0f1f9f8142432fc8",
   "date": "2026-07-03",
   "metrics_version": "1.5",
-  "submittedAt": "2026-07-03T00:00:00.000Z"
+  "submittedAt": "2026-07-03T00:00:00.000Z",
+  "gold_sha256": "159ce658b7c890d67705184997b6bb871739e0b3877ce498d312e76d3e78ac0d",
+  "cost_basis": "unmeasured-subagent"
 }
