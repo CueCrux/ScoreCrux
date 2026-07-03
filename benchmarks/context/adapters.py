@@ -41,13 +41,26 @@ def assemble_vendor_native(case, token_budget=None):
     """A rules-file (CLAUDE.md-style) dump. For S5 it lists the FULL history
     in write order WITHOUT marking which is current — the realistic naive-file
     failure mode (same information as crux, but unresolved)."""
-    lines = ["# TEAM-NOTES.md (project conventions — accumulated)", ""]
-    for p in case["prior"]:
-        if "history" in p and len(p["history"]) > 1:
-            for v in p["history"]:
-                lines.append(f"- {p['key']}: {v}")
-        else:
-            lines.append(f"- {p['key']}: {p.get('value', (p.get('history') or [''])[0])}")
+    lines = ["# TEAM-NOTES.md (project conventions — accumulated log)", ""]
+    hist = [p for p in case["prior"] if len(p.get("history", []) or []) > 1]
+    if case.get("axis") == "drift" and hist:
+        # Realistic accumulated log: updates INTERLEAVED in write order across keys
+        # (not sorted by key), so the current value isn't trivially "the last line".
+        maxk = max(len(p["history"]) for p in hist)
+        for i in range(maxk):
+            for p in hist:
+                if i < len(p["history"]):
+                    lines.append(f"- {p['key']}: {p['history'][i]}")
+        for p in case["prior"]:
+            if len(p.get("history", []) or []) <= 1:
+                lines.append(f"- {p['key']}: {p.get('value', (p.get('history') or [''])[0])}")
+    else:
+        for p in case["prior"]:
+            if "history" in p and len(p["history"]) > 1:
+                for v in p["history"]:
+                    lines.append(f"- {p['key']}: {v}")
+            else:
+                lines.append(f"- {p['key']}: {p.get('value', (p.get('history') or [''])[0])}")
     return "\n".join(lines) + "\n"
 
 
@@ -135,15 +148,20 @@ def _render_crux(ent, items, mode, title="Crux Context"):
             if c < 1.0:
                 return f"conf {c:.2f}"
             return "" if fr == "fresh" else fr
-        head = [f"## {title} — {ent}", "", "| key | value | note |", "|---|---|---|"]
-        body = [f"| {_md_cell(k)} | {_md_cell(v)} | {note(c, fr, ch)} |" for k, v, c, fr, ch in items]
+        notes = [note(c, fr, ch) for k, v, c, fr, ch in items]
+        if not any(notes):  # nothing non-trivial → render lean (no note column at all)
+            head = [f"## {title} — {ent}", "", "| key | value |", "|---|---|"]
+            body = [f"| {_md_cell(k)} | {_md_cell(v)} |" for k, v, c, fr, ch in items]
+        else:
+            head = [f"## {title} — {ent}", "", "| key | value | note |", "|---|---|---|"]
+            body = [f"| {_md_cell(k)} | {_md_cell(v)} | {n} |" for (k, v, c, fr, ch), n in zip(items, notes)]
     else:  # lean
         head = [f"## {title} — {ent}", "", "| key | value |", "|---|---|"]
         body = [f"| {_md_cell(k)} | {_md_cell(v)} |" for k, v, c, fr, ch in items]
     return "\n".join(head + body) + "\n"
 
 
-def assemble_crux_retrieval(case, top_k=6, mode="lean"):
+def assemble_crux_retrieval(case, top_k=6, mode="auto"):
     """S6 path: instead of dumping all N facts, BM25-RETRIEVE the top-k for each
     probe's query and render only those — O(1) context regardless of haystack size.
     This is the structural difference from vendor-native's O(N) dump.
@@ -176,11 +194,14 @@ def assemble_crux_retrieval(case, top_k=6, mode="lean"):
     return _render_crux(ent, items, mode, title="Crux Context (retrieved)")
 
 
-def assemble_crux(case, token_budget=None, mode="lean"):
+def assemble_crux(case, token_budget=None, mode="auto"):
     """Read back the planted facts, resolve each key to its CURRENT (max-version)
-    value — the freshness behavior — and render the bundle. For S6 (scale) delegate
-    to retrieval. `mode` (lean|provenance|auto) controls how much provenance the
-    bundle carries — see _render_crux."""
+    value, and render the bundle. For S6 (scale) delegate to retrieval. The ONE
+    crux backend is adaptive (mode="auto"): lean when every fact is trivial, and it
+    surfaces a provenance/freshness note ONLY on non-trivial facts (superseded,
+    conf<1, stale) — so it stays cheap on plain recall but resolves drift (S5/S9)
+    and arbitrates trust (S8) automatically. lean/provenance modes remain for
+    A/B analysis but are not separate leaderboard backends."""
     if case.get("section") == "S6":
         return assemble_crux_retrieval(case, mode=mode)
     ent = crux_entity(case)
@@ -344,9 +365,7 @@ def _gold_literal(case, probe):
 ASSEMBLERS = {
     "none": assemble_none,
     "vendor-native": assemble_vendor_native,
-    "crux": assemble_crux,                                                              # lean (default)
-    "crux-prov": lambda case, token_budget=None: assemble_crux(case, mode="provenance"),  # full audit trail
-    "crux-auto": lambda case, token_budget=None: assemble_crux(case, mode="auto"),        # provenance only when non-trivial
+    "crux": assemble_crux,          # the ONE adaptive crux: lean recall + provenance/drift when needed
     "rag-bm25": assemble_rag_bm25,
     "compaction": assemble_compaction,
     "sqlite-fts": assemble_sqlite_fts,
@@ -370,10 +389,6 @@ BACKENDS = {
     "none":          {"plant": plant_noop, "assemble": assemble_none,          "stateful": False},
     "vendor-native": {"plant": plant_noop, "assemble": assemble_vendor_native, "stateful": False},
     "crux":          {"plant": crux_plant, "assemble": assemble_crux,          "stateful": True,
-                      "teardown": crux_teardown},
-    "crux-prov":     {"plant": crux_plant, "assemble": ASSEMBLERS["crux-prov"], "stateful": True,
-                      "teardown": crux_teardown},
-    "crux-auto":     {"plant": crux_plant, "assemble": ASSEMBLERS["crux-auto"], "stateful": True,
                       "teardown": crux_teardown},
     "rag-bm25":      {"plant": plant_noop, "assemble": assemble_rag_bm25,      "stateful": False},
     "compaction":    {"plant": plant_noop, "assemble": assemble_compaction,    "stateful": False},
