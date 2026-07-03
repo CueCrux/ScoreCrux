@@ -52,9 +52,9 @@ def assemble_vendor_native(case, token_budget=None):
 
 
 # ---- crux -----------------------------------------------------------------
-def _crux_put(entity, key, value):
+def _crux_put(entity, key, value, confidence=1.0):
     body = json.dumps({"entity": entity, "key": key, "value": value,
-                       "confidence": 1.0, "private": False}).encode()
+                       "confidence": confidence, "private": False}).encode()
     req = urllib.request.Request(f"{CRUX_BASE}/v1/facts", data=body, method="PUT",
                                  headers={"Authorization": f"Bearer {_jwt()}",
                                           "Content-Type": "application/json"})
@@ -69,9 +69,10 @@ def crux_entity(case):
 def crux_plant(case):
     ent = crux_entity(case)
     for p in case["prior"]:
+        conf = p.get("confidence", 1.0)
         # plant full history in order => the store versions it; latest = current.
         for v in (p["history"] if "history" in p else [p["value"]]):
-            _crux_put(ent, p["key"], v)
+            _crux_put(ent, p["key"], v, confidence=conf)
     return ent
 
 
