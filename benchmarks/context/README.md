@@ -48,14 +48,18 @@ S6 (scale/needle) and S7 (coordination/multi-agent) are **CDB-v1.1** — see [`S
 
 Fairness invariants all pass (S1 no-leak, oracle ceilings, random floors).
 
-### B. Model-hardening sweep, S2 + S5, seeds 1–3 (summed)
+### B. Model-hardening sweep (S2, S5) + scale (S6), run as isolated subagents
 
-| model | section | none | vendor-native | crux | **crux − vendor-native** |
+| model | section | none | vendor-native | crux | **crux − vendor** |
 |---|---|---|---|---|---|
-| sonnet-4-6 | S2 arbitrary | 0/6 | 6/6 | 6/6 | **0** |
-| sonnet-4-6 | S5 supersession | 0/3 | 3/3 | 3/3 | **0** |
-| **haiku-4-5** | S2 arbitrary | 0/18 | 18/18 | 18/18 | **0** |
-| **haiku-4-5** | **S5 supersession** | 0/9 | **3/9** | **9/9** | **+6** |
+| sonnet-4-6 | S2 arbitrary (seed 2) | 0/6 | 6/6 | 6/6 | **0** |
+| sonnet-4-6 | S5 supersession (seed 2) | 0/3 | 3/3 | 3/3 | **0** |
+| **haiku-4-5** | S2 arbitrary (seeds 1–3) | 0/18 | 18/18 | 18/18 | **0** |
+| **haiku-4-5** | **S5 supersession (seeds 1–3)** | 0/9 | **3/9** | **9/9** | **+6** |
+| **haiku-4-5** | **S6 scale/needle, N=300** | 0/3 | **3/3** | **0/3** | **−3** |
+
+*S6 crux = `BM25 top-6, generic auto-query` — a naive retrieval baseline (a better retrieval
+backend can be submitted and will score higher).*
 
 ### The honest headline — and the finding that survived hardening
 
@@ -75,9 +79,19 @@ model but decisive for a cheap one** — i.e. the substrate helps exactly the ch
 "bring-your-own-model" strategy depends on. It is *not* blanket recall (S2 static arbitrary still
 ties for both models); it is specifically the **freshness axis**.
 
-The remaining differentiated value — where a flat dump *structurally* fails regardless of model —
-is **scale** (a 2M-token dump breaks; S6, cf. the ScoreCrux `scale` suite) and **coordination** (no
-cross-agent story; S7). Those are v1.1 ([`SCAFFOLD.md`](SCAFFOLD.md)).
+**And CDB is willing to show Crux losing.** On **S6 at N=300, `crux` (naive BM25 top-6 retrieval)
+scored 0/3 and *lost* to `vendor-native`'s full dump (3/3)** — the ~4k-token dump still fits the
+window, so stuffing works and the naive retrieval missed the needle (verified: the needle was
+absent from the retrieved slice). Two honest reads, both true: (1) **retrieval is not needed until
+the dump breaks the window** — the recall advantage appears at the 2M-token scale where stuffing
+degrades below bare and costs 5–20× more (the ScoreCrux `scale` suite, C2 vs T arms), not at N=300;
+(2) the S6 `crux` backend is a **naive baseline** a better retrieval backend can beat. We publish
+the loss rather than tune Crux to win — that is the point of the negative controls.
+
+Net fingerprint: Crux **ties** on static recall, **wins** on freshness-for-weak-models (S5/haiku),
+and **loses** on moderate-scale needle with naive retrieval (S6/N300). Differentiated value is
+model- and scale-dependent, not universal — stated in the numbers, not the pitch. **Coordination**
+(S7, no cross-agent story for a flat file) remains v1.1 ([`SCAFFOLD.md`](SCAFFOLD.md)).
 
 ## Run it
 
