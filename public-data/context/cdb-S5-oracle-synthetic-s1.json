@@ -16,19 +16,16 @@
   "n_probes": 3,
   "correct": 3,
   "recall": 1.0,
-  "delta_vs_none": 3,
-  "delta_vs_vendor_native": 0,
-  "mcnemar_vs_none": {
-    "b": 3,
-    "c": 0
-  },
+  "delta_vs_none": null,
+  "delta_vs_vendor_native": null,
+  "mcnemar_vs_none": null,
   "cx_em": 15.0,
   "s_gate": 1,
   "c_tokens_usd": 0.0,
   "submitter": "Myles Bryning",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
-  "manifest_sha256": "440ad68a19f0f141a9d74b82f535d0dd013bc9628ffc67cfa5bc4bedc430dfc6",
+  "manifest_sha256": "1e0c0233b5fcc8b567ca6c40ee577ea8fa1d99b31718b9d3f041c36861d9c447",
   "date": "2026-07-03",
   "metrics_version": "1.5",
   "submittedAt": "2026-07-03T00:00:00.000Z"

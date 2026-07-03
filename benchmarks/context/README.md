@@ -34,7 +34,9 @@ Protocol (frozen): [`protocol/CDB-Protocol-v1.md`](protocol/CDB-Protocol-v1.md).
 
 S6 (scale/needle) and S7 (coordination/multi-agent) are **CDB-v1.1** — see [`SCAFFOLD.md`](SCAFFOLD.md).
 
-## Results — CDB-v1, claude-sonnet-4-6, seed 1 (correct / n)
+## Results — CDB-v1 (correct / n)
+
+### A. Full section pass, claude-sonnet-4-6, seed 1
 
 | section | none | vendor-native | crux | oracle | random | **crux − vendor-native** |
 |---|---|---|---|---|---|---|
@@ -44,22 +46,38 @@ S6 (scale/needle) and S7 (coordination/multi-agent) are **CDB-v1.1** — see [`S
 | S4 causal/why | 2/3 | 3/3 | 3/3 | 3/3 | 0/3 | **0** |
 | S5 supersession *(control)* | 0/3 | 3/3 | 3/3 | 3/3 | 0/3 | **0** |
 
-**Fairness invariants: all pass** — S1 no-leak (crux lift over none = 0), oracle ceilings every
-section, random floors every section.
+Fairness invariants all pass (S1 no-leak, oracle ceilings, random floors).
 
-### The honest headline
+### B. Model-hardening sweep, S2 + S5, seeds 1–3 (summed)
 
-On **single-session, small-corpus recall, Crux ties the free `vendor-native` baseline
-(`crux − vendor-native = 0` everywhere).** Memory clearly beats *nothing* (`none` scores 0 on the
-non-rederivable sections S2/S3/S5), but a CLAUDE.md-style rules file supplies the same values just
-as well, and a capable model resolves simple supersession (S5) from an ordered dump on its own — so
-Crux's freshness resolution shows no edge *at this difficulty*.
+| model | section | none | vendor-native | crux | **crux − vendor-native** |
+|---|---|---|---|---|---|
+| sonnet-4-6 | S2 arbitrary | 0/6 | 6/6 | 6/6 | **0** |
+| sonnet-4-6 | S5 supersession | 0/3 | 3/3 | 3/3 | **0** |
+| **haiku-4-5** | S2 arbitrary | 0/18 | 18/18 | 18/18 | **0** |
+| **haiku-4-5** | **S5 supersession** | 0/9 | **3/9** | **9/9** | **+6** |
 
-This is the intended, credibility-anchoring outcome: **the benchmark does not manufacture a Crux
-win.** It also localizes where differentiated (paid) value must come from — precisely where a flat
-file dump *structurally* fails and `vendor-native` cannot follow: **scale** (a 2M-token dump breaks;
-S6) and **coordination** (a rules file has no cross-agent story; S7). Those are v1.1, and the
-`crux − vendor-native` delta there is the real product question CDB exists to answer honestly.
+### The honest headline — and the finding that survived hardening
+
+On **single-session recall, Crux ties the free `vendor-native` (CLAUDE.md-style) baseline**: memory
+beats *nothing* (`none` = 0 on non-rederivable sections), but a rules-file dump supplies the same
+static values just as well. **The benchmark does not manufacture a Crux win** — which is the point.
+
+**But the model sweep found the one place Crux earns its keep, fairly and reproducibly: freshness
+for weaker models.** On **S5 (a fact that was changed), `vendor-native` dumps the accumulated
+history (`port: 2220` *and* `port: 2295`) unresolved; `crux` resolves to the current value.** A
+strong model (Sonnet) disambiguates the dump itself → tie. A **cheaper model (Haiku) cannot — it
+abstains or picks stale, scoring 3/9 — while Crux's freshness-resolved context gives it 9/9
+(`crux − vendor-native = +6`).** Same information to both backends; only the resolution differs.
+
+This is strategically load-bearing: **Crux's structured/fresh context is worth ~0 to a frontier
+model but decisive for a cheap one** — i.e. the substrate helps exactly the cheaper reasoners a
+"bring-your-own-model" strategy depends on. It is *not* blanket recall (S2 static arbitrary still
+ties for both models); it is specifically the **freshness axis**.
+
+The remaining differentiated value — where a flat dump *structurally* fails regardless of model —
+is **scale** (a 2M-token dump breaks; S6, cf. the ScoreCrux `scale` suite) and **coordination** (no
+cross-agent story; S7). Those are v1.1 ([`SCAFFOLD.md`](SCAFFOLD.md)).
 
 ## Run it
 
