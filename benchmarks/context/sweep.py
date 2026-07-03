@@ -46,12 +46,14 @@ def cell_id(model, section, backend, seed):
     return f"{model}-{section}-{backend}-s{seed}"
 
 
-def prepare(model, seeds, sections, backends):
+def prepare(model, seeds, sections, backends, version="v1"):
     SWEEP.mkdir(parents=True, exist_ok=True)
     listed = []
     for section in sections:
         for seed in seeds:
-            case = gen.gen_case(section, seed)
+            case = gen.gen_case(section, seed, version)
+            suite_version = case.get("suite_version", "CDB-v1")
+            scored = case.get("scored", section != "S1")
             for backend in backends:
                 if backend == "crux":
                     adapters.crux_teardown(case); adapters.crux_plant(case)
@@ -60,6 +62,7 @@ def prepare(model, seeds, sections, backends):
                     block = adapters.ASSEMBLERS[backend](case)
                 else:
                     block = ""
+                ct, ctm = RM.count_tokens(block)
                 cid = cell_id(model, section, backend, seed)
                 d = SWEEP / cid; d.mkdir(parents=True, exist_ok=True)
                 probes = "\n".join(f'- {p["id"]}: {p["question"]}' for p in case["probes"])
@@ -70,7 +73,9 @@ def prepare(model, seeds, sections, backends):
                 (d / "gold.json").write_text(json.dumps(case, sort_keys=True))
                 (d / "meta.json").write_text(json.dumps(
                     {"cell_id": cid, "model": model, "section": section, "backend": backend,
-                     "seed": seed, "corpus": case["corpus"], "gold_sha256": sha(json.dumps(case, sort_keys=True)),
+                     "seed": seed, "corpus": case["corpus"], "suite_version": suite_version,
+                     "scored": scored, "context_tokens": ct, "context_tokens_method": ctm,
+                     "gold_sha256": sha(json.dumps(case, sort_keys=True)),
                      "prompt_sha256": sha(prompt)}, indent=2))
                 listed.append({"cell_id": cid, "model": model, "prompt_path": str(d / "prompt.md")})
     print(json.dumps(listed, indent=2))
@@ -81,10 +86,11 @@ def grade():
     cells = []
     metas = sorted(SWEEP.glob("*/meta.json"))
     # real cells from answers.json
-    seen = set()
+    seen = set(); suite_by_ss = {}
     for mf in metas:
         m = json.loads(mf.read_text()); d = mf.parent
-        seen.add((m["section"], m["seed"]))
+        suite = m.get("suite_version", "CDB-v1")
+        seen.add((m["section"], m["seed"])); suite_by_ss[(m["section"], m["seed"])] = suite
         af = d / "answers.json"
         answers = {}
         if af.exists():
@@ -95,23 +101,25 @@ def grade():
                 t = af.read_text()
                 mt = re.search(r"\{.*\}", t, re.S)
                 answers = json.loads(mt.group(0)) if mt else {}
-        case = gen.gen_case(m["section"], m["seed"])
+        case = gen.gen_case(m["section"], m["seed"], suite)
         sc = RM.score(answers, case["probes"])
         cells.append({**m, "n_probes": len(case["probes"]), "correct": sum(sc.values()),
                       "per_probe": sc, "cost_usd": None, "s_gate": 1,
-                      "manifest": {"suite_version": "CDB-v1", **m,
-                                   "answers_sha256": sha(json.dumps(answers, sort_keys=True))}})
+                      "manifest": {**m, "answers_sha256": sha(json.dumps(answers, sort_keys=True))}})
     # synth oracle/random per (section,seed) — model-agnostic calibration
     for (section, seed) in sorted(seen):
-        case = gen.gen_case(section, seed)
+        suite = suite_by_ss.get((section, seed), "CDB-v1")
+        case = gen.gen_case(section, seed, suite)
+        scored = case.get("scored", section != "S1")
         for backend, ans in (("oracle", adapters.synth_oracle_answers(case)),
                              ("random", adapters.synth_random_answers(case))):
             sc = RM.score(ans, case["probes"])
             cells.append({"cell_id": f"synthetic-{section}-{backend}-s{seed}", "model": "synthetic",
                           "section": section, "backend": backend, "seed": seed, "corpus": case["corpus"],
+                          "suite_version": suite, "scored": scored,
                           "n_probes": len(case["probes"]), "correct": sum(sc.values()), "per_probe": sc,
                           "cost_usd": 0.0, "s_gate": 1,
-                          "manifest": {"suite_version": "CDB-v1", "section": section, "backend": backend,
+                          "manifest": {"suite_version": suite, "section": section, "backend": backend,
                                        "seed": seed, "gold_sha256": sha(json.dumps(case, sort_keys=True))}})
 
     # deltas vs none & vendor-native within (model, section, seed)
@@ -156,10 +164,12 @@ def main():
     p.add_argument("--seeds", default="1,2,3")
     p.add_argument("--sections", default="S2,S5")
     p.add_argument("--backends", default="none,vendor-native,crux")
+    p.add_argument("--suite-version", default="v1", help='"v1" or "v1.1"')
     sub.add_parser("grade")
     a = ap.parse_args()
     if a.cmd == "prepare":
-        prepare(a.model, [int(s) for s in a.seeds.split(",")], a.sections.split(","), a.backends.split(","))
+        prepare(a.model, [int(s) for s in a.seeds.split(",")], a.sections.split(","),
+                a.backends.split(","), a.suite_version)
     else:
         grade()
 
