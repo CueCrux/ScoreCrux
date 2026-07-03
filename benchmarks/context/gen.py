@@ -240,6 +240,7 @@ def _recall_bank(r):
 
 def _probes(facts):
     return [{"id": f"P{i+1}", "question": f["q"], "must_contain": f["mc"],
+             "gold": f.get("gold", f.get("value")),
              **({"query": f.get("query")} if f.get("query") else {})}
             for i, f in enumerate(facts)]
 
@@ -258,11 +259,11 @@ def gen_case_v11(section, seed):
                  f"# service config (committed)\ncodename: {cn}\ninternal_port: {port}\n"
                  f"log_prefix: {prefix}\ncache_ttl_seconds: {ttl}\nshard_count: {shards}\n"}
         probes = [
-            {"id": "P1", "question": "Service internal codename? (check the repo)", "must_contain": slug},
-            {"id": "P2", "question": "Internal port configured? (check the repo)", "must_contain": _num_mc(port)},
-            {"id": "P3", "question": "Log-line prefix set? (check the repo)", "must_contain": re.escape(prefix)},
-            {"id": "P4", "question": "Cache TTL seconds? (check the repo)", "must_contain": _num_mc(ttl)},
-            {"id": "P5", "question": "Shard count? (check the repo)", "must_contain": _num_mc(shards)}]
+            {"id": "P1", "question": "Service internal codename? (check the repo)", "must_contain": slug, "gold": cn},
+            {"id": "P2", "question": "Internal port configured? (check the repo)", "must_contain": _num_mc(port), "gold": str(port)},
+            {"id": "P3", "question": "Log-line prefix set? (check the repo)", "must_contain": re.escape(prefix), "gold": prefix},
+            {"id": "P4", "question": "Cache TTL seconds? (check the repo)", "must_contain": _num_mc(ttl), "gold": str(ttl)},
+            {"id": "P5", "question": "Shard count? (check the repo)", "must_contain": _num_mc(shards), "gold": str(shards)}]
         return {"section": section, "seed": seed, "corpus": CORPUS, "suite_version": "CDB-v1.1",
                 "scored": False, "prior": prior, "probes": probes, "files": files}
 
@@ -287,7 +288,7 @@ def gen_case_v11(section, seed):
             rejected = r.choice([o for o in opts if o != chosen])
             reason = r.choice(reasons)
             facts.append({"key": f"decision_{i:02d}",
-                          "value": f"chose {chosen} over {rejected}: {reason}",
+                          "value": f"chose {chosen} over {rejected}: {reason}", "gold": reason,
                           "q": f"Why was {chosen} chosen over {rejected} for the {topic}?",
                           "mc": re.escape(reason)})
         prior = [{"key": f["key"], "value": f["value"]} for f in facts]
