@@ -1,5 +1,17 @@
 # CDB v1.1 — S6 (scale) and S7 (coordination): scaffold + rationale
 
+> **Status (2026-07-03, CDB-v2 M7).** S6 is **code-complete and scale-ready**: the
+> v1.1 generator parametrizes the haystack via `CDB_S6_N` and the retrieval backends
+> are O(k) — at N=5000 the `vendor-native` dump is ~124.9k tokens vs `rag-bm25` ~326
+> (383×). The remaining S6 work is a *run* at true 2M scale against the ScoreCrux
+> `scale` corpora + ≥2 models (run-execution, not a code gap).
+> S7 has a **deterministic conflict-metric harness** (`coord.py` + the `S7` scenario
+> in `gen.py`): a no-coordination *floor* produces reproducible collisions (2–5 per
+> seed) and the *coord* arm prevents them (0), with a reproducible ON-vs-floor delta.
+> It is a deterministic **simulation** of the mechanism (honest scope) — the
+> live-agent scored S7 run remains the sub-plan (M5a/M5b below). S7 is **not** in the
+> /100 composite (`scored: false`).
+
 CDB-v1 (S1–S5) establishes the honest baseline: on single-session small-corpus recall, a memory
 backend ties the free `vendor-native` rules-file dump (`crux − vendor-native = 0`). That result
 *localizes* where differentiated value must live — where a flat dump **structurally** fails and

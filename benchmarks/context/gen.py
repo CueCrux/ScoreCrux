@@ -324,6 +324,21 @@ def gen_case_v11(section, seed):
         return {"section": section, "seed": seed, "corpus": f"{CORPUS}-N{n}", "suite_version": "CDB-v1.1",
                 "scored": True, "prior": prior, "probes": _probes(facts), "files": {}, "haystack_n": n}
 
+    if section == "S7":  # coordination / multi-agent SCAFFOLD (not in the /100)
+        # A deterministic 2-agent-on-a-shared-repo scenario: tasks touch files
+        # from a shared pool; without coordination the agents' file-sets overlap
+        # (collisions). Consumed by coord.py, which computes the conflict metrics
+        # for a no-coordination floor vs a coordination-backend arm. See SCAFFOLD.md.
+        pool = [f"mod_{i:02d}.rs" for i in range(8)]
+        tasks = []
+        for i in range(12):
+            touched = sorted(set(r.choice(pool) for _ in range(r.choice([1, 1, 2]))))
+            tasks.append({"id": f"T{i:02d}", "files": touched, "desc": f"edit {', '.join(touched)}"})
+        agents = {"A": [t["id"] for t in tasks[0::2]], "B": [t["id"] for t in tasks[1::2]]}
+        return {"section": "S7", "seed": seed, "corpus": "CDB-coord-v1", "suite_version": "CDB-v1.1",
+                "scored": False, "prior": [], "probes": [], "files": {},
+                "scenario": {"files": pool, "tasks": tasks, "agents": agents}}
+
     raise SystemExit(f"unknown section {section}")
 
 
