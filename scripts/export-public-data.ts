@@ -183,6 +183,29 @@ function exportSimpleSurface(
 }
 
 /**
+ * Direct surfaces have no live submission store: their records are committed
+ * straight into `public-data/<subdir>/` by the suite's own emitter (e.g. the
+ * `context` suite's `run_matrix.py`). This pass is COUNT-ONLY and
+ * non-destructive — it indexes what is already published so `index.json`
+ * reflects reality, without applying the embargo/idempotency-delete model that
+ * only fits store-backed surfaces (applying it here would delete freshly
+ * committed records inside their 48h window).
+ */
+function exportDirectSurface(surface: string, subdir: string): SurfaceStats {
+  const stats: SurfaceStats = { read: 0, published: 0, embargoed: 0, skipped: 0 };
+  const dir = join(PUBLIC_DIR, subdir);
+  if (!existsSync(dir)) {
+    console.log(`  [${surface}] no published dir (${dir}) — 0 records`);
+    return stats;
+  }
+  for (const file of readdirSync(dir).filter(f => f.endsWith(".json"))) {
+    stats.read++;
+    stats.published++;
+  }
+  return stats;
+}
+
+/**
  * Pending models need a separate pass because `observations[]` contains
  * submitterPlayerId / submitterOrg we must redact to a count, not names.
  */
@@ -337,6 +360,7 @@ function main(): void {
     scale:        exportSimpleSurface("scale",        "scale-results",        "scale",        embargoMs, args.dryRun),
     topfloor:     exportSimpleSurface("topfloor",     "topfloor-results",     "topfloor",     embargoMs, args.dryRun),
     glassbox:     exportSimpleSurface("glassbox",     "glassbox-results",     "glassbox",     embargoMs, args.dryRun),
+    context:      exportDirectSurface("context",      "context"),
     pendingModels: exportPendingModels(embargoMs, args.dryRun),
   };
 
