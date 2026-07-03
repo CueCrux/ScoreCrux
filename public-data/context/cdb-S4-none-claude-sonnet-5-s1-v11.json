@@ -25,7 +25,7 @@
   },
   "cx_em": 0.0,
   "s_gate": 1,
-  "c_tokens_usd": 1.376147,
+  "c_tokens_usd": 1.084535,
   "probes": [
     {
       "id": "P1",
@@ -112,7 +112,7 @@
       "question": "Why was chainguard chosen over ubuntu for the container base?",
       "gold": "familiarity",
       "gold_pattern": "familiarity",
-      "answer": "Chainguard images are rebuilt daily with zero known CVEs and strip unnecessary packages from the runtime, per CueCrux CLAUDE.md \u00a79 container base image policy.",
+      "answer": "Chainguard images are rebuilt daily with zero known CVEs and strip unnecessary packages from the runtime, unlike upstream distro images like Ubuntu.",
       "correct": 0
     },
     {
@@ -191,15 +191,17 @@
   "context_tokens": 0,
   "context_tokens_method": "char4-estimate",
   "correct_per_1k_ctx": null,
-  "latency_ms": 88610,
+  "latency_ms": 65289,
   "submitter": "Myles Bryning",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
   "gold_sha256": "17f324227285b926061d210cd4292c9d06b03df64f471d1595f4749a5f026e16",
   "block_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-  "manifest_sha256": "5c7fecb27f80ff05972cddf0d11d6ec2c71d8a7de71f6fbd216bcce1511dad51",
+  "manifest_sha256": "59f2602ef3330bf1049232693db887960094fc4a6dcf3482c918101bd75121c1",
   "cost_basis": "measured",
   "date": "2026-07-03",
   "metrics_version": "1.6",
-  "submittedAt": "2026-07-03T00:00:00.000Z"
+  "submittedAt": "2026-07-03T00:00:00.000Z",
+  "axis": null,
+  "in_composite": true
 }

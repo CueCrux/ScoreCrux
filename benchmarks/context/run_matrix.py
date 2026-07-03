@@ -408,6 +408,8 @@ def emit_scorecrux(cells, date):
             "benchmark_name": f"Context Dependence — {section_names.get(c['section'], c['section'])}",
             "section": c["section"], "section_hypothesis": hyp.get(c["section"]),
             "scored": c.get("scored", c["section"] != "S1"),
+            "in_composite": c.get("in_composite", c.get("scored", True) and c["section"] != "S1"),
+            "axis": c.get("axis"),
             "backend": c["backend"], "memory_system": {"used": c["backend"] not in ("none", "random")},
             "model": c["model"], "reportedModel": c["model"],
             "corpus": c["corpus"], "seed": c["seed"],
