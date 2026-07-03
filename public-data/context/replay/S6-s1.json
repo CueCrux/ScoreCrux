@@ -1,0 +1,711 @@
+{
+  "schema": "replay-v1",
+  "section": "S6",
+  "seed": 1,
+  "suite_version": "CDB-v1.1",
+  "hypothesis": "retrieval-vs-stuffing (token bill)",
+  "answers_source": "block-analysis",
+  "note": "Grading here is deterministic block analysis: a backend is correct iff its block supplies the current gold AND is not ambiguous (does not also list the superseded value). This shows the MECHANISM; a real run adds the model's answers.",
+  "planted": [
+    {
+      "key": "needle_error_budget_pct",
+      "value": "2.0"
+    },
+    {
+      "key": "needle_grpc_port",
+      "value": "7702"
+    },
+    {
+      "key": "needle_retry_limit",
+      "value": "2"
+    },
+    {
+      "key": "needle_metrics_namespace",
+      "value": "cinnabar_beacon"
+    },
+    {
+      "key": "needle_shard_count",
+      "value": "51"
+    },
+    {
+      "key": "needle_feature_flag",
+      "value": "ff_cinnabar_v3"
+    },
+    {
+      "key": "needle_codename",
+      "value": "Project Cinnabar"
+    },
+    {
+      "key": "needle_api_version",
+      "value": "v9"
+    },
+    {
+      "key": "needle_oncall_rotation",
+      "value": "night-wardens"
+    },
+    {
+      "key": "needle_lock_ttl_ms",
+      "value": "332"
+    },
+    {
+      "key": "needle_queue_name",
+      "value": "wolfram.moorland.q"
+    },
+    {
+      "key": "needle_rate_limit_rps",
+      "value": "2127"
+    },
+    {
+      "key": "needle_backup_bucket",
+      "value": "quillon-beacon-bkp"
+    },
+    {
+      "key": "needle_internal_port",
+      "value": "6384"
+    },
+    {
+      "key": "needle_canary_pct",
+      "value": "10"
+    },
+    {
+      "key": "needle_deploy_window",
+      "value": "06:00-07:30 UTC"
+    },
+    {
+      "key": "needle_region_code",
+      "value": "eu-moor-2"
+    },
+    {
+      "key": "needle_log_prefix",
+      "value": "CINNA"
+    },
+    {
+      "key": "needle_cache_ttl_seconds",
+      "value": "3208"
+    },
+    {
+      "key": "needle_alert_channel",
+      "value": "#meridian-moorland"
+    },
+    {
+      "key": "\u2026",
+      "value": "+ 300 routine notes"
+    }
+  ],
+  "backends": [
+    "none",
+    "vendor-native",
+    "compaction",
+    "rag-bm25"
+  ],
+  "blocks": {
+    "none": {
+      "text": "",
+      "tokens": 0,
+      "tokens_method": "char4-estimate",
+      "truncated": false
+    },
+    "vendor-native": {
+      "text": "# TEAM-NOTES.md (project conventions \u2014 accumulated)\n\n- note_0264: routine operational note 264: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0065: routine operational note 65: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0124: routine operational note 124: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0250: routine operational note 250: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0146: routine operational note 146: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0092: routine operational note 92: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0139: routine operational note 139: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0249: routine operational note 249: nightly batch, log rotation, cache warm, healthcheck ok\n- needle_error_budget_pct: 2.0\n- note_0238: routine operational note 238: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0209: routine operational note 209: nightly batch, log rotation, cache warm, healthcheck ok\n- needle_grpc_port: 7702\n- note_0003: routine operational note 3: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0286: routine operational note 286: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0058: routine operational note 58: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0219: routine operational note 219: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0098: routine operational note 98: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0170: routine operational note 170: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0169: routine operational note 169: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0135: routine operational note 135: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0041: routine operational note 41: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0256: routine operational note 256: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0283: routine operational note 283: nightly batch, log rotation, cache warm, healthcheck ok\n- needle_retry_limit: 2\n- note_0216: routine operational note 216: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0122: routine operational note 122: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0192: routine operational note 192: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0061: routine operational note 61: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0059: routine operational note 59: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0128: routine operational note 128: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0186: routine operational note 186: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0239: routine operational note 239: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0043: routine operational note 43: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0154: routine operational note 154: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0093: routine operational note 93: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0080: routine operational note 80: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0251: routine operational note 251: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0119: routine operational note 119: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0284: routine operational note 284: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0126: routine operational note 126: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0294: routine operational note 294: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0229: routine operational note 229: nightly batch, log rotation, cache warm, healthcheck ok\n- note_0204: routi\n\u2026 (truncated)",
+      "tokens": 7575,
+      "tokens_method": "char4-estimate",
+      "truncated": true
+    },
+    "compaction": {
+      "text": "# NOTES.md (compacted \u2014 current values only)\n\n- needle_error_budget_pct: 2.0\n- needle_grpc_port: 7702\n- needle_retry_limit: 2\n- needle_metrics_namespace: cinnabar_beacon\n- needle_shard_count: 51\n- needle_feature_flag: ff_cinnabar_v3\n- needle_codename: Project Cinnabar\n- needle_api_version: v9\n- needle_oncall_rotation: night-wardens\n- needle_lock_ttl_ms: 332\n- needle_queue_name: wolfram.moorland.q\n- needle_rate_limit_rps: 2127\n- needle_backup_bucket: quillon-beacon-bkp\n- needle_internal_port: 6384\n- needle_canary_pct: 10\n- needle_deploy_window: 06:00-07:30 UTC\n- needle_region_code: eu-moor-2\n- needle_log_prefix: CINNA\n- needle_cache_ttl_seconds: 3208\n- needle_alert_channel: #meridian-moorland\n- (+ 300 routine operational notes elided)\n",
+      "tokens": 186,
+      "tokens_method": "char4-estimate",
+      "truncated": false
+    },
+    "rag-bm25": {
+      "text": "## Retrieved context (rag-bm25, top-6/probe)\n\n| key | value |\n|---|---|\n| needle_alert_channel | #meridian-moorland |\n| needle_api_version | v9 |\n| needle_backup_bucket | quillon-beacon-bkp |\n| needle_cache_ttl_seconds | 3208 |\n| needle_canary_pct | 10 |\n| needle_codename | Project Cinnabar |\n| needle_deploy_window | 06:00-07:30 UTC |\n| needle_error_budget_pct | 2.0 |\n| needle_feature_flag | ff_cinnabar_v3 |\n| needle_grpc_port | 7702 |\n| needle_internal_port | 6384 |\n| needle_lock_ttl_ms | 332 |\n| needle_log_prefix | CINNA |\n| needle_metrics_namespace | cinnabar_beacon |\n| needle_oncall_rotation | night-wardens |\n| needle_queue_name | wolfram.moorland.q |\n| needle_rate_limit_rps | 2127 |\n| needle_region_code | eu-moor-2 |\n| needle_retry_limit | 2 |\n| needle_shard_count | 51 |\n| note_0065 | routine operational note 65: nightly batch, log rotation, cache warm, healthcheck ok |\n| note_0124 | routine operational note 124: nightly batch, log rotation, cache warm, healthcheck ok |\n| note_0146 | routine operational note 146: nightly batch, log rotation, cache warm, healthcheck ok |\n| note_0250 | routine operational note 250: nightly batch, log rotation, cache warm, healthcheck ok |\n| note_0264 | routine operational note 264: nightly batch, log rotation, cache warm, healthcheck ok |\n",
+      "tokens": 324,
+      "tokens_method": "char4-estimate",
+      "truncated": false
+    }
+  },
+  "probes": [
+    {
+      "id": "P1",
+      "question": "Internal service codename decided by the prior team?",
+      "gold": "Project Cinnabar",
+      "must_contain": "cinnabar",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P2",
+      "question": "Internal port assigned (no derivable pattern)?",
+      "gold": "6384",
+      "must_contain": "(?<!\\d)6384(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P3",
+      "question": "Log-line prefix standardised on?",
+      "gold": "CINNA",
+      "must_contain": "CINNA",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P4",
+      "question": "On-call rotation name agreed?",
+      "gold": "night-wardens",
+      "must_contain": "night[- ]?wardens",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P5",
+      "question": "Feature flag gating the new path?",
+      "gold": "ff_cinnabar_v3",
+      "must_contain": "ff_cinnabar_v3",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P6",
+      "question": "Agreed monthly error budget (percent)?",
+      "gold": "2.0",
+      "must_contain": "(?<!\\d)2\\.0(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P7",
+      "question": "Cache TTL in seconds configured?",
+      "gold": "3208",
+      "must_contain": "(?<!\\d)3208(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P8",
+      "question": "Number of shards provisioned?",
+      "gold": "51",
+      "must_contain": "(?<!\\d)51(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P9",
+      "question": "Internal API version pinned?",
+      "gold": "v9",
+      "must_contain": "(?<!\\d)v9(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P10",
+      "question": "Maximum retry attempts set?",
+      "gold": "2",
+      "must_contain": "(?<!\\d)2(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P11",
+      "question": "Primary region code chosen?",
+      "gold": "eu-moor-2",
+      "must_contain": "eu\\-moor\\-2",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P12",
+      "question": "Rate limit in requests-per-second?",
+      "gold": "2127",
+      "must_contain": "(?<!\\d)2127(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P13",
+      "question": "gRPC port assigned?",
+      "gold": "7702",
+      "must_contain": "(?<!\\d)7702(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P14",
+      "question": "Distributed-lock TTL in milliseconds?",
+      "gold": "332",
+      "must_contain": "(?<!\\d)332(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P15",
+      "question": "Canary rollout percentage?",
+      "gold": "10",
+      "must_contain": "(?<!\\d)10(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P16",
+      "question": "Metrics namespace prefix?",
+      "gold": "cinnabar_beacon",
+      "must_contain": "cinnabar_beacon",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P17",
+      "question": "Backup bucket name?",
+      "gold": "quillon-beacon-bkp",
+      "must_contain": "quillon\\-beacon\\-bkp",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P18",
+      "question": "Work queue name?",
+      "gold": "wolfram.moorland.q",
+      "must_contain": "wolfram\\.moorland\\.q",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P19",
+      "question": "Alert channel decided?",
+      "gold": "#meridian-moorland",
+      "must_contain": "\\#meridian\\-moorland",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P20",
+      "question": "Approved deploy window (start time)?",
+      "gold": "06:00-07:30 UTC",
+      "must_contain": "06:00\\-07:30",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    }
+  ],
+  "totals": {
+    "none": {
+      "correct": 0,
+      "n": 20,
+      "context_tokens": 0
+    },
+    "vendor-native": {
+      "correct": 20,
+      "n": 20,
+      "context_tokens": 7575
+    },
+    "compaction": {
+      "correct": 20,
+      "n": 20,
+      "context_tokens": 186
+    },
+    "rag-bm25": {
+      "correct": 20,
+      "n": 20,
+      "context_tokens": 324
+    }
+  }
+}

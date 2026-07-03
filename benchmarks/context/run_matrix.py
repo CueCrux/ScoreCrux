@@ -70,6 +70,32 @@ def usd(u, model):
             + u["cache_read_input_tokens"]*p["cache_read"] + u["output_tokens"]*p["output"]) / 1e6
 
 
+def count_tokens(text):
+    """Context-block token count as a first-class CDB axis.
+
+    Portable: tiktoken cl100k (a real BPE count) if installed, else a
+    ~4-chars/token estimate. Every backend's block is measured the same way, so
+    the cross-backend comparison ('same accuracy, different token bill') is fair
+    regardless of which tokenizer is available.
+    """
+    try:
+        import tiktoken
+        return len(tiktoken.get_encoding("cl100k_base").encode(text)), "tiktoken-cl100k"
+    except Exception:
+        return (len(text) + 3) // 4, "char4-estimate"
+
+
+def read_latency(result_json):
+    """Wall latency (ms) for a session, from the claude CLI result.json."""
+    if not result_json.exists():
+        return None
+    try:
+        j = json.loads(result_json.read_text())
+    except Exception:
+        return None
+    return j.get("duration_ms") or j.get("duration") or None
+
+
 def score(answers, probes):
     out = {}
     for pr in probes:
@@ -98,8 +124,40 @@ def build_sandbox(run_cell_dir, case, block):
     return sb, prompt, body
 
 
-def run_cell(section, seed, backend, model, out_root):
-    case = gen.gen_case(section, seed)
+def run_one_session(sb_root, case, block, body_probes, model):
+    """One cold session over a probe subset. Returns (answers, usage, model_id, latency_ms).
+    The parity guard holds per session: the prompt differs from the no-context body
+    only by the injected block."""
+    sb = sb_root / "sandbox"
+    if sb.exists():
+        shutil.rmtree(sb)
+    (sb / "artifacts").mkdir(parents=True)
+    for rel, content in case["files"].items():
+        f = sb / rel
+        f.parent.mkdir(parents=True, exist_ok=True)
+        f.write_text(content)
+    probes_txt = "\n".join(f'- {p["id"]}: {p["question"]}' for p in body_probes)
+    body = PROBE_TMPL.format(section=case["section"], probes=probes_txt)
+    prompt = (f"<context-block>\n{block}\n</context-block>\n\n" + body) if block.strip() else body
+    (sb_root / "prompt.md").write_text(prompt)
+    stripped = re.sub(r"<context-block>.*?</context-block>\n\n", "", prompt, flags=re.S)
+    assert stripped == body, "PARITY FAIL: prompt differs beyond the context block"
+    subprocess.run(["bash", str(HERE / "run_cell.sh"), str(sb), str(sb_root / "prompt.md"),
+                    str(sb_root / "session"), model], check=True)
+    af = sb / "artifacts" / "answers.json"
+    try:
+        answers = json.loads(af.read_text())
+    except Exception:
+        answers = {}
+    u, model_id = read_usage(sb_root / "session" / "transcript.jsonl")
+    lat = read_latency(sb_root / "session" / "result.json")
+    return answers, u, model_id, lat
+
+
+def run_cell(section, seed, backend, model, out_root, version="v1", batch_size=5):
+    case = gen.gen_case(section, seed, version)
+    suite_version = case.get("suite_version", "CDB-v1")
+    scored = case.get("scored", section != "S1")
     cell = out_root / f"{section}-{backend}-s{seed}"
     cell.mkdir(parents=True, exist_ok=True)
     gold_sha = sha(json.dumps(case, sort_keys=True))
@@ -113,37 +171,52 @@ def run_cell(section, seed, backend, model, out_root):
     else:
         block = ""  # oracle/random: synthetic, block unused
     (cell / "block.md").write_text(block)
-
-    sb, prompt, body = build_sandbox(cell, case, block)
+    ctx_tokens, ctx_method = count_tokens(block)
 
     if backend == "oracle":
-        answers = adapters.synth_oracle_answers(case); model_id = "synthetic"; cost = 0.0
+        answers = adapters.synth_oracle_answers(case); model_id = "synthetic"; cost = 0.0; lat = None
     elif backend == "random":
-        answers = adapters.synth_random_answers(case); model_id = "synthetic"; cost = 0.0
+        answers = adapters.synth_random_answers(case); model_id = "synthetic"; cost = 0.0; lat = None
     else:
-        subprocess.run(["bash", str(HERE / "run_cell.sh"), str(sb), str(cell / "prompt.md"),
-                        str(cell / "session"), model], check=True)
-        af = sb / "artifacts" / "answers.json"
-        try:
-            answers = json.loads(af.read_text())
-        except Exception:
-            answers = {}
-        u, model_id = read_usage(cell / "session" / "transcript.jsonl")
-        cost = usd(u, model_id)
+        # Batch the probes into cold sessions of <= batch_size so a 20-probe
+        # section is not one interference-prone mega-prompt. Same block each batch.
+        probes = case["probes"]
+        batches = [probes[i:i + batch_size] for i in range(0, len(probes), batch_size)] or [[]]
+        answers = {}
+        agg = dict.fromkeys(("input_tokens", "cache_creation_input_tokens",
+                             "cache_read_input_tokens", "output_tokens"), 0)
+        model_id = model
+        lat = 0
+        for bi, bp in enumerate(batches):
+            ba, bu, bmid, blat = run_one_session(cell / f"batch_{bi:02d}", case, block, bp, model)
+            answers.update(ba)
+            for k in agg:
+                agg[k] += bu.get(k, 0)
+            if bmid:
+                model_id = bmid
+            if blat:
+                lat += blat
+        cost = usd(agg, model_id)
         if backend == "crux":
             adapters.crux_teardown(case)
 
-    (sb / "artifacts" / "answers.json").parent.mkdir(parents=True, exist_ok=True)
     (cell / "answers.json").write_text(json.dumps(answers, indent=2))
     sc = score(answers, case["probes"])
-    manifest = {"suite_version": "CDB-v1", "section": section, "backend": backend,
+    probes_detail = [{"id": p["id"], "question": p["question"],
+                      "gold": p.get("gold") or adapters._gold_literal(case, p),
+                      "gold_pattern": p["must_contain"],
+                      "answer": str(answers.get(p["id"], "")), "correct": sc[p["id"]]}
+                     for p in case["probes"]]
+    manifest = {"suite_version": suite_version, "section": section, "backend": backend,
                 "seed": seed, "corpus": case["corpus"], "model": model_id,
-                "prompt_sha256": sha(prompt), "gold_sha256": gold_sha,
+                "block_sha256": sha(block), "gold_sha256": gold_sha,
                 "answers_sha256": sha(json.dumps(answers, sort_keys=True))}
     (cell / "manifest.json").write_text(json.dumps(manifest, indent=2))
     return {"section": section, "seed": seed, "backend": backend, "model": model_id,
             "corpus": case["corpus"], "n_probes": len(case["probes"]),
-            "correct": sum(sc.values()), "per_probe": sc, "cost_usd": cost,
+            "correct": sum(sc.values()), "per_probe": sc, "probes_detail": probes_detail,
+            "cost_usd": cost, "context_tokens": ctx_tokens, "context_tokens_method": ctx_method,
+            "latency_ms": lat, "suite_version": suite_version, "scored": scored,
             "s_gate": 1, "manifest": manifest}
 
 
@@ -154,6 +227,8 @@ def main():
     ap.add_argument("--seeds", default="1")
     ap.add_argument("--model", default="sonnet")
     ap.add_argument("--out", default=None)
+    ap.add_argument("--suite-version", default="v1", help='"v1" (frozen) or "v1.1" (/100 banks)')
+    ap.add_argument("--batch-size", type=int, default=5, help="probes per cold session")
     ap.add_argument("--emit", action="store_true")
     a = ap.parse_args()
     sections = a.sections.split(","); backends = a.backends.split(",")
@@ -169,7 +244,8 @@ def main():
             order = backends if seed % 2 else list(reversed(backends))
             for backend in order:
                 print(f"### {section} / {backend} / seed {seed}")
-                cells.append(run_cell(section, seed, backend, a.model, out_root))
+                cells.append(run_cell(section, seed, backend, a.model, out_root,
+                                      version=a.suite_version, batch_size=a.batch_size))
 
     # deltas + McNemar vs none & vendor-native, per (section, seed)
     idx = {(c["section"], c["seed"], c["backend"]): c for c in cells}
@@ -204,9 +280,46 @@ def main():
             row.append(f"{tot}/{n:>2}")
         print(f"  {s:<9} " + "  ".join(f"{r:>12}" for r in row))
 
+    # /100 composite over the scored sections (S1 leak-control excluded)
+    composite = compute_composite(cells)
+    (out_root / "composite.json").write_text(json.dumps(composite, indent=2))
+    if composite["rows"]:
+        print(f"\n=== COMPOSITE (scored: {','.join(composite['sections'])}; S1 excluded) ===")
+        for row in composite["rows"]:
+            eff = f"{row['correct_per_1k_ctx']}/1k-ctx" if row["correct_per_1k_ctx"] is not None else "—"
+            print(f"  {row['backend']:<14} {row['model']:<22} {row['score']:>3}/{row['max']:<3}"
+                  f"  ctx~{row['context_tokens']:>6}tok  ${row['cost_usd']}  {eff}")
+
     if a.emit:
         emit_scorecrux(cells, date)
     return 0 if invariants["ALL_PASS"] else 1
+
+
+def compute_composite(cells):
+    """Sum `correct` over SCORED sections, excluding the S1 leak control, per
+    (backend, model). Also rolls up context tokens + cost and an accuracy-per-1k-
+    context-token efficiency figure — the 'same accuracy, different token bill'
+    axis. oracle/random are calibration arms and are omitted from the ranking."""
+    scored_secs = sorted({c["section"] for c in cells
+                          if c.get("scored") and c["section"] != "S1"})
+    rows = []
+    for backend, model in sorted({(c["backend"], c["model"]) for c in cells
+                                  if c["backend"] not in ("oracle", "random")}):
+        sub = {}; ct = 0; cost = 0.0
+        for s in scored_secs:
+            cs = [c for c in cells if c["section"] == s and c["backend"] == backend and c["model"] == model]
+            if cs:
+                sub[s] = {"correct": sum(c["correct"] for c in cs), "n": sum(c["n_probes"] for c in cs)}
+                ct += sum(c.get("context_tokens") or 0 for c in cs)
+                cost += sum(c.get("cost_usd") or 0 for c in cs)
+        if not sub:
+            continue
+        score_ = sum(v["correct"] for v in sub.values()); mx = sum(v["n"] for v in sub.values())
+        rows.append({"backend": backend, "model": model, "score": score_, "max": mx,
+                     "per_section": sub, "context_tokens": ct, "cost_usd": round(cost, 5),
+                     "correct_per_1k_ctx": round(score_ / (ct / 1000), 3) if ct else None})
+    rows.sort(key=lambda r: (-r["score"], r["context_tokens"]))
+    return {"sections": scored_secs, "rows": rows}
 
 
 def check_invariants(cells):
@@ -240,15 +353,22 @@ def emit_scorecrux(cells, date):
     dest.mkdir(parents=True, exist_ok=True)
     section_names = {"S1": "Rederivable (control)", "S2": "Arbitrary decisions",
                      "S3": "Cross-session continuity", "S4": "Causal / why-chains",
-                     "S5": "Supersession (control)"}
+                     "S5": "Supersession (control)", "S6": "Scale / needle",
+                     "S7": "Coordination / multi-agent"}
     hyp = {"S1": "no-lift-control", "S2": "high-lift", "S3": "high-lift",
-           "S4": "high-lift", "S5": "naive-fails-control"}
+           "S4": "high-lift", "S5": "naive-fails-control",
+           "S6": "retrieval-vs-stuffing", "S7": "coordination-cuts-collisions"}
     for c in cells:
-        rid = f"cdb-{c['section']}-{c['backend']}-{c['model'].replace('.','-')}-s{c['seed']}"
+        suite = c.get("suite_version", "CDB-v1")
+        # v1.1 records get a -v11 filename suffix so they never overwrite the
+        # frozen v1 records (same section/backend/model/seed otherwise collides).
+        suffix = "" if suite == "CDB-v1" else "-v11"
+        rid = f"cdb-{c['section']}-{c['backend']}-{c['model'].replace('.','-')}-s{c['seed']}{suffix}"
         rec = {
-            "id": rid, "type": "context", "suite_version": "CDB-v1",
+            "id": rid, "type": "context", "suite_version": suite,
             "benchmark_name": f"Context Dependence — {section_names.get(c['section'], c['section'])}",
             "section": c["section"], "section_hypothesis": hyp.get(c["section"]),
+            "scored": c.get("scored", c["section"] != "S1"),
             "backend": c["backend"], "memory_system": {"used": c["backend"] not in ("none", "random")},
             "model": c["model"], "reportedModel": c["model"],
             "corpus": c["corpus"], "seed": c["seed"],
@@ -259,10 +379,19 @@ def emit_scorecrux(cells, date):
             "mcnemar_vs_none": c.get("mcnemar_vs_none"),
             "cx_em": em(c["correct"], c["n_probes"], c["cost_usd"], c["s_gate"]),
             "s_gate": c["s_gate"], "c_tokens_usd": c["cost_usd"],
+            "probes": c.get("probes_detail"),
+            "context_tokens": c.get("context_tokens"),
+            "context_tokens_method": c.get("context_tokens_method"),
+            "correct_per_1k_ctx": (round(c["correct"] / (c["context_tokens"] / 1000), 3)
+                                   if c.get("context_tokens") else None),
+            "latency_ms": c.get("latency_ms"),
             "submitter": "Myles Bryning", "organization": "CueCrux Labs",
             "githubLogin": "CueCrux-Myles",
+            "gold_sha256": c["manifest"].get("gold_sha256"),
+            "block_sha256": c["manifest"].get("block_sha256"),
             "manifest_sha256": sha(json.dumps(c["manifest"], sort_keys=True)),
-            "date": date, "metrics_version": "1.5",
+            "cost_basis": "measured" if c.get("cost_usd") is not None else "unmeasured-subagent",
+            "date": date, "metrics_version": "1.6",
             "submittedAt": f"{date}T00:00:00.000Z",
         }
         (dest / f"{rid}.json").write_text(json.dumps(rec, indent=2))

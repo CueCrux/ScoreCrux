@@ -1,0 +1,787 @@
+{
+  "schema": "replay-v1",
+  "section": "S5",
+  "seed": 1,
+  "suite_version": "CDB-v1.1",
+  "hypothesis": "naive-fails-control (freshness)",
+  "answers_source": "block-analysis",
+  "note": "Grading here is deterministic block analysis: a backend is correct iff its block supplies the current gold AND is not ambiguous (does not also list the superseded value). This shows the MECHANISM; a real run adds the model's answers.",
+  "planted": [
+    {
+      "key": "internal_port",
+      "history": [
+        "5679",
+        "5717"
+      ],
+      "value": "5717"
+    },
+    {
+      "key": "grpc_port",
+      "history": [
+        "2638",
+        "3513"
+      ],
+      "value": "3513"
+    },
+    {
+      "key": "cache_ttl_seconds",
+      "history": [
+        "8898",
+        "9053"
+      ],
+      "value": "9053"
+    },
+    {
+      "key": "rate_limit_rps",
+      "history": [
+        "1765",
+        "2295"
+      ],
+      "value": "2295"
+    },
+    {
+      "key": "lock_ttl_ms",
+      "history": [
+        "1457",
+        "2315"
+      ],
+      "value": "2315"
+    },
+    {
+      "key": "shard_count",
+      "history": [
+        "4745",
+        "5063"
+      ],
+      "value": "5063"
+    },
+    {
+      "key": "retry_limit",
+      "history": [
+        "8905",
+        "9640"
+      ],
+      "value": "9640"
+    },
+    {
+      "key": "max_connections",
+      "history": [
+        "8254",
+        "8970"
+      ],
+      "value": "8970"
+    },
+    {
+      "key": "batch_size",
+      "history": [
+        "1673",
+        "2045"
+      ],
+      "value": "2045"
+    },
+    {
+      "key": "poll_interval_ms",
+      "history": [
+        "4539",
+        "5371"
+      ],
+      "value": "5371"
+    },
+    {
+      "key": "session_ttl_seconds",
+      "history": [
+        "4363",
+        "5180"
+      ],
+      "value": "5180"
+    },
+    {
+      "key": "backlog_limit",
+      "history": [
+        "7971",
+        "8744"
+      ],
+      "value": "8744"
+    },
+    {
+      "key": "worker_count",
+      "history": [
+        "2098",
+        "2307"
+      ],
+      "value": "2307"
+    },
+    {
+      "key": "flush_bytes",
+      "history": [
+        "7807",
+        "8495"
+      ],
+      "value": "8495"
+    },
+    {
+      "key": "read_timeout_ms",
+      "history": [
+        "4366",
+        "4383"
+      ],
+      "value": "4383"
+    },
+    {
+      "key": "write_timeout_ms",
+      "history": [
+        "7023",
+        "7710"
+      ],
+      "value": "7710"
+    },
+    {
+      "key": "heartbeat_ms",
+      "history": [
+        "6040",
+        "6634"
+      ],
+      "value": "6634"
+    },
+    {
+      "key": "prefetch_count",
+      "history": [
+        "3992",
+        "4721"
+      ],
+      "value": "4721"
+    },
+    {
+      "key": "keepalive_ms",
+      "history": [
+        "1491",
+        "2000"
+      ],
+      "value": "2000"
+    },
+    {
+      "key": "circuit_threshold",
+      "history": [
+        "4676",
+        "4919"
+      ],
+      "value": "4919"
+    }
+  ],
+  "backends": [
+    "none",
+    "vendor-native",
+    "compaction",
+    "rag-bm25"
+  ],
+  "blocks": {
+    "none": {
+      "text": "",
+      "tokens": 0,
+      "tokens_method": "char4-estimate",
+      "truncated": false
+    },
+    "vendor-native": {
+      "text": "# TEAM-NOTES.md (project conventions \u2014 accumulated)\n\n- internal_port: 5679\n- internal_port: 5717\n- grpc_port: 2638\n- grpc_port: 3513\n- cache_ttl_seconds: 8898\n- cache_ttl_seconds: 9053\n- rate_limit_rps: 1765\n- rate_limit_rps: 2295\n- lock_ttl_ms: 1457\n- lock_ttl_ms: 2315\n- shard_count: 4745\n- shard_count: 5063\n- retry_limit: 8905\n- retry_limit: 9640\n- max_connections: 8254\n- max_connections: 8970\n- batch_size: 1673\n- batch_size: 2045\n- poll_interval_ms: 4539\n- poll_interval_ms: 5371\n- session_ttl_seconds: 4363\n- session_ttl_seconds: 5180\n- backlog_limit: 7971\n- backlog_limit: 8744\n- worker_count: 2098\n- worker_count: 2307\n- flush_bytes: 7807\n- flush_bytes: 8495\n- read_timeout_ms: 4366\n- read_timeout_ms: 4383\n- write_timeout_ms: 7023\n- write_timeout_ms: 7710\n- heartbeat_ms: 6040\n- heartbeat_ms: 6634\n- prefetch_count: 3992\n- prefetch_count: 4721\n- keepalive_ms: 1491\n- keepalive_ms: 2000\n- circuit_threshold: 4676\n- circuit_threshold: 4919\n",
+      "tokens": 238,
+      "tokens_method": "char4-estimate",
+      "truncated": false
+    },
+    "compaction": {
+      "text": "# NOTES.md (compacted \u2014 current values only)\n\n- internal_port: 5717\n- grpc_port: 3513\n- cache_ttl_seconds: 9053\n- rate_limit_rps: 2295\n- lock_ttl_ms: 2315\n- shard_count: 5063\n- retry_limit: 9640\n- max_connections: 8970\n- batch_size: 2045\n- poll_interval_ms: 5371\n- session_ttl_seconds: 5180\n- backlog_limit: 8744\n- worker_count: 2307\n- flush_bytes: 8495\n- read_timeout_ms: 4383\n- write_timeout_ms: 7710\n- heartbeat_ms: 6634\n- prefetch_count: 4721\n- keepalive_ms: 2000\n- circuit_threshold: 4919\n",
+      "tokens": 124,
+      "tokens_method": "char4-estimate",
+      "truncated": false
+    },
+    "rag-bm25": {
+      "text": "## Retrieved context (rag-bm25, top-6/probe)\n\n| key | value |\n|---|---|\n| backlog_limit | 8744 |\n| batch_size | 2045 |\n| cache_ttl_seconds | 9053 |\n| circuit_threshold | 4919 |\n| flush_bytes | 8495 |\n| grpc_port | 3513 |\n| heartbeat_ms | 6634 |\n| internal_port | 5717 |\n| keepalive_ms | 2000 |\n| lock_ttl_ms | 2315 |\n| max_connections | 8970 |\n| poll_interval_ms | 5371 |\n| prefetch_count | 4721 |\n| rate_limit_rps | 2295 |\n| read_timeout_ms | 4383 |\n| retry_limit | 9640 |\n| session_ttl_seconds | 5180 |\n| shard_count | 5063 |\n| worker_count | 2307 |\n| write_timeout_ms | 7710 |\n",
+      "tokens": 145,
+      "tokens_method": "char4-estimate",
+      "truncated": false
+    }
+  },
+  "probes": [
+    {
+      "id": "P1",
+      "question": "What is the CURRENT internal port (it was changed)?",
+      "gold": "5717",
+      "must_contain": "(?<!\\d)5717(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P2",
+      "question": "What is the CURRENT grpc port (it was changed)?",
+      "gold": "3513",
+      "must_contain": "(?<!\\d)3513(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P3",
+      "question": "What is the CURRENT cache ttl seconds (it was changed)?",
+      "gold": "9053",
+      "must_contain": "(?<!\\d)9053(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P4",
+      "question": "What is the CURRENT rate limit rps (it was changed)?",
+      "gold": "2295",
+      "must_contain": "(?<!\\d)2295(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P5",
+      "question": "What is the CURRENT lock ttl ms (it was changed)?",
+      "gold": "2315",
+      "must_contain": "(?<!\\d)2315(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P6",
+      "question": "What is the CURRENT shard count (it was changed)?",
+      "gold": "5063",
+      "must_contain": "(?<!\\d)5063(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P7",
+      "question": "What is the CURRENT retry limit (it was changed)?",
+      "gold": "9640",
+      "must_contain": "(?<!\\d)9640(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P8",
+      "question": "What is the CURRENT max connections (it was changed)?",
+      "gold": "8970",
+      "must_contain": "(?<!\\d)8970(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P9",
+      "question": "What is the CURRENT batch size (it was changed)?",
+      "gold": "2045",
+      "must_contain": "(?<!\\d)2045(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P10",
+      "question": "What is the CURRENT poll interval ms (it was changed)?",
+      "gold": "5371",
+      "must_contain": "(?<!\\d)5371(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P11",
+      "question": "What is the CURRENT session ttl seconds (it was changed)?",
+      "gold": "5180",
+      "must_contain": "(?<!\\d)5180(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P12",
+      "question": "What is the CURRENT backlog limit (it was changed)?",
+      "gold": "8744",
+      "must_contain": "(?<!\\d)8744(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P13",
+      "question": "What is the CURRENT worker count (it was changed)?",
+      "gold": "2307",
+      "must_contain": "(?<!\\d)2307(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P14",
+      "question": "What is the CURRENT flush bytes (it was changed)?",
+      "gold": "8495",
+      "must_contain": "(?<!\\d)8495(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P15",
+      "question": "What is the CURRENT read timeout ms (it was changed)?",
+      "gold": "4383",
+      "must_contain": "(?<!\\d)4383(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P16",
+      "question": "What is the CURRENT write timeout ms (it was changed)?",
+      "gold": "7710",
+      "must_contain": "(?<!\\d)7710(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P17",
+      "question": "What is the CURRENT heartbeat ms (it was changed)?",
+      "gold": "6634",
+      "must_contain": "(?<!\\d)6634(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P18",
+      "question": "What is the CURRENT prefetch count (it was changed)?",
+      "gold": "4721",
+      "must_contain": "(?<!\\d)4721(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P19",
+      "question": "What is the CURRENT keepalive ms (it was changed)?",
+      "gold": "2000",
+      "must_contain": "(?<!\\d)2000(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P20",
+      "question": "What is the CURRENT circuit threshold (it was changed)?",
+      "gold": "4919",
+      "must_contain": "(?<!\\d)4919(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": true,
+          "correct": 0
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    }
+  ],
+  "totals": {
+    "none": {
+      "correct": 0,
+      "n": 20,
+      "context_tokens": 0
+    },
+    "vendor-native": {
+      "correct": 0,
+      "n": 20,
+      "context_tokens": 238
+    },
+    "compaction": {
+      "correct": 20,
+      "n": 20,
+      "context_tokens": 124
+    },
+    "rag-bm25": {
+      "correct": 20,
+      "n": 20,
+      "context_tokens": 145
+    }
+  }
+}

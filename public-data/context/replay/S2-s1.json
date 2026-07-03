@@ -1,0 +1,707 @@
+{
+  "schema": "replay-v1",
+  "section": "S2",
+  "seed": 1,
+  "suite_version": "CDB-v1.1",
+  "hypothesis": "high-lift",
+  "answers_source": "block-analysis",
+  "note": "Grading here is deterministic block analysis: a backend is correct iff its block supplies the current gold AND is not ambiguous (does not also list the superseded value). This shows the MECHANISM; a real run adds the model's answers.",
+  "planted": [
+    {
+      "key": "codename",
+      "value": "Project Wolfram"
+    },
+    {
+      "key": "internal_port",
+      "value": "8816"
+    },
+    {
+      "key": "log_prefix",
+      "value": "WOLFR"
+    },
+    {
+      "key": "oncall_rotation",
+      "value": "salt-riggers"
+    },
+    {
+      "key": "feature_flag",
+      "value": "ff_wolfram_v5"
+    },
+    {
+      "key": "error_budget_pct",
+      "value": "1.5"
+    },
+    {
+      "key": "cache_ttl_seconds",
+      "value": "884"
+    },
+    {
+      "key": "shard_count",
+      "value": "45"
+    },
+    {
+      "key": "api_version",
+      "value": "v6"
+    },
+    {
+      "key": "retry_limit",
+      "value": "5"
+    },
+    {
+      "key": "region_code",
+      "value": "us-gantry-5"
+    },
+    {
+      "key": "rate_limit_rps",
+      "value": "2147"
+    },
+    {
+      "key": "grpc_port",
+      "value": "7619"
+    },
+    {
+      "key": "lock_ttl_ms",
+      "value": "3615"
+    },
+    {
+      "key": "canary_pct",
+      "value": "5"
+    },
+    {
+      "key": "metrics_namespace",
+      "value": "wolfram_relay"
+    },
+    {
+      "key": "backup_bucket",
+      "value": "wolfram-quorum-bkp"
+    },
+    {
+      "key": "queue_name",
+      "value": "verdigris.lattice.q"
+    },
+    {
+      "key": "alert_channel",
+      "value": "#cinnabar-beacon"
+    },
+    {
+      "key": "deploy_window",
+      "value": "02:00-04:00 UTC"
+    }
+  ],
+  "backends": [
+    "none",
+    "vendor-native",
+    "compaction",
+    "rag-bm25"
+  ],
+  "blocks": {
+    "none": {
+      "text": "",
+      "tokens": 0,
+      "tokens_method": "char4-estimate",
+      "truncated": false
+    },
+    "vendor-native": {
+      "text": "# TEAM-NOTES.md (project conventions \u2014 accumulated)\n\n- codename: Project Wolfram\n- internal_port: 8816\n- log_prefix: WOLFR\n- oncall_rotation: salt-riggers\n- feature_flag: ff_wolfram_v5\n- error_budget_pct: 1.5\n- cache_ttl_seconds: 884\n- shard_count: 45\n- api_version: v6\n- retry_limit: 5\n- region_code: us-gantry-5\n- rate_limit_rps: 2147\n- grpc_port: 7619\n- lock_ttl_ms: 3615\n- canary_pct: 5\n- metrics_namespace: wolfram_relay\n- backup_bucket: wolfram-quorum-bkp\n- queue_name: verdigris.lattice.q\n- alert_channel: #cinnabar-beacon\n- deploy_window: 02:00-04:00 UTC\n",
+      "tokens": 141,
+      "tokens_method": "char4-estimate",
+      "truncated": false
+    },
+    "compaction": {
+      "text": "# NOTES.md (compacted \u2014 current values only)\n\n- codename: Project Wolfram\n- internal_port: 8816\n- log_prefix: WOLFR\n- oncall_rotation: salt-riggers\n- feature_flag: ff_wolfram_v5\n- error_budget_pct: 1.5\n- cache_ttl_seconds: 884\n- shard_count: 45\n- api_version: v6\n- retry_limit: 5\n- region_code: us-gantry-5\n- rate_limit_rps: 2147\n- grpc_port: 7619\n- lock_ttl_ms: 3615\n- canary_pct: 5\n- metrics_namespace: wolfram_relay\n- backup_bucket: wolfram-quorum-bkp\n- queue_name: verdigris.lattice.q\n- alert_channel: #cinnabar-beacon\n- deploy_window: 02:00-04:00 UTC\n",
+      "tokens": 139,
+      "tokens_method": "char4-estimate",
+      "truncated": false
+    },
+    "rag-bm25": {
+      "text": "## Retrieved context (rag-bm25, top-6/probe)\n\n| key | value |\n|---|---|\n| alert_channel | #cinnabar-beacon |\n| api_version | v6 |\n| backup_bucket | wolfram-quorum-bkp |\n| cache_ttl_seconds | 884 |\n| canary_pct | 5 |\n| codename | Project Wolfram |\n| deploy_window | 02:00-04:00 UTC |\n| error_budget_pct | 1.5 |\n| feature_flag | ff_wolfram_v5 |\n| grpc_port | 7619 |\n| internal_port | 8816 |\n| lock_ttl_ms | 3615 |\n| log_prefix | WOLFR |\n| metrics_namespace | wolfram_relay |\n| oncall_rotation | salt-riggers |\n| queue_name | verdigris.lattice.q |\n| rate_limit_rps | 2147 |\n| region_code | us-gantry-5 |\n| retry_limit | 5 |\n",
+      "tokens": 156,
+      "tokens_method": "char4-estimate",
+      "truncated": false
+    }
+  },
+  "probes": [
+    {
+      "id": "P1",
+      "question": "Internal service codename decided by the prior team?",
+      "gold": "Project Wolfram",
+      "must_contain": "wolfram",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P2",
+      "question": "Internal port assigned (no derivable pattern)?",
+      "gold": "8816",
+      "must_contain": "(?<!\\d)8816(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P3",
+      "question": "Log-line prefix standardised on?",
+      "gold": "WOLFR",
+      "must_contain": "WOLFR",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P4",
+      "question": "On-call rotation name agreed?",
+      "gold": "salt-riggers",
+      "must_contain": "salt[- ]?riggers",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P5",
+      "question": "Feature flag gating the new path?",
+      "gold": "ff_wolfram_v5",
+      "must_contain": "ff_wolfram_v5",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P6",
+      "question": "Agreed monthly error budget (percent)?",
+      "gold": "1.5",
+      "must_contain": "(?<!\\d)1\\.5(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P7",
+      "question": "Cache TTL in seconds configured?",
+      "gold": "884",
+      "must_contain": "(?<!\\d)884(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P8",
+      "question": "Number of shards provisioned?",
+      "gold": "45",
+      "must_contain": "(?<!\\d)45(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        }
+      }
+    },
+    {
+      "id": "P9",
+      "question": "Internal API version pinned?",
+      "gold": "v6",
+      "must_contain": "(?<!\\d)v6(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P10",
+      "question": "Maximum retry attempts set?",
+      "gold": "5",
+      "must_contain": "(?<!\\d)5(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P11",
+      "question": "Primary region code chosen?",
+      "gold": "us-gantry-5",
+      "must_contain": "us\\-gantry\\-5",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P12",
+      "question": "Rate limit in requests-per-second?",
+      "gold": "2147",
+      "must_contain": "(?<!\\d)2147(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P13",
+      "question": "gRPC port assigned?",
+      "gold": "7619",
+      "must_contain": "(?<!\\d)7619(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P14",
+      "question": "Distributed-lock TTL in milliseconds?",
+      "gold": "3615",
+      "must_contain": "(?<!\\d)3615(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P15",
+      "question": "Canary rollout percentage?",
+      "gold": "5",
+      "must_contain": "(?<!\\d)5(?!\\d)",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P16",
+      "question": "Metrics namespace prefix?",
+      "gold": "wolfram_relay",
+      "must_contain": "wolfram_relay",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P17",
+      "question": "Backup bucket name?",
+      "gold": "wolfram-quorum-bkp",
+      "must_contain": "wolfram\\-quorum\\-bkp",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P18",
+      "question": "Work queue name?",
+      "gold": "verdigris.lattice.q",
+      "must_contain": "verdigris\\.lattice\\.q",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P19",
+      "question": "Alert channel decided?",
+      "gold": "#cinnabar-beacon",
+      "must_contain": "\\#cinnabar\\-beacon",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "P20",
+      "question": "Approved deploy window (start time)?",
+      "gold": "02:00-04:00 UTC",
+      "must_contain": "02:00\\-04:00",
+      "per_backend": {
+        "none": {
+          "supplies_gold": false,
+          "ambiguous": false,
+          "correct": 0
+        },
+        "vendor-native": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "compaction": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        },
+        "rag-bm25": {
+          "supplies_gold": true,
+          "ambiguous": false,
+          "correct": 1
+        }
+      }
+    }
+  ],
+  "totals": {
+    "none": {
+      "correct": 0,
+      "n": 20,
+      "context_tokens": 0
+    },
+    "vendor-native": {
+      "correct": 20,
+      "n": 20,
+      "context_tokens": 141
+    },
+    "compaction": {
+      "correct": 20,
+      "n": 20,
+      "context_tokens": 139
+    },
+    "rag-bm25": {
+      "correct": 19,
+      "n": 20,
+      "context_tokens": 156
+    }
+  }
+}

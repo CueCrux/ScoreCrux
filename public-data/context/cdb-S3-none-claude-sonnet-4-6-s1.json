@@ -31,5 +31,7 @@
   "manifest_sha256": "3fc7811d142d2b51309e80438055b853767ce7bc4ce9d187070b42a817be7480",
   "date": "2026-07-03",
   "metrics_version": "1.5",
-  "submittedAt": "2026-07-03T00:00:00.000Z"
+  "submittedAt": "2026-07-03T00:00:00.000Z",
+  "gold_sha256": "7f3e5dd29809aa5df498cc4e963608f6ab9a821c7a569d79caeda3d7b11284e0",
+  "cost_basis": "measured"
 }
