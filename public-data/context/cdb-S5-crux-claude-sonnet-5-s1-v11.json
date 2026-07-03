@@ -25,7 +25,7 @@
   },
   "cx_em": 15.0,
   "s_gate": 1,
-  "c_tokens_usd": 1.01771,
+  "c_tokens_usd": 0.876113,
   "probes": [
     {
       "id": "P1",
@@ -188,18 +188,20 @@
       "correct": 1
     }
   ],
-  "context_tokens": 353,
+  "context_tokens": 143,
   "context_tokens_method": "char4-estimate",
-  "correct_per_1k_ctx": 56.657,
-  "latency_ms": 63753,
+  "correct_per_1k_ctx": 139.86,
+  "latency_ms": 34667,
   "submitter": "Myles Bryning",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
   "gold_sha256": "23f6c5617c183c063a8d5d27f60e881cff63b5898faba469dfd6709a1980b565",
-  "block_sha256": "0e09ba488dc7c5921b1f235ee71025f022e9acb1424a1b927da875474577967b",
-  "manifest_sha256": "542ab8cb24360a1d57ce21775f555c01b27a7dd6a7041a149082e3556b8520c2",
+  "block_sha256": "4fd6723e043f91e27d9dcd56a6e9532f43e94ed60c139874977850663ea10ba1",
+  "manifest_sha256": "b1ee62bd6fdc3279c191a7e14c81a797e8de3b29c61cacb8d01095cc2a876ed9",
   "cost_basis": "measured",
   "date": "2026-07-03",
   "metrics_version": "1.6",
-  "submittedAt": "2026-07-03T00:00:00.000Z"
+  "submittedAt": "2026-07-03T00:00:00.000Z",
+  "axis": null,
+  "in_composite": true
 }

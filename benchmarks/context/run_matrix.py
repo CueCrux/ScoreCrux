@@ -190,9 +190,9 @@ def run_cell(section, seed, backend, model, out_root, version="v1", batch_size=5
     gold_sha = sha(json.dumps(case, sort_keys=True))
 
     # assemble the backend's context block
-    if backend == "crux":
+    if backend.startswith("crux"):  # crux / crux-prov / crux-auto — all plant to the daemon
         adapters.crux_teardown(case); adapters.crux_plant(case)
-        block = adapters.assemble_crux(case)
+        block = adapters.ASSEMBLERS[backend](case)
     elif backend in adapters.ASSEMBLERS:
         block = adapters.ASSEMBLERS[backend](case)
     else:
@@ -228,7 +228,7 @@ def run_cell(section, seed, backend, model, out_root, version="v1", batch_size=5
                 cost_sum += bcost; cost_seen = True
         # prefer the real total_cost_usd (summed across batches); else price tokens
         cost = round(cost_sum, 6) if cost_seen else usd(agg, model_id)
-        if backend == "crux":
+        if backend.startswith("crux"):
             adapters.crux_teardown(case)
 
     (cell / "answers.json").write_text(json.dumps(answers, indent=2))
@@ -248,7 +248,8 @@ def run_cell(section, seed, backend, model, out_root, version="v1", batch_size=5
             "correct": sum(sc.values()), "per_probe": sc, "probes_detail": probes_detail,
             "cost_usd": cost, "context_tokens": ctx_tokens, "context_tokens_method": ctx_method,
             "latency_ms": lat, "suite_version": suite_version, "scored": scored,
-            "s_gate": 1, "manifest": manifest}
+            "in_composite": case.get("in_composite", scored and section != "S1"),
+            "axis": case.get("axis"), "s_gate": 1, "manifest": manifest}
 
 
 def main():
@@ -331,8 +332,10 @@ def compute_composite(cells):
     (backend, model). Also rolls up context tokens + cost and an accuracy-per-1k-
     context-token efficiency figure — the 'same accuracy, different token bill'
     axis. oracle/random are calibration arms and are omitted from the ranking."""
-    scored_secs = sorted({c["section"] for c in cells
-                          if c.get("scored") and c["section"] != "S1"})
+    def in_comp(c):
+        return c.get("scored") and c.get("in_composite", c["section"] != "S1")
+    scored_secs = sorted({c["section"] for c in cells if in_comp(c)})
+    prov_secs = sorted({c["section"] for c in cells if c.get("axis") == "provenance"})
     rows = []
     for backend, model in sorted({(c["backend"], c["model"]) for c in cells
                                   if c["backend"] not in ("oracle", "random")}):
@@ -346,11 +349,15 @@ def compute_composite(cells):
         if not sub:
             continue
         score_ = sum(v["correct"] for v in sub.values()); mx = sum(v["n"] for v in sub.values())
+        # separate provenance axis (S8) — not in the /100
+        pcs = [c for c in cells if c["section"] in prov_secs and c["backend"] == backend and c["model"] == model]
+        prov = {"correct": sum(c["correct"] for c in pcs), "n": sum(c["n_probes"] for c in pcs)} if pcs else None
         rows.append({"backend": backend, "model": model, "score": score_, "max": mx,
                      "per_section": sub, "context_tokens": ct, "cost_usd": round(cost, 5),
-                     "correct_per_1k_ctx": round(score_ / (ct / 1000), 3) if ct else None})
+                     "correct_per_1k_ctx": round(score_ / (ct / 1000), 3) if ct else None,
+                     "provenance": prov})
     rows.sort(key=lambda r: (-r["score"], r["context_tokens"]))
-    return {"sections": scored_secs, "rows": rows}
+    return {"sections": scored_secs, "provenance_sections": prov_secs, "rows": rows}
 
 
 def check_invariants(cells):
@@ -385,10 +392,11 @@ def emit_scorecrux(cells, date):
     section_names = {"S1": "Rederivable (control)", "S2": "Arbitrary decisions",
                      "S3": "Cross-session continuity", "S4": "Causal / why-chains",
                      "S5": "Supersession (control)", "S6": "Scale / needle",
-                     "S7": "Coordination / multi-agent"}
+                     "S7": "Coordination / multi-agent", "S8": "Provenance / trust"}
     hyp = {"S1": "no-lift-control", "S2": "high-lift", "S3": "high-lift",
            "S4": "high-lift", "S5": "naive-fails-control",
-           "S6": "retrieval-vs-stuffing", "S7": "coordination-cuts-collisions"}
+           "S6": "retrieval-vs-stuffing", "S7": "coordination-cuts-collisions",
+           "S8": "provenance-earns-tokens"}
     for c in cells:
         suite = c.get("suite_version", "CDB-v1")
         # v1.1 records get a -v11 filename suffix so they never overwrite the
@@ -400,6 +408,8 @@ def emit_scorecrux(cells, date):
             "benchmark_name": f"Context Dependence — {section_names.get(c['section'], c['section'])}",
             "section": c["section"], "section_hypothesis": hyp.get(c["section"]),
             "scored": c.get("scored", c["section"] != "S1"),
+            "in_composite": c.get("in_composite", c.get("scored", True) and c["section"] != "S1"),
+            "axis": c.get("axis"),
             "backend": c["backend"], "memory_system": {"used": c["backend"] not in ("none", "random")},
             "model": c["model"], "reportedModel": c["model"],
             "corpus": c["corpus"], "seed": c["seed"],

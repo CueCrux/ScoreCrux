@@ -324,6 +324,42 @@ def gen_case_v11(section, seed):
         return {"section": section, "seed": seed, "corpus": f"{CORPUS}-N{n}", "suite_version": "CDB-v1.1",
                 "scored": True, "prior": prior, "probes": _probes(facts), "files": {}, "haystack_n": n}
 
+    if section == "S8":  # provenance / trust arbitration — SEPARATE axis (not in /100)
+        # Two sources disagree on each topic; only the CONFIDENCE tells you which
+        # to trust. Values are arbitrary (no model prior), so guessing = 50%. A
+        # backend that carries confidence (crux-prov / crux-auto) can pick the
+        # trusted value; one that drops it (none / vendor-native / lean crux /
+        # rag-bm25 / compaction / sqlite-fts) can only guess. This is where
+        # provenance EARNS its tokens.
+        TOPICS = ["primary datacenter", "cache backend", "wire codec", "auth mode",
+                  "queue engine", "hash algo", "lb policy", "id scheme", "edge proxy",
+                  "sandbox runtime", "object store", "compression codec", "search index",
+                  "secret store", "trace sink", "cdn", "dns provider", "tls posture",
+                  "rollout ring", "shard key"]
+
+        def _aval():
+            return f"{r.choice(ADJ)}-{r.randint(10, 99)}"
+
+        prior = []; probes = []
+        for i, topic in enumerate(TOPICS[:N_SCORED]):
+            v_trust = _aval(); v_other = _aval()
+            while v_other == v_trust:
+                v_other = _aval()
+            c_trust = round(r.uniform(0.85, 0.98), 2)
+            c_other = round(r.uniform(0.30, 0.60), 2)
+            slug = topic.replace(" ", "_")
+            pair = [{"key": f"{slug}_srcA", "value": v_trust, "confidence": c_trust},
+                    {"key": f"{slug}_srcB", "value": v_other, "confidence": c_other}]
+            r.shuffle(pair)  # trusted source isn't always first
+            prior += pair
+            probes.append({"id": f"P{i+1}",
+                           "question": f"Two sources disagree on the {topic}. Use ONLY the value from the "
+                                       f"MORE CONFIDENT source (higher confidence). What is that value?",
+                           "must_contain": re.escape(v_trust), "gold": v_trust, "query": topic})
+        return {"section": "S8", "seed": seed, "corpus": CORPUS, "suite_version": "CDB-v1.1",
+                "scored": True, "in_composite": False, "axis": "provenance",
+                "prior": prior, "probes": probes, "files": {}}
+
     if section == "S7":  # coordination / multi-agent SCAFFOLD (not in the /100)
         # A deterministic 2-agent-on-a-shared-repo scenario: tasks touch files
         # from a shared pool; without coordination the agents' file-sets overlap
