@@ -1,5 +1,5 @@
 {
-  "id": "cdb-S8-oracle-synthetic-s1-v11",
+  "id": "cdb-S8-crux-claude-haiku-4-5-s1-v11",
   "type": "context",
   "suite_version": "CDB-v1.1",
   "benchmark_name": "Context Dependence \u2014 Provenance / trust",
@@ -8,12 +8,12 @@
   "scored": true,
   "in_composite": false,
   "axis": "provenance",
-  "backend": "oracle",
+  "backend": "crux",
   "memory_system": {
     "used": true
   },
-  "model": "synthetic",
-  "reportedModel": "synthetic",
+  "model": "claude-haiku-4-5",
+  "reportedModel": "claude-haiku-4-5",
   "corpus": "CDB-synthetic-v1",
   "seed": 1,
   "n_probes": 20,
@@ -27,7 +27,7 @@
   },
   "cx_em": 15.0,
   "s_gate": 1,
-  "c_tokens_usd": 0.0,
+  "c_tokens_usd": 0.146831,
   "probes": [
     {
       "id": "P1",
@@ -190,16 +190,16 @@
       "correct": 1
     }
   ],
-  "context_tokens": 0,
+  "context_tokens": 490,
   "context_tokens_method": "char4-estimate",
-  "correct_per_1k_ctx": null,
-  "latency_ms": null,
+  "correct_per_1k_ctx": 40.816,
+  "latency_ms": 45698,
   "submitter": "Myles Bryning",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
   "gold_sha256": "37541d7714db3b5e29e59ea809049d8bdf786a73f40db390c98e115c0cd6bf95",
-  "block_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-  "manifest_sha256": "6410a4ea8de6f66f42fd32ae282dd30c9d64645735efa098ee6b5c9e4b28b47d",
+  "block_sha256": "c2fca42e22327365ab73ee138ab31a38b78e4f87e75dd6d01fe33531846b0a9f",
+  "manifest_sha256": "c5480b55790894419a705c03dde68561b2e07390de1fedc01928d77363e7a1ae",
   "cost_basis": "measured",
   "date": "2026-07-03",
   "metrics_version": "1.6",
