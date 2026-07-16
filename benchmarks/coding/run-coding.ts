@@ -79,11 +79,14 @@ function parseArgs(argv: string[]): CLIArgs {
 // ---------------------------------------------------------------------------
 
 const PRICING: Record<string, { input: number; output: number }> = {
-  "claude-opus-4-8": { input: 15, output: 75 },
-  "claude-opus-4-7": { input: 15, output: 75 },
-  "claude-opus-4-6": { input: 15, output: 75 },
+  "claude-fable-5": { input: 10, output: 50 },
+  "claude-mythos-5": { input: 10, output: 50 },
+  "claude-sonnet-5": { input: 3, output: 15 },
+  "claude-opus-4-8": { input: 5, output: 25 },
+  "claude-opus-4-7": { input: 5, output: 25 },
+  "claude-opus-4-6": { input: 5, output: 25 },
   "claude-sonnet-4-6": { input: 3, output: 15 },
-  "claude-haiku-4-5": { input: 0.8, output: 4 },
+  "claude-haiku-4-5": { input: 1, output: 5 },
   "gpt-5.5": { input: 2.5, output: 10 },
   "gpt-5.4": { input: 2.5, output: 10 },
   "gpt-5.4-mini": { input: 0.4, output: 1.6 },
