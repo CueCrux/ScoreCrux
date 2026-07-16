@@ -9,7 +9,7 @@ export ANTHROPIC_API_KEY=crucible-proxy
 
 for model in claude-sonnet-5 claude-opus-4-8 claude-fable-5; do
   echo "=== RUN $model $(date -u +%H:%M:%SZ) ==="
-  npx tsx run-coding.ts --model "$model" --claim-code "$SCORECRUX_CLAIM_CODE" 2>&1 | tail -12
+  npx tsx run-coding.ts --model "$model" 2>&1 | tail -12
   echo "=== DONE $model exit=$? ==="
 done
 echo "MATRIX COMPLETE $(date -u +%H:%M:%SZ)"

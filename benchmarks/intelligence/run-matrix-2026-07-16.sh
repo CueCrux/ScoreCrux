@@ -14,7 +14,7 @@ for model in claude-sonnet-5 claude-opus-4-8 claude-fable-5; do
     out="results/m2-${model}-${STAMP}-r${i}.json"
     [ -f "$out" ] && { echo "SKIP $out (exists)"; continue; }
     echo "=== RUN $model r$i $(date -u +%H:%M:%SZ) ==="
-    npx tsx run-intelligence.ts --model "$model" --output "$out" --claim-code "$SCORECRUX_CLAIM_CODE" 2>&1 | tail -6
+    npx tsx run-intelligence.ts --model "$model" --output "$out" 2>&1 | tail -6
     echo "=== DONE $model r$i exit=$? ==="
   done
 done
