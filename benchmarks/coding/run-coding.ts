@@ -45,6 +45,8 @@ function parseArgs(argv: string[]): CLIArgs {
     dryRun: false,
     verbose: false,
     output: "",
+    // Env fallback keeps the code off argv (visible in `ps`); --claim-code overrides.
+    claimCode: process.env.SCORECRUX_CLAIM_CODE || undefined,
     submitUrl: "https://scorecrux.com",
   };
 
