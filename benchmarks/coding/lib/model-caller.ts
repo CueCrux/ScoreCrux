@@ -65,7 +65,9 @@ export async function callModel(
       outputTokens: response.usage.output_tokens,
       latencyMs: Date.now() - start,
       reportedModel: (response as any).model ?? model,
-      apiBase: "https://api.anthropic.com",
+      // Record the base actually used — ANTHROPIC_BASE_URL points runs at a proxy
+      // (e.g. the Crucible subscription backend) and attribution must reflect that.
+      apiBase: (process.env.ANTHROPIC_BASE_URL || "https://api.anthropic.com").replace(/\/+$/, ""),
     };
   }
 
@@ -112,7 +114,7 @@ export async function callModel(
       outputTokens: data.usage?.completion_tokens ?? 0,
       latencyMs: Date.now() - start,
       reportedModel: data.model ?? res.headers.get("openai-model") ?? model,
-      apiBase: "https://api.openai.com",
+      apiBase,
     };
   }
 
