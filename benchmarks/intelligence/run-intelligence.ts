@@ -182,14 +182,15 @@ interface PricePerMillion { input: number; output: number; }
  * Rates are USD per 1M tokens.
  */
 const MODEL_PRICING: Array<{ match: RegExp; price: PricePerMillion }> = [
-  { match: /^claude-opus-4-8/,        price: { input: 15.0, output: 75.0 } }, // inherits 4-family pricing
   { match: /^claude-fable-5/,         price: { input: 10.0, output: 50.0 } }, // Fable 5 tier
   { match: /^claude-mythos-5/,        price: { input: 10.0, output: 50.0 } }, // Mythos 5 (same tier as Fable 5)
-  { match: /^claude-opus-4-7/,        price: { input: 15.0, output: 75.0 } }, // inherits 4-family pricing
-  { match: /^claude-opus-4-6/,        price: { input: 15.0, output: 75.0 } },
+  { match: /^claude-sonnet-5/,        price: { input: 3.0,  output: 15.0 } },
+  { match: /^claude-opus-4-8/,        price: { input: 5.0,  output: 25.0 } },
+  { match: /^claude-opus-4-7/,        price: { input: 5.0,  output: 25.0 } }, // inherits 4-family pricing
+  { match: /^claude-opus-4-6/,        price: { input: 5.0,  output: 25.0 } },
   { match: /^claude-opus-4-(\d+|20)/, price: { input: 15.0, output: 75.0 } }, // 4.x family
   { match: /^claude-sonnet-4/,        price: { input: 3.0,  output: 15.0 } },
-  { match: /^claude-haiku-4/,         price: { input: 0.80, output: 4.0 } },
+  { match: /^claude-haiku-4/,         price: { input: 1.0,  output: 5.0 } },
   { match: /^gpt-5\.5/,               price: { input: 2.50, output: 10.0 } }, // estimate; unpublished
   { match: /^gpt-5\.4-nano/,          price: { input: 0.10, output: 0.40 } },
   { match: /^gpt-5\.4-mini/,          price: { input: 0.40, output: 1.60 } },
@@ -281,7 +282,9 @@ async function callModel(
 
     // response.model is the canonical ID Anthropic actually served
     provenance.reportedModel = (response as any).model ?? model;
-    provenance.apiBase = "https://api.anthropic.com";
+    // Record the base actually used — ANTHROPIC_BASE_URL points runs at a proxy
+    // (e.g. the Crucible subscription backend) and attribution must reflect that.
+    provenance.apiBase = (process.env.ANTHROPIC_BASE_URL || "https://api.anthropic.com").replace(/\/+$/, "");
 
     const text = response.content
       .filter((b): b is Anthropic.Messages.TextBlock => b.type === "text")
@@ -332,7 +335,7 @@ async function callModel(
     if (data.error) throw new Error(`OpenAI: ${data.error.message}`);
 
     provenance.reportedModel = data.model ?? res.headers.get("openai-model") ?? model;
-    provenance.apiBase = "https://api.openai.com";
+    provenance.apiBase = openaiBase;
 
     return {
       text: data.choices?.[0]?.message?.content ?? "",
