@@ -1,0 +1,193 @@
+{
+  "A001": {
+    "final_answer": "kael: tea, mira: coffee, tobin: juice",
+    "confidence": 0.99,
+    "working": [
+      "Clue 3: Tobin = juice.",
+      "Remaining drinks tea, coffee go to Kael and Mira.",
+      "Clue 1: Kael != coffee, so Kael = tea.",
+      "Clue 2: Mira != tea; consistent since Mira = coffee."
+    ]
+  },
+  "A002": {
+    "final_answer": "wren: 1, joss: 2, mira: 3, kael: 4",
+    "confidence": 0.97,
+    "working": [
+      "Clue 2: Kael in {3,4}.",
+      "Clue 1: Wren directly left of Joss; clue 4 eliminates Joss=4, so (W,J) in {(1,2),(2,3)}.",
+      "Try (W=2,J=3): Kael must be 4, Mira=1 — violates clue 5.",
+      "Try (W=1,J=2): remaining {3,4} for Kael,Mira. Clue 3 Mira<Kael so Mira=3, Kael=4.",
+      "All five clues satisfied."
+    ]
+  },
+  "A003": {
+    "final_answer": "kael: floor 1 dog, mira: floor 2 cat, tobin: floor 3 fish, joss: floor 4 bird, wren: floor 5 lizard",
+    "confidence": 0.95,
+    "working": [
+      "Clue 7: Wren = floor 5.",
+      "Clue 8: Tobin = Kael + 2; with clue 3 Tobin in {2,3,4}, Kael in {1,2}.",
+      "Case Kael=2, Tobin=4 forces Joss=1, but clue 5 (floor 1 = dog) conflicts with clue 4 (Joss = bird).",
+      "So Kael=1, Tobin=3. Clue 1: Mira>Kael, Mira<Wren(5). Remaining floors 2,4 for Mira,Joss. Clue 9 Joss!=2 -> Joss=4, Mira=2.",
+      "Pets: floor 1 (Kael) = dog, floor 3 (Tobin) = fish, Joss = bird. Cat/lizard remain for Mira(2) and Wren(5). Clue 10 Wren != cat -> Wren=lizard, Mira=cat. Clue 6 (Kael != cat) satisfied."
+    ]
+  },
+  "B001": {
+    "final_answer": "8",
+    "confidence": 1.0,
+    "working": ["Start 0.", "+5 -> 5.", "*2 -> 10.", "-3 -> 7.", "+1 -> 8."]
+  },
+  "B002": {
+    "final_answer": "3",
+    "confidence": 1.0,
+    "working": [
+      "Start at cell 1.",
+      "+3 -> 4.",
+      "-1 -> 3.",
+      "+4 -> 7.",
+      "-2 -> 5.",
+      "+3 -> 8.",
+      "-5 -> 3."
+    ]
+  },
+  "B003": {
+    "final_answer": "a=8, b=12, c=20",
+    "confidence": 1.0,
+    "working": [
+      "Start A=2 B=5 C=1.",
+      "1: A = B-A = 3 -> (3,5,1).",
+      "2: C = A+C = 4 -> (3,5,4).",
+      "3: B = A*C = 12 -> (3,12,4).",
+      "4: A = B-C = 8 -> (8,12,4).",
+      "5: C = A+B = 20 -> (8,12,20).",
+      "6: B = C-A = 12 -> (8,12,20)."
+    ]
+  },
+  "C001": {
+    "final_answer": "yes, by Rule 2",
+    "confidence": 0.95,
+    "working": [
+      "Kael is premium -> Rule 2 limit is 7 books.",
+      "Age 15 so Rule 4 (children) does not apply.",
+      "No overdue books so Rule 3 does not block.",
+      "5 current + 2 additional = 7 total, which equals but does not exceed the premium limit.",
+      "Therefore Kael can borrow 2 more books; Rule 2 is the controlling rule."
+    ]
+  },
+  "C002": {
+    "final_answer": "day 1 meals 75, day 1 travel 150, day 2 meals 80, day 2 equipment 0 (manager approval pending per Rule 3), total 305 credits",
+    "confidence": 0.85,
+    "working": [
+      "Rule 5: international assignment doubles meal cap to 80/day.",
+      "Day 1 meals 75 <= 80 -> 75 reimbursed.",
+      "Day 1 travel 300 km * 0.5 = 150 credits.",
+      "Day 2 meals 90 capped at 80 -> 80 reimbursed.",
+      "Day 2 equipment 210 exceeds 200; Rule 3 requires manager approval before reimbursement. Not stated as approved -> 0 currently reimbursable.",
+      "Submission within 30 days (10 days) -> Rule 4 satisfied.",
+      "Total currently reimbursable = 75 + 150 + 80 + 0 = 305 credits."
+    ]
+  },
+  "C003": {
+    "final_answer": "funded: proposal b (mira) total 75, proposal c (tobin) total 71. adjusted scores: a impact 28 feasibility 22 novelty 21 total 71, b impact 35 feasibility 25 novelty 15 total 75, c impact 30 feasibility 20 novelty 21 total 71, d impact 25 feasibility 21 novelty 24 total 70",
+    "confidence": 0.9,
+    "working": [
+      "Apply Rule 3: Mira received grant 1 cycle ago -> Novelty 20-5=15.",
+      "Apply Rule 4 for new applicants: Kael lowest=Novelty 18 +3 -> 21; Wren lowest=Feasibility 18 +3 -> 21.",
+      "Totals: A=28+22+21=71, B=35+25+15=75, C=30+20+21=71, D=25+21+24=70.",
+      "Rule 2 eligibility (>=70 and no criterion <15): all four qualify.",
+      "Rule 6 caps funding at 2. B=75 is first. Tie between A=71 and C=71 -> Rule 5 higher Impact: C(30) > A(28) -> C funded.",
+      "Funded: B and C."
+    ]
+  },
+  "D001": {
+    "final_answer": ["product y", "product z"],
+    "confidence": 1.0,
+    "working": [
+      "Machine P broken -> Part X unavailable.",
+      "Part X required for Product Y -> Y cannot be assembled.",
+      "Product Y required for Product Z -> Z cannot be assembled.",
+      "Affected products: Y and Z."
+    ]
+  },
+  "D002": {
+    "final_answer": "q1: no, sprinklers do not run. q2: yes, refill valve activates. q3: pump activates the refill valve and sprinklers still do not run (tank is at 15% which is below 20%, so the sprinkler path is not taken)",
+    "confidence": 0.95,
+    "working": [
+      "Rain sensor reports NO rain at 6 AM -> timer activates pump.",
+      "Tank level 15% is <= 20% -> pump activates refill valve, not sprinklers.",
+      "Q1 answer: sprinklers do NOT run this cycle.",
+      "Q2 answer: refill valve activates to refill tank from mains.",
+      "Q3: without rain sensor the timer unconditionally activates pump. Tank still 15% (<=20%), so refill valve activates and sprinklers still do not run."
+    ]
+  },
+  "D003": {
+    "final_answer": "q1: n4 activates at t=2. q2: n5 first activates at t=1. q3: n3, n4, n5 never activate. q4: n4 activates at t=1",
+    "confidence": 0.9,
+    "working": [
+      "T=0: N1 -> N2 and N3.",
+      "N2 has 2-step delay: N4 receives from N2 at T=2.",
+      "N3 has 1-step delay: N4 receives from N3 at T=1; N5 activates immediately at T=1 from N3's message.",
+      "Q1: N4 needs both; second arrival T=2 -> N4 activates at T=2.",
+      "Q2: N5 first activates at T=1.",
+      "Q3: Remove N1->N3. N3 never messaged -> N3 never activates. N4 never gets N3's msg -> N4 never activates. N5 never receives (not from N3, and N4 never activates to send). N3, N4, N5 all never activate.",
+      "Q4: N2 delay=0 -> N4 receives from N2 at T=0 and from N3 at T=1; second arrival T=1 -> N4 activates at T=1."
+    ]
+  },
+  "E001": {
+    "final_answer": "@ # # # # #",
+    "confidence": 0.98,
+    "working": [
+      "Pattern: @ followed by k hashes, k incrementing 1, 2, 3, 4, ...",
+      "Previous complete group had 4 hashes.",
+      "Next complete group: @ followed by 5 hashes."
+    ]
+  },
+  "E002": {
+    "final_answer": "m l k, p o n, s r q",
+    "confidence": 0.98,
+    "working": [
+      "Each example reverses every row horizontally (columns flipped left-to-right).",
+      "Apply to K L M / N O P / Q R S -> M L K / P O N / S R Q."
+    ]
+  },
+  "E003": {
+    "final_answer": "LSBQ",
+    "confidence": 0.98,
+    "working": [
+      "T1 reverses the string: PARK -> KRAP.",
+      "T2 shifts each letter +1 with alphabet wrap: K->L, R->S, A->B, P->Q.",
+      "Final: LSBQ."
+    ]
+  },
+  "F001": {
+    "final_answer": "b starts at 0 (finishes 1); a starts at 1 (finishes 3); c starts at 3 (finishes 6)",
+    "confidence": 0.95,
+    "working": [
+      "EDF schedule by deadline: B(3) < A(5) < C(8).",
+      "B: 0-1 <= 3 ok.",
+      "A: 1-3 <= 5 ok.",
+      "C: 3-6 <= 8 ok.",
+      "No overlaps, all deadlines met."
+    ]
+  },
+  "F002": {
+    "final_answer": "worker1: a 0-3, c 3-5. worker2: b 0-2, d 2-6. makespan 6 hours",
+    "confidence": 0.95,
+    "working": [
+      "Worker 1 runs A (0-3); C depends on A and runs 3-5 on worker 1.",
+      "Worker 2 runs B (0-2); D depends on B and runs 2-6 on worker 2.",
+      "Makespan = max(5, 6) = 6 hours.",
+      "D (4h after B 2h = 6) is on the critical path; no schedule can beat 6."
+    ]
+  },
+  "F003": {
+    "final_answer": "m1: t1 0-3, t3 3-7, t5 7-9. m2: t2 0-2, t4 2-3, t6 3-6. makespan 9 hours",
+    "confidence": 0.9,
+    "working": [
+      "Critical path T1 (3) -> T3 (4) -> T5 (2) = 9 hours; cannot be shorter.",
+      "Put critical chain on M1: T1 0-3, T3 3-7, T5 7-9.",
+      "M2 runs T2 0-2, T4 2-3 (after T2), T6 3-6 (after T4).",
+      "All dependencies respected; T5 starts at 7 when both prerequisites (T3@7, T4@3) are done.",
+      "Makespan = 9 hours."
+    ]
+  }
+}
