@@ -43,6 +43,7 @@ interface CLIArgs {
   itemsPerCategory: number;
   dryRun: boolean;
   verbose: boolean;
+  interactive: boolean;
   output: string;
   claimCode?: string;
   submitUrl: string;
@@ -56,8 +57,10 @@ function parseArgs(argv: string[]): CLIArgs {
     itemsPerCategory: 3,
     dryRun: false,
     verbose: false,
+    interactive: false,
     output: "",
-    claimCode: undefined,
+    // Env fallback keeps the code off argv (visible in `ps`); --claim-code overrides.
+    claimCode: process.env.SCORECRUX_CLAIM_CODE || undefined,
     submitUrl: "https://scorecrux.com",
   };
 
@@ -87,6 +90,9 @@ function parseArgs(argv: string[]): CLIArgs {
         break;
       case "--verbose":
         args.verbose = true;
+        break;
+      case "--interactive":
+        args.interactive = true;
         break;
       case "--output":
         args.output = next;
@@ -165,6 +171,44 @@ function parseResponse(raw: string): ParsedOutput | null {
 }
 
 // ---------------------------------------------------------------------------
+// Model pricing (USD per 1M tokens)
+// ---------------------------------------------------------------------------
+
+interface PricePerMillion { input: number; output: number; }
+
+/**
+ * Pricing table for estimatedCostUsd. Matched by prefix — e.g.
+ * "claude-opus-4-7" or "claude-opus-4-20250514" both hit the "claude-opus"
+ * row. Update the rates when Anthropic/OpenAI publish new pricing.
+ * Rates are USD per 1M tokens.
+ */
+const MODEL_PRICING: Array<{ match: RegExp; price: PricePerMillion }> = [
+  { match: /^claude-fable-5/,         price: { input: 10.0, output: 50.0 } }, // Fable 5 tier
+  { match: /^claude-mythos-5/,        price: { input: 10.0, output: 50.0 } }, // Mythos 5 (same tier as Fable 5)
+  { match: /^claude-sonnet-5/,        price: { input: 3.0,  output: 15.0 } },
+  { match: /^claude-opus-4-8/,        price: { input: 5.0,  output: 25.0 } },
+  { match: /^claude-opus-4-7/,        price: { input: 5.0,  output: 25.0 } }, // inherits 4-family pricing
+  { match: /^claude-opus-4-6/,        price: { input: 5.0,  output: 25.0 } },
+  { match: /^claude-opus-4-(\d+|20)/, price: { input: 15.0, output: 75.0 } }, // 4.x family
+  { match: /^claude-sonnet-4/,        price: { input: 3.0,  output: 15.0 } },
+  { match: /^claude-haiku-4/,         price: { input: 1.0,  output: 5.0 } },
+  { match: /^gpt-5\.5/,               price: { input: 2.50, output: 10.0 } }, // estimate; unpublished
+  { match: /^gpt-5\.4-nano/,          price: { input: 0.10, output: 0.40 } },
+  { match: /^gpt-5\.4-mini/,          price: { input: 0.40, output: 1.60 } },
+  { match: /^gpt-5\.4/,               price: { input: 2.50, output: 10.0 } },
+  { match: /^gpt-4\.1-nano/,          price: { input: 0.10, output: 0.40 } },
+  { match: /^gpt-4\.1-mini/,          price: { input: 0.40, output: 1.60 } },
+  { match: /^gpt-4\.1/,               price: { input: 2.00, output: 8.00 } },
+];
+
+function estimateModelCost(model: string, inputTokens: number, outputTokens: number): number {
+  const row = MODEL_PRICING.find(r => r.match.test(model));
+  if (!row) return 0;
+  return (inputTokens / 1_000_000) * row.price.input
+       + (outputTokens / 1_000_000) * row.price.output;
+}
+
+// ---------------------------------------------------------------------------
 // Model caller
 // ---------------------------------------------------------------------------
 
@@ -197,15 +241,29 @@ function readUntilMarker(marker: string): Promise<string> {
   });
 }
 
+/**
+ * Provenance captured from the model provider during a real API call.
+ * Used by the submit flow to prove Tier A attribution. Remains null for
+ * interactive mode (no outbound call = nothing to attest).
+ */
+interface ProviderProvenance {
+  reportedModel: string | null;
+  apiBase: string | null;
+}
+const provenance: ProviderProvenance = { reportedModel: null, apiBase: null };
+
 async function callModel(
   model: string,
   prompt: string,
   _mode: RunMode,
+  interactive: boolean = false,
 ): Promise<{ text: string; inputTokens: number; outputTokens: number; latencyMs: number }> {
   const start = Date.now();
 
-  // Interactive mode: print prompt, read response from stdin
-  if (model === "interactive") {
+  // Interactive mode: print prompt, read response from stdin.
+  // Triggered either by --model interactive (legacy) or --interactive (preferred —
+  // lets you set --model to the real identity so attribution tags self_reported).
+  if (model === "interactive" || interactive) {
     console.log("\n── ITEM ──");
     console.log(prompt.slice(0, 500));
     console.log("\n── PASTE JSON RESPONSE (end with END_OF_RESPONSE) ──");
@@ -222,6 +280,12 @@ async function callModel(
       messages: [{ role: "user", content: prompt }],
       system: "You are taking a psychometric reasoning test. For each item, respond with a JSON object: { \"final_answer\": \"your answer\", \"confidence\": 0.0-1.0, \"working\": [\"step 1\", \"step 2\", ...] }. Think carefully and show your reasoning in the working array. Give only the JSON, no other text.",
     });
+
+    // response.model is the canonical ID Anthropic actually served
+    provenance.reportedModel = (response as any).model ?? model;
+    // Record the base actually used — ANTHROPIC_BASE_URL points runs at a proxy
+    // (e.g. the Crucible subscription backend) and attribution must reflect that.
+    provenance.apiBase = (process.env.ANTHROPIC_BASE_URL || "https://api.anthropic.com").replace(/\/+$/, "");
 
     const text = response.content
       .filter((b): b is Anthropic.Messages.TextBlock => b.type === "text")
@@ -240,20 +304,39 @@ async function callModel(
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) throw new Error("OPENAI_API_KEY required for OpenAI models");
 
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+    // gpt-5.x and o-series reasoning models:
+    //  - use `max_completion_tokens` instead of `max_tokens`
+    //  - reject prompts that tell them how to reason ("think step by step",
+    //    "show your reasoning") with the policy-violation error. They
+    //    reason internally and reject explicit meta-reasoning directives.
+    //    The user prompt from buildPrompt() already carries the JSON
+    //    response-format spec, so for gpt-5.x we skip the extra system
+    //    message entirely.
+    const isReasoningModel = /^(gpt-5|o[13])/.test(model);
+    const messages: Array<{ role: string; content: string }> = [];
+    if (!isReasoningModel) {
+      messages.push({ role: "system", content: "You are taking a psychometric reasoning test. For each item, respond with a JSON object: { \"final_answer\": \"your answer\", \"confidence\": 0.0-1.0, \"working\": [\"step 1\", \"step 2\", ...] }. Think carefully and show your reasoning in the working array. Give only the JSON, no other text." });
+    }
+    messages.push({ role: "user", content: prompt });
+
+    const body: Record<string, unknown> = { model, messages };
+    if (isReasoningModel) body.max_completion_tokens = 4096;
+    else body.max_tokens = 4096;
+
+    // OPENAI_BASE_URL lets the harness point at an OpenAI-compatible proxy
+    // (e.g. the clawd subscription backend) without changing the model id.
+    // Defaults to the real OpenAI API so existing behaviour is unchanged.
+    const openaiBase = (process.env.OPENAI_BASE_URL || "https://api.openai.com").replace(/\/+$/, "");
+    const res = await fetch(`${openaiBase}/v1/chat/completions`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
-      body: JSON.stringify({
-        model,
-        max_tokens: 4096,
-        messages: [
-          { role: "system", content: "You are taking a psychometric reasoning test. For each item, respond with a JSON object: { \"final_answer\": \"your answer\", \"confidence\": 0.0-1.0, \"working\": [\"step 1\", \"step 2\", ...] }. Think carefully and show your reasoning in the working array. Give only the JSON, no other text." },
-          { role: "user", content: prompt },
-        ],
-      }),
+      body: JSON.stringify(body),
     });
     const data = (await res.json()) as any;
     if (data.error) throw new Error(`OpenAI: ${data.error.message}`);
+
+    provenance.reportedModel = data.model ?? res.headers.get("openai-model") ?? model;
+    provenance.apiBase = openaiBase;
 
     return {
       text: data.choices?.[0]?.message?.content ?? "",
@@ -324,7 +407,7 @@ async function run(): Promise<void> {
       continue;
     }
 
-    const result = await callModel(args.model, prompt, args.mode);
+    const result = await callModel(args.model, prompt, args.mode, args.interactive);
     const parsed = parseResponse(result.text);
     totalLatencyMs += result.latencyMs;
 
@@ -372,11 +455,15 @@ async function run(): Promise<void> {
     completedAt,
     responses,
     score: report,
-    usage: {
-      totalInputTokens: responses.reduce((s, r) => s + r.inputTokens, 0),
-      totalOutputTokens: responses.reduce((s, r) => s + r.outputTokens, 0),
-      estimatedCostUsd: 0, // Would calculate from model pricing
-    },
+    usage: (() => {
+      const inputTokens = responses.reduce((s, r) => s + r.inputTokens, 0);
+      const outputTokens = responses.reduce((s, r) => s + r.outputTokens, 0);
+      return {
+        totalInputTokens: inputTokens,
+        totalOutputTokens: outputTokens,
+        estimatedCostUsd: estimateModelCost(args.model, inputTokens, outputTokens),
+      };
+    })(),
     antiContamination: {
       taskSetHash: hashTaskSet(taskIds),
       holdoutItemsUsed: 0,
@@ -405,6 +492,10 @@ async function run(): Promise<void> {
   console.log(`    Classification: ${report.compositeIQ.classification}`);
 
   console.log(`\n  CruxScore Composite: ${(cruxComposite * 100).toFixed(1)}%`);
+  console.log(
+    `  Usage: ${runResult.usage.totalInputTokens} in / ${runResult.usage.totalOutputTokens} out tokens` +
+    `  |  Cost: $${runResult.usage.estimatedCostUsd.toFixed(4)}`,
+  );
   console.log();
 
   // 8. Save results
@@ -428,8 +519,10 @@ async function run(): Promise<void> {
       const payload = {
         claimCode: args.claimCode,
         runId: runResult.runId,
-        model: runResult.model,
-        runMode: runResult.mode,
+        model: args.model,
+        reportedModel: provenance.reportedModel,
+        apiBase: provenance.apiBase,
+        runMode: runResult.runMode,
         benchmarkVersion: '1.0',
         score: runResult.score,
         compositeIQ: runResult.score?.compositeIQ,
@@ -441,6 +534,8 @@ async function run(): Promise<void> {
         durationMs: totalLatencyMs,
         cruxComposite: cruxComposite,
       };
+      const tier = provenance.apiBase && provenance.reportedModel ? "verified" : "self-reported";
+      console.log(`  Tagging model "${args.model}" (${tier}${provenance.reportedModel && provenance.reportedModel !== args.model ? `; server reports "${provenance.reportedModel}"` : ""})`);
       const res = await fetch(submitUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -448,10 +543,12 @@ async function run(): Promise<void> {
       });
       if (res.ok) {
         const data = (await res.json()) as any;
-        console.log(`  Submitted! IQ: ${data.summary?.iq ?? 'N/A'}, ID: ${data.id}`);
+        const serverModel = data.summary?.model;
+        const modelNote = serverModel && serverModel !== args.model ? ` as "${serverModel}"` : "";
+        console.log(`  Submitted! IQ: ${data.summary?.iq ?? 'N/A'}${modelNote}, ID: ${data.id}`);
       } else {
         const err = await res.text();
-        console.warn(`  Submit failed: ${res.status} ${err.slice(0, 100)}`);
+        console.warn(`  Submit failed: ${res.status} ${err.slice(0, 160)}`);
       }
     } catch (e: any) {
       console.warn(`  Submit error: ${e.message}`);

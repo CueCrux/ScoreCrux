@@ -1,0 +1,8 @@
+{
+  "schema": "replay-v1-index",
+  "bundles": [
+    "S5-s1.json",
+    "S2-s1.json",
+    "S6-s1.json"
+  ]
+}

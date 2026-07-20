@@ -5,7 +5,7 @@
  * Usage:
  *   npx tsx run-coding.ts --model claude-sonnet-4-6
  *   npx tsx run-coding.ts --model gpt-5.4 --mode C-A --tasks greenfield-01,bugfix-01
- *   npx tsx run-coding.ts --model claude-sonnet-4-6 --claim-code TOWER-XXXX-XXXXX
+ *   npx tsx run-coding.ts --model claude-sonnet-4-6 --claim-code CRUX-XXXX-XXXXX
  *   npx tsx run-coding.ts --dry-run --verbose
  */
 
@@ -45,6 +45,8 @@ function parseArgs(argv: string[]): CLIArgs {
     dryRun: false,
     verbose: false,
     output: "",
+    // Env fallback keeps the code off argv (visible in `ps`); --claim-code overrides.
+    claimCode: process.env.SCORECRUX_CLAIM_CODE || undefined,
     submitUrl: "https://scorecrux.com",
   };
 
@@ -79,11 +81,20 @@ function parseArgs(argv: string[]): CLIArgs {
 // ---------------------------------------------------------------------------
 
 const PRICING: Record<string, { input: number; output: number }> = {
-  "claude-opus-4-6": { input: 15, output: 75 },
+  "claude-fable-5": { input: 10, output: 50 },
+  "claude-mythos-5": { input: 10, output: 50 },
+  "claude-sonnet-5": { input: 3, output: 15 },
+  "claude-opus-4-8": { input: 5, output: 25 },
+  "claude-opus-4-7": { input: 5, output: 25 },
+  "claude-opus-4-6": { input: 5, output: 25 },
   "claude-sonnet-4-6": { input: 3, output: 15 },
-  "claude-haiku-4-5": { input: 0.8, output: 4 },
+  "claude-haiku-4-5": { input: 1, output: 5 },
+  "gpt-5.5": { input: 2.5, output: 10 },
   "gpt-5.4": { input: 2.5, output: 10 },
   "gpt-5.4-mini": { input: 0.4, output: 1.6 },
+  "gpt-4.1": { input: 2.0, output: 8.0 },
+  "gpt-4.1-mini": { input: 0.4, output: 1.6 },
+  "gpt-4.1-nano": { input: 0.1, output: 0.4 },
 };
 
 function estimateCost(model: string, inputTokens: number, outputTokens: number): number {
@@ -113,6 +124,8 @@ async function run() {
   let totalInputTokens = 0;
   let totalOutputTokens = 0;
   let totalLatencyMs = 0;
+  let reportedModel: string | null = null;
+  let apiBase: string | null = null;
 
   for (const task of tasks) {
     console.log(`  [${task.taskId}] ${task.manifest.title} (${task.manifest.family})`);
@@ -130,6 +143,8 @@ async function run() {
     totalInputTokens += response.inputTokens;
     totalOutputTokens += response.outputTokens;
     totalLatencyMs += response.latencyMs;
+    if (response.reportedModel && !reportedModel) reportedModel = response.reportedModel;
+    if (response.apiBase && !apiBase) apiBase = response.apiBase;
 
     if (args.verbose) {
       console.log(`    Model: ${response.inputTokens} in / ${response.outputTokens} out / ${response.latencyMs}ms`);
@@ -238,8 +253,12 @@ async function run() {
     try {
       const payload = {
         claimCode: args.claimCode,
+        reportedModel,
+        apiBase,
         ...result,
       };
+      const tier = apiBase && reportedModel ? "verified" : "self-reported";
+      console.log(`  Tagging model "${args.model}" (${tier}${reportedModel && reportedModel !== args.model ? `; server reports "${reportedModel}"` : ""})`);
       const res = await fetch(submitUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -247,9 +266,12 @@ async function run() {
       });
       if (res.ok) {
         const data = (await res.json()) as any;
-        console.log(`  Submitted! Score: ${(data.summary?.compositeScore * 100).toFixed(1)}%, ID: ${data.id}`);
+        const serverModel = data.summary?.model;
+        const modelNote = serverModel && serverModel !== args.model ? ` as "${serverModel}"` : "";
+        console.log(`  Submitted! Score: ${(data.summary?.compositeScore * 100).toFixed(1)}%${modelNote}, ID: ${data.id}`);
       } else {
-        console.warn(`  Submit failed: ${res.status}`);
+        const err = await res.text();
+        console.warn(`  Submit failed: ${res.status} ${err.slice(0, 160)}`);
       }
     } catch (e: any) {
       console.warn(`  Submit error: ${e.message}`);

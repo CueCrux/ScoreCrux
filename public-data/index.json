@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-07-20T03:02:37.763Z",
+  "embargoHours": 48,
+  "surfaces": {
+    "intelligence": {
+      "published": 42,
+      "embargoed": 0
+    },
+    "coding": {
+      "published": 12,
+      "embargoed": 0
+    },
+    "scale": {
+      "published": 141,
+      "embargoed": 0
+    },
+    "topfloor": {
+      "published": 3,
+      "embargoed": 0
+    },
+    "glassbox": {
+      "published": 0,
+      "embargoed": 0
+    },
+    "context": {
+      "published": 144,
+      "embargoed": 0
+    },
+    "pendingModels": {
+      "published": 0,
+      "embargoed": 0
+    }
+  },
+  "policy": {
+    "embargo": "Records are withheld from publication for 48 hours after submission to give submitters a window to withdraw or amend.",
+    "filtered": [
+      "Records with leaderboard_visible === false",
+      "Records with fixture_tier === 'practice'",
+      "Records with hidden === true",
+      "Records with scope === 'private'"
+    ],
+    "redacted": [
+      "audit",
+      "auditLog",
+      "claimCode",
+      "clientIp",
+      "ip",
+      "remoteAddress",
+      "sessionToken",
+      "submitterPlayerId",
+      "token"
+    ],
+    "notes": "Pending model observations are aggregated to counts; per-observation submitter IDs and orgs are never published."
+  }
+}

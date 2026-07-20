@@ -1,0 +1,21 @@
+{
+  "corpus_id": "GlassBox-MFC-v1",
+  "seed": 20260626,
+  "scale": "smoke",
+  "generated_at": "2026-06-26T00:00:00Z",
+  "counts": {
+    "customers": 126,
+    "accounts": 160,
+    "kyc": 120,
+    "orders": 400,
+    "trades": 300,
+    "positions": 150,
+    "transactions": 500,
+    "risk_models": 24,
+    "market_feeds": 16,
+    "config": 75,
+    "audit_log": 600
+  },
+  "mess_catalog": "../mess-catalog.json",
+  "pii_registry": "../pii-registry.json"
+}

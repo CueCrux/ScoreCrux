@@ -12,6 +12,10 @@ An agent that produces a perfect design document but ignores a constraint that w
 
 The package computes the canonical ScoreCrux core metrics: foundational fundamentals across 5 categories (Time, Information, Continuity, Safety, Economic), 7 derived metrics, and 1 composite score. Versioned extension fields may be supplied when your benchmark measures them. See [METRICS.md](METRICS.md) for the canonical library specification.
 
+### Suites
+
+- **Context** ([`benchmarks/context`](benchmarks/context)) — the *context-dependence* benchmark: how much a task depends on carried context, per knowledge-type section, for any memory/context backend. Backend-agnostic, seeded, with published negative controls. See its [README](benchmarks/context/README.md).
+
 ## Installation
 
 ```bash

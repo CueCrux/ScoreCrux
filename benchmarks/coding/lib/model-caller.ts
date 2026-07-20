@@ -17,6 +17,10 @@ export interface ModelResponse {
   inputTokens: number;
   outputTokens: number;
   latencyMs: number;
+  /** Canonical model ID returned by the provider (response.model) if any. */
+  reportedModel?: string | null;
+  /** Provider base URL the call went to (allowlist check on the server). */
+  apiBase?: string | null;
 }
 
 const SYSTEM_PROMPT = `You are a senior TypeScript developer completing a coding task.
@@ -60,6 +64,10 @@ export async function callModel(
       inputTokens: response.usage.input_tokens,
       outputTokens: response.usage.output_tokens,
       latencyMs: Date.now() - start,
+      reportedModel: (response as any).model ?? model,
+      // Record the base actually used — ANTHROPIC_BASE_URL points runs at a proxy
+      // (e.g. the Crucible subscription backend) and attribution must reflect that.
+      apiBase: (process.env.ANTHROPIC_BASE_URL || "https://api.anthropic.com").replace(/\/+$/, ""),
     };
   }
 
@@ -67,17 +75,33 @@ export async function callModel(
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) throw new Error("OPENAI_API_KEY required");
 
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+    // gpt-5.x / o-series are reasoning models: they use max_completion_tokens
+    // instead of max_tokens and reject meta-reasoning system prompts. Fold the
+    // system prompt into the user message so the instruction survives.
+    const isReasoning = /^gpt-5(\.|$)/.test(model) || model.startsWith("o");
+    const body: any = isReasoning
+      ? {
+          model,
+          max_completion_tokens: 8192,
+          messages: [{ role: "user", content: `${SYSTEM_PROMPT}\n\n---\n\n${prompt}` }],
+        }
+      : {
+          model,
+          max_tokens: 8192,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: prompt },
+          ],
+        };
+
+    // OPENAI_BASE_URL lets the harness point at an OpenAI-compatible proxy
+    // (e.g. the clawd subscription backend) without changing the model id.
+    // Defaults to the real OpenAI API so existing behaviour is unchanged.
+    const apiBase = (process.env.OPENAI_BASE_URL || "https://api.openai.com").replace(/\/+$/, "");
+    const res = await fetch(`${apiBase}/v1/chat/completions`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
-      body: JSON.stringify({
-        model,
-        max_tokens: 8192,
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          { role: "user", content: prompt },
-        ],
-      }),
+      body: JSON.stringify(body),
     });
     const data = (await res.json()) as any;
     if (data.error) throw new Error(`OpenAI: ${data.error.message}`);
@@ -89,6 +113,8 @@ export async function callModel(
       inputTokens: data.usage?.prompt_tokens ?? 0,
       outputTokens: data.usage?.completion_tokens ?? 0,
       latencyMs: Date.now() - start,
+      reportedModel: data.model ?? res.headers.get("openai-model") ?? model,
+      apiBase,
     };
   }
 
