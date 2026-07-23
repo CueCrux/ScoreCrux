@@ -10,7 +10,9 @@
   "axis": null,
   "backend": "crux",
   "memory_system": {
-    "used": true
+    "used": true,
+    "name": "Crux",
+    "version": "0.5.42"
   },
   "model": "claude-sonnet-5",
   "reportedModel": "claude-sonnet-5",
@@ -24,7 +26,7 @@
   "mcnemar_vs_none": null,
   "cx_em": 14.25,
   "s_gate": 1,
-  "c_tokens_usd": 0.82274,
+  "c_tokens_usd": 0.817112,
   "probes": [
     {
       "id": "P1",
@@ -190,7 +192,7 @@
   "context_tokens": 158,
   "context_tokens_method": "char4-estimate",
   "correct_per_1k_ctx": 120.253,
-  "latency_ms": 20991,
+  "latency_ms": 25842,
   "submitter": "Myles Bryning",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
@@ -198,7 +200,7 @@
   "block_sha256": "7880bdbe00f5e339949a855a032e4e114569b8d58637009c21fa2aa5c148b3c5",
   "manifest_sha256": "3a4e58500d5b070d8c661ead4c7c50a252ea5bb1a921bb73ab28f81cc6a3a78b",
   "cost_basis": "measured",
-  "date": "2026-07-03",
+  "date": "2026-07-17",
   "metrics_version": "1.6",
-  "submittedAt": "2026-07-03T00:00:00.000Z"
+  "submittedAt": "2026-07-17T00:00:00.000Z"
 }

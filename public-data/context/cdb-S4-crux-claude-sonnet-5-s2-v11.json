@@ -1,0 +1,206 @@
+{
+  "id": "cdb-S4-crux-claude-sonnet-5-s2-v11",
+  "type": "context",
+  "suite_version": "CDB-v1.1",
+  "benchmark_name": "Context Dependence \u2014 Causal / why-chains",
+  "section": "S4",
+  "section_hypothesis": "high-lift",
+  "scored": true,
+  "in_composite": true,
+  "axis": null,
+  "backend": "crux",
+  "memory_system": {
+    "used": true,
+    "name": "Crux",
+    "version": "0.5.42"
+  },
+  "model": "claude-sonnet-5",
+  "reportedModel": "claude-sonnet-5",
+  "corpus": "CDB-synthetic-v1",
+  "seed": 2,
+  "n_probes": 20,
+  "correct": 20,
+  "recall": 1.0,
+  "delta_vs_none": null,
+  "delta_vs_vendor_native": null,
+  "mcnemar_vs_none": null,
+  "cx_em": 15.0,
+  "s_gate": 1,
+  "c_tokens_usd": 0.833291,
+  "probes": [
+    {
+      "id": "P1",
+      "question": "Why was cbor chosen over protobuf for the wire format?",
+      "gold": "zero-copy",
+      "gold_pattern": "zero\\-copy",
+      "answer": "zero-copy",
+      "correct": 1
+    },
+    {
+      "id": "P2",
+      "question": "Why was postgres chosen over mysql for the storage engine?",
+      "gold": "column-store",
+      "gold_pattern": "column\\-store",
+      "answer": "column-store",
+      "correct": 1
+    },
+    {
+      "id": "P3",
+      "question": "Why was hazelcast chosen over redis for the cache layer?",
+      "gold": "persistence",
+      "gold_pattern": "persistence",
+      "answer": "persistence",
+      "correct": 1
+    },
+    {
+      "id": "P4",
+      "question": "Why was sqs chosen over rabbitmq for the message queue?",
+      "gold": "log-compaction",
+      "gold_pattern": "log\\-compaction",
+      "answer": "log-compaction",
+      "correct": 1
+    },
+    {
+      "id": "P5",
+      "question": "Why was graphql chosen over thrift for the rpc framework?",
+      "gold": "streaming",
+      "gold_pattern": "streaming",
+      "answer": "streaming",
+      "correct": 1
+    },
+    {
+      "id": "P6",
+      "question": "Why was hmac chosen over paseto for the auth scheme?",
+      "gold": "no-alg-confusion",
+      "gold_pattern": "no\\-alg\\-confusion",
+      "answer": "no-alg-confusion",
+      "correct": 1
+    },
+    {
+      "id": "P7",
+      "question": "Why was xxhash chosen over blake3 for the hash function?",
+      "gold": "fips-compliance",
+      "gold_pattern": "fips\\-compliance",
+      "answer": "fips-compliance",
+      "correct": 1
+    },
+    {
+      "id": "P8",
+      "question": "Why was round-robin chosen over ewma for the lb strategy?",
+      "gold": "simplicity",
+      "gold_pattern": "simplicity",
+      "answer": "simplicity",
+      "correct": 1
+    },
+    {
+      "id": "P9",
+      "question": "Why was arrow chosen over avro for the columnar format?",
+      "gold": "in-memory",
+      "gold_pattern": "in\\-memory",
+      "answer": "in-memory",
+      "correct": 1
+    },
+    {
+      "id": "P10",
+      "question": "Why was gzip chosen over lz4 for the compression?",
+      "gold": "low-cpu",
+      "gold_pattern": "low\\-cpu",
+      "answer": "low-cpu",
+      "correct": 1
+    },
+    {
+      "id": "P11",
+      "question": "Why was chainguard chosen over ubuntu for the container base?",
+      "gold": "familiarity",
+      "gold_pattern": "familiarity",
+      "answer": "familiarity",
+      "correct": 1
+    },
+    {
+      "id": "P12",
+      "question": "Why was goose chosen over atlas for the migration tool?",
+      "gold": "embedded",
+      "gold_pattern": "embedded",
+      "answer": "embedded",
+      "correct": 1
+    },
+    {
+      "id": "P13",
+      "question": "Why was ksuid chosen over ulid for the id scheme?",
+      "gold": "time-sortable",
+      "gold_pattern": "time\\-sortable",
+      "answer": "time-sortable",
+      "correct": 1
+    },
+    {
+      "id": "P14",
+      "question": "Why was otel chosen over zipkin for the tracing?",
+      "gold": "vendor-neutral",
+      "gold_pattern": "vendor\\-neutral",
+      "answer": "vendor-neutral",
+      "correct": 1
+    },
+    {
+      "id": "P15",
+      "question": "Why was vault chosen over sops for the secrets store?",
+      "gold": "dynamic-leases",
+      "gold_pattern": "dynamic\\-leases",
+      "answer": "dynamic-leases",
+      "correct": 1
+    },
+    {
+      "id": "P16",
+      "question": "Why was tantivy chosen over lucene for the search index?",
+      "gold": "rust-native",
+      "gold_pattern": "rust\\-native",
+      "answer": "rust-native",
+      "correct": 1
+    },
+    {
+      "id": "P17",
+      "question": "Why was qdrant chosen over milvus for the vector store?",
+      "gold": "scale-out",
+      "gold_pattern": "scale\\-out",
+      "answer": "scale-out",
+      "correct": 1
+    },
+    {
+      "id": "P18",
+      "question": "Why was bazel chosen over turbo for the build system?",
+      "gold": "js-first",
+      "gold_pattern": "js\\-first",
+      "answer": "js-first",
+      "correct": 1
+    },
+    {
+      "id": "P19",
+      "question": "Why was nginx chosen over envoy for the proxy?",
+      "gold": "xds-api",
+      "gold_pattern": "xds\\-api",
+      "answer": "xds-api",
+      "correct": 1
+    },
+    {
+      "id": "P20",
+      "question": "Why was v8-isolates chosen over wasmtime for the runtime?",
+      "gold": "sandboxing",
+      "gold_pattern": "sandboxing",
+      "answer": "sandboxing",
+      "correct": 1
+    }
+  ],
+  "context_tokens": 293,
+  "context_tokens_method": "char4-estimate",
+  "correct_per_1k_ctx": 68.259,
+  "latency_ms": 22257,
+  "submitter": "Myles Bryning",
+  "organization": "CueCrux Labs",
+  "githubLogin": "CueCrux-Myles",
+  "gold_sha256": "486b07c72b6963af6acf05c0cb32373c5bcbe0061a2d3ee687997dbe888a461e",
+  "block_sha256": "a00334d944c4cd3c4b08688c12a8ef977d120f1e11ded6d3b26f14ebd988a098",
+  "manifest_sha256": "62530510a66e7984cb659267a029f40353d44526afd1bb564f37545102d571d3",
+  "cost_basis": "measured",
+  "date": "2026-07-17",
+  "metrics_version": "1.6",
+  "submittedAt": "2026-07-17T00:00:00.000Z"
+}

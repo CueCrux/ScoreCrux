@@ -1,0 +1,66 @@
+{
+  "runId": "58678c50",
+  "benchmarkVersion": "1.0",
+  "model": "claude-sonnet-5",
+  "mode": "C-A",
+  "startedAt": "2026-07-16T12:08:37.245Z",
+  "completedAt": "2026-07-16T12:13:14.700Z",
+  "taskResults": [
+    {
+      "taskId": "bugfix-01",
+      "family": "bugfix",
+      "c1": {
+        "buildSuccess": true,
+        "typecheckPassed": false,
+        "visibleTestsPassed": 4,
+        "visibleTestsTotal": 4,
+        "hiddenTestsPassed": 7,
+        "hiddenTestsTotal": 8,
+        "lintErrors": 2,
+        "lintWarnings": 0,
+        "score": 0.805
+      },
+      "c2": {
+        "cyclomaticComplexity": 2,
+        "duplicationRatio": 0.05714285714285714,
+        "dependencyCount": 0,
+        "securitySmells": 0,
+        "linesOfCode": 35,
+        "score": 0.9285714285714286
+      },
+      "c3": {
+        "fileCount": 1,
+        "functionCount": 0,
+        "avgFunctionLength": 35,
+        "maxNestingDepth": 3,
+        "exportCount": 1,
+        "decompositionScore": 0.3,
+        "abstractionScore": 0.7,
+        "overEngineeringPenalty": 1,
+        "score": 0.6299999999999999
+      },
+      "composite": 0.81325,
+      "generatedCode": "export class RateLimiter {\n  private tokens: number;\n  private readonly maxTokens: number;\n  private readonly refillRate: number;\n  private lastRefill: number;\n\n  constructor(maxTokens: number, refillRate: number) {\n    this.maxTokens = maxTokens;\n    this.tokens = maxTokens;\n    this.refillRate = refillRate;\n    this.lastRefill = Date.now();\n  }\n\n  tryConsume(): boolean {\n    this.refill();\n    if (this.tokens > 0) {\n      this.tokens -= 1;\n      return true;\n    }\n    return false;\n  }\n\n  getTokens(): number {\n    this.refill();\n    return this.tokens;\n  }\n\n  reset(): void {\n    this.tokens = this.maxTokens;\n    this.lastRefill = Date.now();\n  }\n\n  private refill(): void {\n    const now = Date.now();\n    const elapsed = now - this.lastRefill;\n    const newTokens = (elapsed * this.refillRate) / 1000;\n    this.tokens = Math.min(this.maxTokens, this.tokens + newTokens);\n    this.lastRefill = now;\n  }\n}",
+      "buildOutput": "npm install succeeded",
+      "testOutput": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":4,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1784203992059,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"RateLimiter - visible tests\"],\"fullName\":\"RateLimiter - visible tests allows requests within capacity\",\"status\":\"passed\",\"title\":\"allows requests within capacity\",\"duration\":1.7093360000000075,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - visible tests\"],\"fullName\":\"RateLimiter - visible tests rejects when tokens exhausted\",\"status\":\"passed\",\"title\":\"rejects when tokens exhausted\",\"duration\":0.3111459999999511,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - visible tests\"],\"fullName\":\"RateLimiter - visible tests refills tokens over time\",\"status\":\"passed\",\"title\":\"refills tokens over time\",\"duration\":0.3055800000000204,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - visible tests\"],\"fullName\":\"RateLimiter - visible tests does not exceed max tokens after long wait\",\"status\":\"passed\",\"title\":\"does not exceed max tokens after long wait\",\"duration\":0.15518000000002985,\"failureMessages\":[],\"meta\":{}}],\"startTime\":1784203992321,\"endTime\":1784203992324.1553,\"status\":\"passed\",\"message\":\"\",\"name\":\"/home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-6965a393/tests/visible/test.test.ts\"}]}\n\n{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":8,\"numPassedTests\":7,\"numFailedTests\":1,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1784203992819,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"RateLimiter - hidden edge cases\"],\"fullName\":\"RateLimiter - hidden edge cases handles zero initial tokens\",\"status\":\"passed\",\"title\":\"handles zero initial tokens\",\"duration\":2.1463699999999903,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - hidden edge cases\"],\"fullName\":\"RateLimiter - hidden edge cases partial refill allows consumption\",\"status\":\"passed\",\"title\":\"partial refill allows consumption\",\"duration\":0.6533839999999884,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - hidden edge cases\"],\"fullName\":\"RateLimiter - hidden edge cases burst followed by wait recovers\",\"status\":\"passed\",\"title\":\"burst followed by wait recovers\",\"duration\":0.6411990000000003,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - hidden edge cases\"],\"fullName\":\"RateLimiter - hidden edge cases reset restores full capacity\",\"status\":\"passed\",\"title\":\"reset restores full capacity\",\"duration\":0.32257300000000555,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - hidden edge cases\"],\"fullName\":\"RateLimiter - hidden edge cases high refill rate works\",\"status\":\"passed\",\"title\":\"high refill rate works\",\"duration\":0.3073810000000208,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - hidden edge cases\"],\"fullName\":\"RateLimiter - hidden edge cases fractional tokens handled correctly\",\"status\":\"failed\",\"title\":\"fractional tokens handled correctly\",\"duration\":5.976845999999995,\"failureMessages\":[\"AssertionErr",
+      "lintOutput": "../../../../../node_modules/.pnpm/@types+pg-pool@2.0.6/node_modules/@types/pg-pool/index.d.ts(11,5): error TS2416: Property 'on' in type 'Pool<T>' is not assignable to the same property in base type 'Pool'.\n  Type '{ (event: \"error\", listener: (err: Error, client: T & PoolClient) => void): this; (event: \"remove\" | \"connect\" | \"acquire\", listener: (client: T & PoolClient) => void): this; }' is not assignable to type '<K extends \"error\" | \"release\" | \"connect\" | \"acquire\" | \"remove\">(event: K, listener: K extends \"release\" | \"error\" ? (err: Error, client: PoolClient) => void : (client: PoolClient) => void) => this'.\n    Types of parameters 'listener' and 'listener' are incompatible.\n      Type '((err: Error, client: PoolClient) => void) | ((client: PoolClient) => void)' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n        Type '(client: PoolClient) => void' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n          Types of parameters 'client' and 'err' are incompatible.\n            Type 'Error' is missing the following properties from type 'PoolClient': release, connect, query, copyFrom, and 22 more.\n../../../../../node_modules/.pnpm/@types+pg-pool@2.0.6/node_modules/@types/pg-pool/index.d.ts(12,5): error TS2416: Property 'on' in type 'Pool<T>' is not assignable to the same property in base type 'Pool'.\n  Type '{ (event: \"error\", listener: (err: Error, client: T & PoolClient) => void): this; (event: \"remove\" | \"connect\" | \"acquire\", listener: (client: T & PoolClient) => void): this; }' is not assignable to type '<K extends \"error\" | \"release\" | \"connect\" | \"acquire\" | \"remove\">(event: K, listener: K extends \"release\" | \"error\" ? (err: Error, client: PoolClient) => void : (client: PoolClient) => void) => this'.\n    Types of parameters 'listener' and 'listener' are incompatible.\n      Type '((err: Error, client: PoolClient) => void) | ((client: PoolClient) => void)' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n        Type '(client: PoolClient) => void' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n          Types of parameters 'client' and 'err' are incompatible.\n            Type 'Error' is missing the following properties from type 'PoolClient': release, connect, query, copyFrom, and 22 more.",
+      "inputTokens": 25129,
+      "outputTokens": 16580,
+      "latencyMs": 270483,
+      "estimatedCostUsd": 0
+    }
+  ],
+  "aggregate": {
+    "compositeScore": 0.81325,
+    "testPassRate": 0.9166666666666666,
+    "qualityScore": 0.9285714285714286,
+    "designScore": 0.6299999999999999,
+    "totalTasks": 1
+  },
+  "usage": {
+    "totalInputTokens": 25129,
+    "totalOutputTokens": 16580,
+    "estimatedCostUsd": 0,
+    "totalLatencyMs": 270483
+  }
+}

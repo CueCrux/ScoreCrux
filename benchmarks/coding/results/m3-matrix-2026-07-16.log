@@ -1,0 +1,43 @@
+=== RUN claude-sonnet-5 12:14:40Z ===
+  Test pass rate: 80%
+  Quality: 87%
+  Design: 80%
+  Cost: $0.6742
+  Time: 759.9s
+
+  Results saved to: /home/myles/CueCrux/ScoreCrux/benchmarks/coding/results/coding-24551ba5.json
+
+  Submitting to https://scorecrux.com...
+  Tagging model "claude-sonnet-5" (verified)
+  Submitted! Score: 79.5%, ID: 24551ba5
+
+=== DONE claude-sonnet-5 exit=0 ===
+=== RUN claude-opus-4-8 12:27:53Z ===
+  Test pass rate: 40%
+  Quality: 97%
+  Design: 66%
+  Cost: $1.2955
+  Time: 436.4s
+
+  Results saved to: /home/myles/CueCrux/ScoreCrux/benchmarks/coding/results/coding-8f96faf1.json
+
+  Submitting to https://scorecrux.com...
+  Tagging model "claude-opus-4-8" (verified)
+  Submitted! Score: 66.2%, ID: 8f96faf1
+
+=== DONE claude-opus-4-8 exit=0 ===
+=== RUN claude-fable-5 12:35:34Z ===
+  Test pass rate: 80%
+  Quality: 87%
+  Design: 82%
+  Cost: $1.3239
+  Time: 233.1s
+
+  Results saved to: /home/myles/CueCrux/ScoreCrux/benchmarks/coding/results/coding-811ede0b.json
+
+  Submitting to https://scorecrux.com...
+  Tagging model "claude-fable-5" (verified)
+  Submitted! Score: 80.0%, ID: 811ede0b
+
+=== DONE claude-fable-5 exit=0 ===
+MATRIX COMPLETE 12:40:00Z

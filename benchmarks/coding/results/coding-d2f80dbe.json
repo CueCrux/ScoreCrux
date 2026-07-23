@@ -1,0 +1,238 @@
+{
+  "runId": "d2f80dbe",
+  "benchmarkVersion": "1.0",
+  "model": "claude-sonnet-5",
+  "mode": "C-A",
+  "startedAt": "2026-07-17T00:40:27.769Z",
+  "completedAt": "2026-07-17T00:43:41.964Z",
+  "taskResults": [
+    {
+      "taskId": "bugfix-01",
+      "family": "bugfix",
+      "c1": {
+        "buildSuccess": true,
+        "typecheckPassed": false,
+        "visibleTestsPassed": 4,
+        "visibleTestsTotal": 4,
+        "hiddenTestsPassed": 7,
+        "hiddenTestsTotal": 8,
+        "lintErrors": 2,
+        "lintWarnings": 0,
+        "score": 0.805
+      },
+      "c2": {
+        "cyclomaticComplexity": 2,
+        "duplicationRatio": 0.0425531914893617,
+        "dependencyCount": 0,
+        "securitySmells": 0,
+        "linesOfCode": 47,
+        "score": 0.946808510638298
+      },
+      "c3": {
+        "fileCount": 1,
+        "functionCount": 0,
+        "avgFunctionLength": 47,
+        "maxNestingDepth": 3,
+        "exportCount": 1,
+        "decompositionScore": 0.3,
+        "abstractionScore": 0.7,
+        "overEngineeringPenalty": 1,
+        "score": 0.6299999999999999
+      },
+      "composite": 0.8196329787234043,
+      "generatedCode": "/**\n * Token-bucket rate limiter.\n */\n\nexport class RateLimiter {\n  private tokens: number;\n  private readonly maxTokens: number;\n  private readonly refillRate: number; // tokens per second\n  private lastRefill: number;\n\n  constructor(maxTokens: number, refillRate: number) {\n    this.maxTokens = maxTokens;\n    this.tokens = maxTokens;\n    this.refillRate = refillRate;\n    this.lastRefill = Date.now();\n  }\n\n  /**\n   * Try to consume one token. Returns true if allowed, false if rate-limited.\n   */\n  tryConsume(): boolean {\n    this.refill();\n\n    if (this.tokens > 0) {\n      this.tokens -= 1;\n      return true;\n    }\n    return false;\n  }\n\n  /**\n   * Get the current number of available tokens.\n   */\n  getTokens(): number {\n    this.refill();\n    return this.tokens;\n  }\n\n  /**\n   * Reset the limiter to full capacity.\n   */\n  reset(): void {\n    this.tokens = this.maxTokens;\n    this.lastRefill = Date.now();\n  }\n\n  private refill(): void {\n    const now = Date.now();\n    const elapsed = now - this.lastRefill;\n\n    const newTokens = (elapsed * this.refillRate) / 1000;\n\n    this.tokens = Math.min(this.maxTokens, this.tokens + newTokens);\n\n    this.lastRefill = now;\n  }\n}",
+      "buildOutput": "npm install succeeded",
+      "testOutput": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":4,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1784248850515,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"RateLimiter - visible tests\"],\"fullName\":\"RateLimiter - visible tests allows requests within capacity\",\"status\":\"passed\",\"title\":\"allows requests within capacity\",\"duration\":4.105479999999943,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - visible tests\"],\"fullName\":\"RateLimiter - visible tests rejects when tokens exhausted\",\"status\":\"passed\",\"title\":\"rejects when tokens exhausted\",\"duration\":5.951727000000005,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - visible tests\"],\"fullName\":\"RateLimiter - visible tests refills tokens over time\",\"status\":\"passed\",\"title\":\"refills tokens over time\",\"duration\":1.2869080000000395,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - visible tests\"],\"fullName\":\"RateLimiter - visible tests does not exceed max tokens after long wait\",\"status\":\"passed\",\"title\":\"does not exceed max tokens after long wait\",\"duration\":1.8739909999999327,\"failureMessages\":[],\"meta\":{}}],\"startTime\":1784248851103,\"endTime\":1784248851116.874,\"status\":\"passed\",\"message\":\"\",\"name\":\"/home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-49e54626/tests/visible/test.test.ts\"}]}\n\n{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":8,\"numPassedTests\":7,\"numFailedTests\":1,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1784248852007,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"RateLimiter - hidden edge cases\"],\"fullName\":\"RateLimiter - hidden edge cases handles zero initial tokens\",\"status\":\"passed\",\"title\":\"handles zero initial tokens\",\"duration\":4.7241750000000025,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - hidden edge cases\"],\"fullName\":\"RateLimiter - hidden edge cases partial refill allows consumption\",\"status\":\"passed\",\"title\":\"partial refill allows consumption\",\"duration\":0.7343070000000012,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - hidden edge cases\"],\"fullName\":\"RateLimiter - hidden edge cases burst followed by wait recovers\",\"status\":\"passed\",\"title\":\"burst followed by wait recovers\",\"duration\":0.5915110000000254,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - hidden edge cases\"],\"fullName\":\"RateLimiter - hidden edge cases reset restores full capacity\",\"status\":\"passed\",\"title\":\"reset restores full capacity\",\"duration\":0.2441440000000057,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - hidden edge cases\"],\"fullName\":\"RateLimiter - hidden edge cases high refill rate works\",\"status\":\"passed\",\"title\":\"high refill rate works\",\"duration\":0.19007800000002817,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"RateLimiter - hidden edge cases\"],\"fullName\":\"RateLimiter - hidden edge cases fractional tokens handled correctly\",\"status\":\"failed\",\"title\":\"fractional tokens handled correctly\",\"duration\":5.233395999999971,\"failureMessages\":[\"AssertionErr",
+      "lintOutput": "../../../../../node_modules/.pnpm/@types+pg-pool@2.0.6/node_modules/@types/pg-pool/index.d.ts(11,5): error TS2416: Property 'on' in type 'Pool<T>' is not assignable to the same property in base type 'Pool'.\n  Type '{ (event: \"error\", listener: (err: Error, client: T & PoolClient) => void): this; (event: \"remove\" | \"connect\" | \"acquire\", listener: (client: T & PoolClient) => void): this; }' is not assignable to type '<K extends \"error\" | \"release\" | \"connect\" | \"acquire\" | \"remove\">(event: K, listener: K extends \"release\" | \"error\" ? (err: Error, client: PoolClient) => void : (client: PoolClient) => void) => this'.\n    Types of parameters 'listener' and 'listener' are incompatible.\n      Type '((err: Error, client: PoolClient) => void) | ((client: PoolClient) => void)' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n        Type '(client: PoolClient) => void' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n          Types of parameters 'client' and 'err' are incompatible.\n            Type 'Error' is missing the following properties from type 'PoolClient': release, connect, query, copyFrom, and 22 more.\n../../../../../node_modules/.pnpm/@types+pg-pool@2.0.6/node_modules/@types/pg-pool/index.d.ts(12,5): error TS2416: Property 'on' in type 'Pool<T>' is not assignable to the same property in base type 'Pool'.\n  Type '{ (event: \"error\", listener: (err: Error, client: T & PoolClient) => void): this; (event: \"remove\" | \"connect\" | \"acquire\", listener: (client: T & PoolClient) => void): this; }' is not assignable to type '<K extends \"error\" | \"release\" | \"connect\" | \"acquire\" | \"remove\">(event: K, listener: K extends \"release\" | \"error\" ? (err: Error, client: PoolClient) => void : (client: PoolClient) => void) => this'.\n    Types of parameters 'listener' and 'listener' are incompatible.\n      Type '((err: Error, client: PoolClient) => void) | ((client: PoolClient) => void)' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n        Type '(client: PoolClient) => void' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n          Types of parameters 'client' and 'err' are incompatible.\n            Type 'Error' is missing the following properties from type 'PoolClient': release, connect, query, copyFrom, and 22 more.",
+      "inputTokens": 14091,
+      "outputTokens": 1222,
+      "latencyMs": 14947,
+      "estimatedCostUsd": 0.060603
+    },
+    {
+      "taskId": "extension-01",
+      "family": "extension",
+      "c1": {
+        "buildSuccess": true,
+        "typecheckPassed": false,
+        "visibleTestsPassed": 5,
+        "visibleTestsTotal": 5,
+        "hiddenTestsPassed": 11,
+        "hiddenTestsTotal": 11,
+        "lintErrors": 2,
+        "lintWarnings": 0,
+        "score": 0.87
+      },
+      "c2": {
+        "cyclomaticComplexity": 3,
+        "duplicationRatio": 0.023255813953488372,
+        "dependencyCount": 0,
+        "securitySmells": 0,
+        "linesOfCode": 43,
+        "score": 0.9709302325581397
+      },
+      "c3": {
+        "fileCount": 1,
+        "functionCount": 4,
+        "avgFunctionLength": 11,
+        "maxNestingDepth": 3,
+        "exportCount": 8,
+        "decompositionScore": 1,
+        "abstractionScore": 0.7,
+        "overEngineeringPenalty": 1,
+        "score": 0.9099999999999999
+      },
+      "composite": 0.9133255813953489,
+      "generatedCode": "// --- solution.ts ---\nexport interface Record {\n  id: number;\n  name: string;\n  category: string;\n  value: number;\n}\n\nexport type Stage = (records: Record[]) => Record[];\n\nexport type Filter = (record: Record) => boolean;\n\nexport function andFilter(...filters: Filter[]): Filter {\n  return (record: Record) => filters.every((f) => f(record));\n}\n\nexport function orFilter(...filters: Filter[]): Filter {\n  return (record: Record) => filters.some((f) => f(record));\n}\n\nexport function notFilter(filter: Filter): Filter {\n  return (record: Record) => !filter(record);\n}\n\nexport class Pipeline {\n  private stages: Stage[] = [];\n  private filters: Filter[] = [];\n\n  addStage(stage: Stage): this {\n    this.stages.push(stage);\n    return this;\n  }\n\n  addFilter(filter: Filter): this {\n    this.filters.push(filter);\n    return this;\n  }\n\n  run(records: Record[]): Record[] {\n    let result = [...records];\n    if (this.filters.length > 0) {\n      const combined = andFilter(...this.filters);\n      result = result.filter(combined);\n    }\n    for (const stage of this.stages) {\n      result = stage(result);\n    }\n    return result;\n  }\n}\n\nexport function doubleValues(records: Record[]): Record[] {\n  return records.map((r) => ({ ...r, value: r.value * 2 }));\n}",
+      "buildOutput": "npm install succeeded",
+      "testOutput": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":5,\"numPassedTests\":5,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1784248874244,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"Pipeline Filtering\"],\"fullName\":\"Pipeline Filtering filters by category\",\"status\":\"passed\",\"title\":\"filters by category\",\"duration\":0.9263789999999972,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Pipeline Filtering\"],\"fullName\":\"Pipeline Filtering filters by value range\",\"status\":\"passed\",\"title\":\"filters by value range\",\"duration\":0.4176350000000184,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Pipeline Filtering\"],\"fullName\":\"Pipeline Filtering combines filters with AND combinator\",\"status\":\"passed\",\"title\":\"combines filters with AND combinator\",\"duration\":0.21474399999999605,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Pipeline Filtering\"],\"fullName\":\"Pipeline Filtering combines filters with OR combinator\",\"status\":\"passed\",\"title\":\"combines filters with OR combinator\",\"duration\":0.20223400000003267,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Pipeline Filtering\"],\"fullName\":\"Pipeline Filtering returns all records when no filter is added\",\"status\":\"passed\",\"title\":\"returns all records when no filter is added\",\"duration\":0.1970150000000217,\"failureMessages\":[],\"meta\":{}}],\"startTime\":1784248874536,\"endTime\":1784248874538.197,\"status\":\"passed\",\"message\":\"\",\"name\":\"/home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-9b068e3f/tests/visible/test.test.ts\"}]}\n\n{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":11,\"numPassedTests\":11,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1784248874979,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"Pipeline Filtering - Edge Cases\"],\"fullName\":\"Pipeline Filtering - Edge Cases supports nested AND/OR combinators\",\"status\":\"passed\",\"title\":\"supports nested AND/OR combinators\",\"duration\":1.2419549999999902,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Pipeline Filtering - Edge Cases\"],\"fullName\":\"Pipeline Filtering - Edge Cases handles empty input array\",\"status\":\"passed\",\"title\":\"handles empty input array\",\"duration\":0.13247499999999945,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Pipeline Filtering - Edge Cases\"],\"fullName\":\"Pipeline Filtering - Edge Cases handles filter on field with no matches\",\"status\":\"passed\",\"title\":\"handles filter on field with no matches\",\"duration\":0.07720299999999725,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Pipeline Filtering - Edge Cases\"],\"fullName\":\"Pipeline Filtering - Edge Cases supports multiple addFilter calls (implicit AND)\",\"status\":\"passed\",\"title\":\"supports multiple addFilter calls (implicit AND)\",\"duration\":0.33273500000001377,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Pipeline Filtering - Edge Cases\"],\"fullName\":\"Pipeline Filtering - Edge Cases filter returns empty when all filtered out\",\"status\":\"passed\",\"title\":\"filter returns empty when all filtered out\",\"duration\":0.14098599999999806,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Pipeline Filtering - Edge Cases\"],\"fullName\":\"Pipeline Filtering - Edge Cases supports NOT combinator\",\"status\":\"passed\",\"title\":\"supports NOT",
+      "lintOutput": "../../../../../node_modules/.pnpm/@types+pg-pool@2.0.6/node_modules/@types/pg-pool/index.d.ts(11,5): error TS2416: Property 'on' in type 'Pool<T>' is not assignable to the same property in base type 'Pool'.\n  Type '{ (event: \"error\", listener: (err: Error, client: T & PoolClient) => void): this; (event: \"remove\" | \"connect\" | \"acquire\", listener: (client: T & PoolClient) => void): this; }' is not assignable to type '<K extends \"error\" | \"release\" | \"connect\" | \"acquire\" | \"remove\">(event: K, listener: K extends \"release\" | \"error\" ? (err: Error, client: PoolClient) => void : (client: PoolClient) => void) => this'.\n    Types of parameters 'listener' and 'listener' are incompatible.\n      Type '((err: Error, client: PoolClient) => void) | ((client: PoolClient) => void)' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n        Type '(client: PoolClient) => void' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n          Types of parameters 'client' and 'err' are incompatible.\n            Type 'Error' is missing the following properties from type 'PoolClient': release, connect, query, copyFrom, and 22 more.\n../../../../../node_modules/.pnpm/@types+pg-pool@2.0.6/node_modules/@types/pg-pool/index.d.ts(12,5): error TS2416: Property 'on' in type 'Pool<T>' is not assignable to the same property in base type 'Pool'.\n  Type '{ (event: \"error\", listener: (err: Error, client: T & PoolClient) => void): this; (event: \"remove\" | \"connect\" | \"acquire\", listener: (client: T & PoolClient) => void): this; }' is not assignable to type '<K extends \"error\" | \"release\" | \"connect\" | \"acquire\" | \"remove\">(event: K, listener: K extends \"release\" | \"error\" ? (err: Error, client: PoolClient) => void : (client: PoolClient) => void) => this'.\n    Types of parameters 'listener' and 'listener' are incompatible.\n      Type '((err: Error, client: PoolClient) => void) | ((client: PoolClient) => void)' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n        Type '(client: PoolClient) => void' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n          Types of parameters 'client' and 'err' are incompatible.\n            Type 'Error' is missing the following properties from type 'PoolClient': release, connect, query, copyFrom, and 22 more.",
+      "inputTokens": 8661,
+      "outputTokens": 1063,
+      "latencyMs": 13941,
+      "estimatedCostUsd": 0.04192799999999999
+    },
+    {
+      "taskId": "greenfield-01",
+      "family": "greenfield",
+      "c1": {
+        "buildSuccess": true,
+        "typecheckPassed": false,
+        "visibleTestsPassed": 0,
+        "visibleTestsTotal": 0,
+        "hiddenTestsPassed": 0,
+        "hiddenTestsTotal": 0,
+        "lintErrors": 12,
+        "lintWarnings": 0,
+        "score": 0.1
+      },
+      "c2": {
+        "cyclomaticComplexity": 1,
+        "duplicationRatio": 0,
+        "dependencyCount": 0,
+        "securitySmells": 0,
+        "linesOfCode": 1,
+        "score": 1
+      },
+      "c3": {
+        "fileCount": 1,
+        "functionCount": 0,
+        "avgFunctionLength": 1,
+        "maxNestingDepth": 0,
+        "exportCount": 0,
+        "decompositionScore": 0.3,
+        "abstractionScore": 0.4,
+        "overEngineeringPenalty": 1,
+        "score": 0.54
+      },
+      "composite": 0.503,
+      "generatedCode": "The write requires permission approval that hasn't been granted — please approve the `Write` tool call for `/solution.ts` so I can save the file, or let me know if you'd like it placed elsewhere.",
+      "buildOutput": "npm install succeeded",
+      "testOutput": "{\"numTotalTestSuites\":1,\"numPassedTestSuites\":0,\"numFailedTestSuites\":1,\"numPendingTestSuites\":0,\"numTotalTests\":0,\"numPassedTests\":0,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1784248909106,\"success\":false,\"testResults\":[{\"assertionResults\":[],\"startTime\":1784248909106,\"endTime\":1784248909106,\"status\":\"failed\",\"message\":\"Transform failed with 1 error:\\n/home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-d05d74cd/solution.ts:1:4: ERROR: Expected \\\";\\\" but found \\\"write\\\"\",\"name\":\"/home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-d05d74cd/tests/visible/test.test.ts\"}]}\n\n{\"numTotalTestSuites\":1,\"numPassedTestSuites\":0,\"numFailedTestSuites\":1,\"numPendingTestSuites\":0,\"numTotalTests\":0,\"numPassedTests\":0,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1784248909792,\"success\":false,\"testResults\":[{\"assertionResults\":[],\"startTime\":1784248909792,\"endTime\":1784248909792,\"status\":\"failed\",\"message\":\"Transform failed with 1 error:\\n/home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-d05d74cd/solution.ts:1:4: ERROR: Expected \\\";\\\" but found \\\"write\\\"\",\"name\":\"/home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-d05d74cd/tests/hidden/test.test.ts\"}]}\n",
+      "lintOutput": "solution.ts(1,1): error TS1434: Unexpected keyword or identifier.\nsolution.ts(1,5): error TS1434: Unexpected keyword or identifier.\nsolution.ts(1,11): error TS1435: Unknown keyword or identifier. Did you mean 'require'?\nsolution.ts(1,20): error TS1434: Unexpected keyword or identifier.\nsolution.ts(1,31): error TS1434: Unexpected keyword or identifier.\nsolution.ts(1,40): error TS1434: Unexpected keyword or identifier.\nsolution.ts(1,45): error TS1434: Unexpected keyword or identifier.\nsolution.ts(1,169): error TS1005: ';' expected.\nsolution.ts(1,171): error TS1434: Unexpected keyword or identifier.\nsolution.ts(1,176): error TS1434: Unexpected keyword or identifier.\nsolution.ts(1,179): error TS1434: Unexpected keyword or identifier.\nsolution.ts(1,196): error TS1003: Identifier expected.",
+      "inputTokens": 11472,
+      "outputTokens": 3692,
+      "latencyMs": 29328,
+      "estimatedCostUsd": 0.089796
+    },
+    {
+      "taskId": "refactor-01",
+      "family": "refactor",
+      "c1": {
+        "buildSuccess": true,
+        "typecheckPassed": false,
+        "visibleTestsPassed": 6,
+        "visibleTestsTotal": 6,
+        "hiddenTestsPassed": 4,
+        "hiddenTestsTotal": 4,
+        "lintErrors": 2,
+        "lintWarnings": 0,
+        "score": 0.87
+      },
+      "c2": {
+        "cyclomaticComplexity": 19,
+        "duplicationRatio": 0.07407407407407407,
+        "dependencyCount": 0,
+        "securitySmells": 0,
+        "linesOfCode": 135,
+        "score": 0.8274074074074076
+      },
+      "c3": {
+        "fileCount": 1,
+        "functionCount": 14,
+        "avgFunctionLength": 10,
+        "maxNestingDepth": 2,
+        "exportCount": 6,
+        "decompositionScore": 1,
+        "abstractionScore": 1,
+        "overEngineeringPenalty": 1,
+        "score": 1
+      },
+      "composite": 0.8810925925925925,
+      "generatedCode": "// --- handler.ts ---\nexport interface Item {\n  id: string;\n  name: string;\n  status: \"active\" | \"archived\";\n  createdAt: number;\n  updatedAt: number;\n}\n\nexport interface Request {\n  method: \"GET\" | \"POST\" | \"PUT\" | \"DELETE\" | string;\n  headers: Record<string, string>;\n  params: Record<string, string>;\n  body?: unknown;\n}\n\nexport interface Response {\n  status: number;\n  body: unknown;\n}\n\nconst store = new Map<string, Item>();\n\nexport function resetStore(): void {\n  store.clear();\n}\n\nexport function getStore(): Map<string, Item> {\n  return store;\n}\n\nfunction ok(status: number, data: unknown): Response {\n  return { status, body: { success: true, data } };\n}\n\nfunction fail(status: number, error: string): Response {\n  return { status, body: { success: false, error } };\n}\n\nfunction isAuthorized(req: Request): boolean {\n  return req.headers[\"authorization\"] === \"Bearer valid-token\";\n}\n\nfunction checkAuth(req: Request): Response | null {\n  if (!req.headers[\"authorization\"]) {\n    return fail(401, \"Authorization required\");\n  }\n  if (!isAuthorized(req)) {\n    return fail(401, \"Invalid token\");\n  }\n  return null;\n}\n\nfunction getBodyRecord(req: Request): Record<string, unknown> | null {\n  if (!req.body) return null;\n  return req.body as Record<string, unknown>;\n}\n\nfunction hasStringField(\n  data: Record<string, unknown>,\n  field: string\n): boolean {\n  return typeof data[field] === \"string\" && (data[field] as string).length > 0;\n}\n\nfunction handleGet(req: Request): Response {\n  const id = req.params[\"id\"];\n  if (!id) {\n    return ok(200, Array.from(store.values()));\n  }\n  const item = store.get(id);\n  return item ? ok(200, item) : fail(404, \"Item not found\");\n}\n\nfunction handlePost(req: Request): Response {\n  const data = getBodyRecord(req);\n  if (!data) {\n    return fail(400, \"Request body is required\");\n  }\n  if (!hasStringField(data, \"name\")) {\n    return fail(400, \"Validation failed: name is required\");\n  }\n\n  const id = data[\"id\"] as string | undefined;\n  if (id && store.has(id)) {\n    return fail(409, \"Item already exists\");\n  }\n\n  const now = Date.now();\n  const item: Item = {\n    id: id || `item-${now}`,\n    name: data[\"name\"] as string,\n    status: \"active\",\n    createdAt: now,\n    updatedAt: now,\n  };\n  store.set(item.id, item);\n  return ok(201, item);\n}\n\nfunction applyUpdate(item: Item, data: Record<string, unknown>): Item {\n  const updated: Item = { ...item, updatedAt: Date.now() };\n  if (hasStringField(data, \"name\")) {\n    updated.name = data[\"name\"] as string;\n  }\n  if (data[\"status\"] === \"active\" || data[\"status\"] === \"archived\") {\n    updated.status = data[\"status\"] as \"active\" | \"archived\";\n  }\n  return updated;\n}\n\nfunction handlePut(req: Request): Response {\n  const data = getBodyRecord(req);\n  if (!data) {\n    return fail(400, \"Request body is required\");\n  }\n  const id = req.params[\"id\"];\n  if (!id) {\n    return fail(400, \"Validation failed: id parameter is required\");\n  }\n\n  const item = store.get(id);\n  if (!item) {\n    return fail(404, \"Item not found\");\n  }\n\n  const updated = applyUpdate(item, data);\n  store.set(id, updated);\n  return ok(200, updated);\n}\n\nfunction handleDelete(req: Request): Response {\n  const id = req.params[\"id\"];\n  if (!id) {\n    return fail(400, \"Validation failed: id parameter is required\");\n  }\n  if (!store.has(id)) {\n    return fail(404, \"Item not found\");\n  }\n  store.delete(id);\n  return ok(200, { deleted: id });\n}\n\nconst methodHandlers: Record<string, (req: Request) => Response> = {\n  GET: handleGet,\n  POST: handlePost,\n  PUT: handlePut,\n  DELETE: handleDelete,\n};\n\nexport function handleRequest(req: Request): Response {\n  const authError = checkAuth(req);\n  if (authError) {\n    return authError;\n  }\n\n  const handler = methodHandlers[req.method];\n  return handler ? handler(req) : fail(405, \"Method not allowed\");\n}",
+      "buildOutput": "npm install succeeded",
+      "testOutput": "{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":6,\"numPassedTests\":6,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1784248940361,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"Handler\"],\"fullName\":\"Handler GET returns all items\",\"status\":\"passed\",\"title\":\"GET returns all items\",\"duration\":1.990842999999984,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Handler\"],\"fullName\":\"Handler POST creates an item\",\"status\":\"passed\",\"title\":\"POST creates an item\",\"duration\":0.21852799999999206,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Handler\"],\"fullName\":\"Handler PUT updates an item\",\"status\":\"passed\",\"title\":\"PUT updates an item\",\"duration\":0.12835300000000416,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Handler\"],\"fullName\":\"Handler DELETE removes an item\",\"status\":\"passed\",\"title\":\"DELETE removes an item\",\"duration\":0.17579799999998613,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Handler\"],\"fullName\":\"Handler rejects requests without auth\",\"status\":\"passed\",\"title\":\"rejects requests without auth\",\"duration\":0.10459300000002258,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Handler\"],\"fullName\":\"Handler returns 405 for unsupported methods\",\"status\":\"passed\",\"title\":\"returns 405 for unsupported methods\",\"duration\":0.13464800000002697,\"failureMessages\":[],\"meta\":{}}],\"startTime\":1784248940644,\"endTime\":1784248940647.1758,\"status\":\"passed\",\"message\":\"\",\"name\":\"/home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-f81ad5f0/tests/visible/test.test.ts\"}]}\n\n{\"numTotalTestSuites\":2,\"numPassedTestSuites\":2,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":4,\"numPassedTests\":4,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1784248941145,\"success\":true,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"Handler - Edge Cases\"],\"fullName\":\"Handler - Edge Cases returns 400 when POST body is missing\",\"status\":\"passed\",\"title\":\"returns 400 when POST body is missing\",\"duration\":0.8772350000000131,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Handler - Edge Cases\"],\"fullName\":\"Handler - Edge Cases returns 409 when creating item with duplicate ID\",\"status\":\"passed\",\"title\":\"returns 409 when creating item with duplicate ID\",\"duration\":0.22421899999997663,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Handler - Edge Cases\"],\"fullName\":\"Handler - Edge Cases supports partial update on PUT (only name)\",\"status\":\"passed\",\"title\":\"supports partial update on PUT (only name)\",\"duration\":0.13352900000001,\"failureMessages\":[],\"meta\":{}},{\"ancestorTitles\":[\"Handler - Edge Cases\"],\"fullName\":\"Handler - Edge Cases returns 404 when deleting non-existent item\",\"status\":\"passed\",\"title\":\"returns 404 when deleting non-existent item\",\"duration\":0.10270500000001448,\"failureMessages\":[],\"meta\":{}}],\"startTime\":1784248941398,\"endTime\":1784248941399.224,\"status\":\"passed\",\"message\":\"\",\"name\":\"/home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-f81ad5f0/tests/hidden/test.test.ts\"}]}\n",
+      "lintOutput": "../../../../../node_modules/.pnpm/@types+pg-pool@2.0.6/node_modules/@types/pg-pool/index.d.ts(11,5): error TS2416: Property 'on' in type 'Pool<T>' is not assignable to the same property in base type 'Pool'.\n  Type '{ (event: \"error\", listener: (err: Error, client: T & PoolClient) => void): this; (event: \"remove\" | \"connect\" | \"acquire\", listener: (client: T & PoolClient) => void): this; }' is not assignable to type '<K extends \"error\" | \"release\" | \"connect\" | \"acquire\" | \"remove\">(event: K, listener: K extends \"release\" | \"error\" ? (err: Error, client: PoolClient) => void : (client: PoolClient) => void) => this'.\n    Types of parameters 'listener' and 'listener' are incompatible.\n      Type '((err: Error, client: PoolClient) => void) | ((client: PoolClient) => void)' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n        Type '(client: PoolClient) => void' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n          Types of parameters 'client' and 'err' are incompatible.\n            Type 'Error' is missing the following properties from type 'PoolClient': release, connect, query, copyFrom, and 22 more.\n../../../../../node_modules/.pnpm/@types+pg-pool@2.0.6/node_modules/@types/pg-pool/index.d.ts(12,5): error TS2416: Property 'on' in type 'Pool<T>' is not assignable to the same property in base type 'Pool'.\n  Type '{ (event: \"error\", listener: (err: Error, client: T & PoolClient) => void): this; (event: \"remove\" | \"connect\" | \"acquire\", listener: (client: T & PoolClient) => void): this; }' is not assignable to type '<K extends \"error\" | \"release\" | \"connect\" | \"acquire\" | \"remove\">(event: K, listener: K extends \"release\" | \"error\" ? (err: Error, client: PoolClient) => void : (client: PoolClient) => void) => this'.\n    Types of parameters 'listener' and 'listener' are incompatible.\n      Type '((err: Error, client: PoolClient) => void) | ((client: PoolClient) => void)' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n        Type '(client: PoolClient) => void' is not assignable to type '(err: Error, client: T & PoolClient) => void'.\n          Types of parameters 'client' and 'err' are incompatible.\n            Type 'Error' is missing the following properties from type 'PoolClient': release, connect, query, copyFrom, and 22 more.",
+      "inputTokens": 11142,
+      "outputTokens": 3277,
+      "latencyMs": 25633,
+      "estimatedCostUsd": 0.082581
+    },
+    {
+      "taskId": "test-quality-01",
+      "family": "test-quality",
+      "c1": {
+        "buildSuccess": true,
+        "typecheckPassed": false,
+        "visibleTestsPassed": 0,
+        "visibleTestsTotal": 0,
+        "hiddenTestsPassed": 0,
+        "hiddenTestsTotal": 10,
+        "lintErrors": 3,
+        "lintWarnings": 0,
+        "score": 0.20500000000000002
+      },
+      "c2": {
+        "cyclomaticComplexity": 1,
+        "duplicationRatio": 0,
+        "dependencyCount": 0,
+        "securitySmells": 0,
+        "linesOfCode": 1,
+        "score": 1
+      },
+      "c3": {
+        "fileCount": 1,
+        "functionCount": 0,
+        "avgFunctionLength": 1,
+        "maxNestingDepth": 0,
+        "exportCount": 0,
+        "decompositionScore": 0.3,
+        "abstractionScore": 0.4,
+        "overEngineeringPenalty": 1,
+        "score": 0.54
+      },
+      "composite": 0.55025,
+      "generatedCode": "I don't have permission to write to `/solution.test.ts`. Could you grant write access, or let me know a different path to save it to?",
+      "buildOutput": "npm install succeeded",
+      "testOutput": "{\"numTotalTestSuites\":0,\"numPassedTestSuites\":0,\"numFailedTestSuites\":0,\"numPendingTestSuites\":0,\"numTotalTests\":0,\"numPassedTests\":0,\"numFailedTests\":0,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1784249020182,\"success\":false,\"testResults\":[]}\n\n{\"numTotalTestSuites\":2,\"numPassedTestSuites\":0,\"numFailedTestSuites\":2,\"numPendingTestSuites\":0,\"numTotalTests\":10,\"numPassedTests\":0,\"numFailedTests\":10,\"numPendingTests\":0,\"numTodoTests\":0,\"snapshot\":{\"added\":0,\"failure\":false,\"filesAdded\":0,\"filesRemoved\":0,\"filesRemovedList\":[],\"filesUnmatched\":0,\"filesUpdated\":0,\"matched\":0,\"total\":0,\"unchecked\":0,\"uncheckedKeysByFile\":[],\"unmatched\":0,\"updated\":0,\"didUpdate\":false},\"startTime\":1784249020705,\"success\":false,\"testResults\":[{\"assertionResults\":[{\"ancestorTitles\":[\"Coverage Check - Meta Tests\"],\"fullName\":\"Coverage Check - Meta Tests solution.test.ts exists and is non-empty\",\"status\":\"failed\",\"title\":\"solution.test.ts exists and is non-empty\",\"duration\":5.256641000000002,\"failureMessages\":[\"AssertionError: expected 0 to be greater than 0\\n    at /home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-a65b2ed7/tests/hidden/test.test.ts:18:35\\n    at file:///home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-a65b2ed7/node_modules/@vitest/runner/dist/chunk-hooks.js:155:11\\n    at file:///home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-a65b2ed7/node_modules/@vitest/runner/dist/chunk-hooks.js:752:26\\n    at file:///home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-a65b2ed7/node_modules/@vitest/runner/dist/chunk-hooks.js:1897:20\\n    at new Promise (<anonymous>)\\n    at runWithTimeout (file:///home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-a65b2ed7/node_modules/@vitest/runner/dist/chunk-hooks.js:1863:10)\\n    at runTest (file:///home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-a65b2ed7/node_modules/@vitest/runner/dist/chunk-hooks.js:1574:12)\\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\\n    at runSuite (file:///home/myles/CueCrux/ScoreCrux/benchmarks/coding/.sandbox-tmp/sandbox-a65b2ed7/node_modules/@vitest/runner/dist/chunk-hooks.js:1729:8)\\n    at runSuite (file:///home/myles/CueC",
+      "lintOutput": "solution.ts(1,1): error TS1434: Unexpected keyword or identifier.\nsolution.ts(1,3): error TS1434: Unexpected keyword or identifier.\nsolution.ts(1,134): error TS1002: Unterminated string literal.",
+      "inputTokens": 17979,
+      "outputTokens": 10390,
+      "latencyMs": 73603,
+      "estimatedCostUsd": 0.209787
+    }
+  ],
+  "aggregate": {
+    "compositeScore": 0.7334602305422692,
+    "testPassRate": 0.5833333333333333,
+    "qualityScore": 0.949029230120769,
+    "designScore": 0.724,
+    "totalTasks": 5
+  },
+  "usage": {
+    "totalInputTokens": 63345,
+    "totalOutputTokens": 19644,
+    "estimatedCostUsd": 0.484695,
+    "totalLatencyMs": 157452
+  }
+}

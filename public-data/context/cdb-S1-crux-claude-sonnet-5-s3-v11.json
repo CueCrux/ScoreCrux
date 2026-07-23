@@ -1,5 +1,5 @@
 {
-  "id": "cdb-S1-crux-claude-sonnet-5-s1-v11",
+  "id": "cdb-S1-crux-claude-sonnet-5-s3-v11",
   "type": "context",
   "suite_version": "CDB-v1.1",
   "benchmark_name": "Context Dependence \u2014 Rederivable (control)",
@@ -17,7 +17,7 @@
   "model": "claude-sonnet-5",
   "reportedModel": "claude-sonnet-5",
   "corpus": "CDB-synthetic-v1",
-  "seed": 1,
+  "seed": 3,
   "n_probes": 5,
   "correct": 5,
   "recall": 1.0,
@@ -26,7 +26,7 @@
   "mcnemar_vs_none": null,
   "cx_em": 15.0,
   "s_gate": 1,
-  "c_tokens_usd": 0.193522,
+  "c_tokens_usd": 0.193535,
   "probes": [
     {
       "id": "P1",
@@ -39,9 +39,9 @@
     {
       "id": "P2",
       "question": "Internal port configured? (check the repo)",
-      "gold": "2711",
-      "gold_pattern": "(?<!\\d)2711(?!\\d)",
-      "answer": "2711",
+      "gold": "9749",
+      "gold_pattern": "(?<!\\d)9749(?!\\d)",
+      "answer": "9749",
       "correct": 1
     },
     {
@@ -55,30 +55,30 @@
     {
       "id": "P4",
       "question": "Cache TTL seconds? (check the repo)",
-      "gold": "786",
-      "gold_pattern": "(?<!\\d)786(?!\\d)",
-      "answer": "786",
+      "gold": "2896",
+      "gold_pattern": "(?<!\\d)2896(?!\\d)",
+      "answer": "2896",
       "correct": 1
     },
     {
       "id": "P5",
       "question": "Shard count? (check the repo)",
-      "gold": "12",
-      "gold_pattern": "(?<!\\d)12(?!\\d)",
-      "answer": "12",
+      "gold": "11",
+      "gold_pattern": "(?<!\\d)11(?!\\d)",
+      "answer": "11",
       "correct": 1
     }
   ],
   "context_tokens": 48,
   "context_tokens_method": "char4-estimate",
   "correct_per_1k_ctx": 104.167,
-  "latency_ms": 7393,
+  "latency_ms": 6406,
   "submitter": "Myles Bryning",
   "organization": "CueCrux Labs",
   "githubLogin": "CueCrux-Myles",
-  "gold_sha256": "c6890cb89397015e20f383467bbdb1a8e13c69809c4b72123e007973c999ad9a",
-  "block_sha256": "695410dac6d1065c65c9cade52c303810c995ec69deea567e33d5f5e8cbb337c",
-  "manifest_sha256": "46afa60a82bfba99c8bf92a1bf94b0df174258b4eb9fd049012b161c1e5d9666",
+  "gold_sha256": "70cf337c7d9576536334cfb4ee69c269fe495a342db7764c0a97249c797ec213",
+  "block_sha256": "28a513bf5a7bad37762cbf660b6e918fc88ff9036c11c2ce2f412eef3fba3738",
+  "manifest_sha256": "f770e27b6affabac9f8de9f4f46724eef10ad54ef7146a52d233e0ebc6dda91e",
   "cost_basis": "measured",
   "date": "2026-07-17",
   "metrics_version": "1.6",

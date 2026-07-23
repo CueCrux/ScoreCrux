@@ -1,0 +1,206 @@
+{
+  "id": "cdb-S9-crux-claude-sonnet-5-s3-v11",
+  "type": "context",
+  "suite_version": "CDB-v1.1",
+  "benchmark_name": "Context Dependence \u2014 Drift / longitudinal",
+  "section": "S9",
+  "section_hypothesis": "resolve-vs-drift",
+  "scored": true,
+  "in_composite": false,
+  "axis": "drift",
+  "backend": "crux",
+  "memory_system": {
+    "used": true,
+    "name": "Crux",
+    "version": "0.5.42"
+  },
+  "model": "claude-sonnet-5",
+  "reportedModel": "claude-sonnet-5",
+  "corpus": "CDB-synthetic-v1",
+  "seed": 3,
+  "n_probes": 20,
+  "correct": 0,
+  "recall": 0.0,
+  "delta_vs_none": null,
+  "delta_vs_vendor_native": null,
+  "mcnemar_vs_none": null,
+  "cx_em": 0.0,
+  "s_gate": 1,
+  "c_tokens_usd": 0.0,
+  "probes": [
+    {
+      "id": "P1",
+      "question": "The api_endpoint was updated 5 times this session. What is its CURRENT (latest) value?",
+      "gold": "wolfram-310",
+      "gold_pattern": "wolfram\\-310",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P2",
+      "question": "The db_dsn was updated 7 times this session. What is its CURRENT (latest) value?",
+      "gold": "tessellate-313",
+      "gold_pattern": "tessellate\\-313",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P3",
+      "question": "The cache_ttl was updated 5 times this session. What is its CURRENT (latest) value?",
+      "gold": "tessellate-390",
+      "gold_pattern": "tessellate\\-390",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P4",
+      "question": "The feature_flag was updated 6 times this session. What is its CURRENT (latest) value?",
+      "gold": "quillon-319",
+      "gold_pattern": "quillon\\-319",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P5",
+      "question": "The rollout_pct was updated 5 times this session. What is its CURRENT (latest) value?",
+      "gold": "wolfram-648",
+      "gold_pattern": "wolfram\\-648",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P6",
+      "question": "The retry_budget was updated 6 times this session. What is its CURRENT (latest) value?",
+      "gold": "wolfram-420",
+      "gold_pattern": "wolfram\\-420",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P7",
+      "question": "The rate_limit was updated 8 times this session. What is its CURRENT (latest) value?",
+      "gold": "quillon-376",
+      "gold_pattern": "quillon\\-376",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P8",
+      "question": "The shard_count was updated 6 times this session. What is its CURRENT (latest) value?",
+      "gold": "saltmarsh-343",
+      "gold_pattern": "saltmarsh\\-343",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P9",
+      "question": "The region_code was updated 7 times this session. What is its CURRENT (latest) value?",
+      "gold": "tessellate-862",
+      "gold_pattern": "tessellate\\-862",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P10",
+      "question": "The queue_depth was updated 6 times this session. What is its CURRENT (latest) value?",
+      "gold": "tessellate-793",
+      "gold_pattern": "tessellate\\-793",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P11",
+      "question": "The timeout_ms was updated 4 times this session. What is its CURRENT (latest) value?",
+      "gold": "wolfram-600",
+      "gold_pattern": "wolfram\\-600",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P12",
+      "question": "The batch_size was updated 4 times this session. What is its CURRENT (latest) value?",
+      "gold": "cobalt-679",
+      "gold_pattern": "cobalt\\-679",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P13",
+      "question": "The worker_pool was updated 8 times this session. What is its CURRENT (latest) value?",
+      "gold": "tessellate-824",
+      "gold_pattern": "tessellate\\-824",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P14",
+      "question": "The log_level was updated 6 times this session. What is its CURRENT (latest) value?",
+      "gold": "quillon-237",
+      "gold_pattern": "quillon\\-237",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P15",
+      "question": "The sample_rate was updated 6 times this session. What is its CURRENT (latest) value?",
+      "gold": "quillon-225",
+      "gold_pattern": "quillon\\-225",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P16",
+      "question": "The circuit_threshold was updated 5 times this session. What is its CURRENT (latest) value?",
+      "gold": "saltmarsh-373",
+      "gold_pattern": "saltmarsh\\-373",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P17",
+      "question": "The lease_ttl was updated 4 times this session. What is its CURRENT (latest) value?",
+      "gold": "lodestar-694",
+      "gold_pattern": "lodestar\\-694",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P18",
+      "question": "The prefetch_count was updated 7 times this session. What is its CURRENT (latest) value?",
+      "gold": "verdigris-687",
+      "gold_pattern": "verdigris\\-687",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P19",
+      "question": "The compaction_window was updated 4 times this session. What is its CURRENT (latest) value?",
+      "gold": "harrier-996",
+      "gold_pattern": "harrier\\-996",
+      "answer": "",
+      "correct": 0
+    },
+    {
+      "id": "P20",
+      "question": "The gc_interval was updated 8 times this session. What is its CURRENT (latest) value?",
+      "gold": "harrier-390",
+      "gold_pattern": "harrier\\-390",
+      "answer": "",
+      "correct": 0
+    }
+  ],
+  "context_tokens": 295,
+  "context_tokens_method": "char4-estimate",
+  "correct_per_1k_ctx": 0.0,
+  "latency_ms": 2179,
+  "submitter": "Myles Bryning",
+  "organization": "CueCrux Labs",
+  "githubLogin": "CueCrux-Myles",
+  "gold_sha256": "ca21a4aa64c764c5b35700611af5a015742576dfe4cd01cbca72a30c4cbe9613",
+  "block_sha256": "05f785872636369d2558b08ced0f9e178d9aebbc1d8cdfa03c55da3e06041ff6",
+  "manifest_sha256": "46f5e2175b79c7b7715960a3788bb5a891c24d3f8eccf7099aa9a27428117b82",
+  "cost_basis": "measured",
+  "date": "2026-07-17",
+  "metrics_version": "1.6",
+  "submittedAt": "2026-07-17T00:00:00.000Z"
+}

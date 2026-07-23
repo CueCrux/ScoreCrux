@@ -1,0 +1,465 @@
+{
+  "runId": "32786deb",
+  "benchmarkVersion": "1.0",
+  "modelId": "claude-sonnet-5",
+  "runMode": "closed_prompt_only",
+  "taskSetId": "5832fcbd7db51df8d4045f471cc69e081d95d0f8b44325aeea85cb878ee49427",
+  "startedAt": "2026-07-16T11:32:42.430Z",
+  "completedAt": "2026-07-16T11:33:14.997Z",
+  "responses": [
+    {
+      "taskId": "A001",
+      "modelId": "claude-sonnet-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": [\"Kael: tea\", \"Mira: coffee\", \"Tobin: juice\"],\n  \"confidence\": 1.0,\n  \"working\": [\n    \"Clue 3: Tobin ordered juice — this is directly stated.\",\n    \"Remaining drinks for Kael and Mira: tea and coffee.\",\n    \"Clue 1: Kael did not order coffee — so Kael ordered tea.\",\n    \"Clue 2: Mira did not order tea — so Mira ordered coffee.\",\n    \"Verification: Kael=tea (not coffee ✓), Mira=coffee (not tea ✓), Tobin=juice ✓\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": [
+          "Kael: tea",
+          "Mira: coffee",
+          "Tobin: juice"
+        ],
+        "confidence": 1,
+        "working": [
+          "Clue 3: Tobin ordered juice — this is directly stated.",
+          "Remaining drinks for Kael and Mira: tea and coffee.",
+          "Clue 1: Kael did not order coffee — so Kael ordered tea.",
+          "Clue 2: Mira did not order tea — so Mira ordered coffee.",
+          "Verification: Kael=tea (not coffee ✓), Mira=coffee (not tea ✓), Tobin=juice ✓"
+        ]
+      },
+      "latencyMs": 6380,
+      "inputTokens": 23554,
+      "outputTokens": 184,
+      "timestamp": "2026-07-16T11:32:48.823Z"
+    },
+    {
+      "taskId": "B001",
+      "modelId": "claude-sonnet-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"8\",\n  \"confidence\": 1.0,\n  \"working\": [\n    \"Start: 0\",\n    \"Step 1 - Add 5: 0 + 5 = 5\",\n    \"Step 2 - Double: 5 * 2 = 10\",\n    \"Step 3 - Subtract 3: 10 - 3 = 7\",\n    \"Step 4 - Add 1: 7 + 1 = 8\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": "8",
+        "confidence": 1,
+        "working": [
+          "Start: 0",
+          "Step 1 - Add 5: 0 + 5 = 5",
+          "Step 2 - Double: 5 * 2 = 10",
+          "Step 3 - Subtract 3: 10 - 3 = 7",
+          "Step 4 - Add 1: 7 + 1 = 8"
+        ]
+      },
+      "latencyMs": 3787,
+      "inputTokens": 2597,
+      "outputTokens": 139,
+      "timestamp": "2026-07-16T11:32:52.610Z"
+    },
+    {
+      "taskId": "C001",
+      "modelId": "claude-sonnet-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"Yes. Rules 2 and 3 determine the answer.\",\n  \"confidence\": 0.99,\n  \"working\": [\n    \"Rule 1: Standard members may borrow up to 3 books. Not applicable — Kael is a premium member.\",\n    \"Rule 2: Premium members may borrow up to 7 books at a time. Kael is a premium member with 5 books checked out. 5 + 2 = 7, which equals the limit. So borrowing 2 more is allowed.\",\n    \"Rule 3: Any member with an overdue book cannot borrow additional books. Kael has no overdue books, so this rule does not block borrowing.\",\n    \"Rule 4: Children (age 12 or under) may only borrow from the children's section. Kael is 15, so this rule does not apply.\",\n    \"Conclusion: Kael can borrow 2 more books (reaching exactly the 7-book premium limit), and the adult section is not restricted for a 15-year-old. The answer is yes, governed by Rule 2 (sets the 7-book limit) and Rule 3 (no overdue books, so no block).\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": "Yes. Rules 2 and 3 determine the answer.",
+        "confidence": 0.99,
+        "working": [
+          "Rule 1: Standard members may borrow up to 3 books. Not applicable — Kael is a premium member.",
+          "Rule 2: Premium members may borrow up to 7 books at a time. Kael is a premium member with 5 books checked out. 5 + 2 = 7, which equals the limit. So borrowing 2 more is allowed.",
+          "Rule 3: Any member with an overdue book cannot borrow additional books. Kael has no overdue books, so this rule does not block borrowing.",
+          "Rule 4: Children (age 12 or under) may only borrow from the children's section. Kael is 15, so this rule does not apply.",
+          "Conclusion: Kael can borrow 2 more books (reaching exactly the 7-book premium limit), and the adult section is not restricted for a 15-year-old. The answer is yes, governed by Rule 2 (sets the 7-book limit) and Rule 3 (no overdue books, so no block)."
+        ]
+      },
+      "latencyMs": 5565,
+      "inputTokens": 2699,
+      "outputTokens": 303,
+      "timestamp": "2026-07-16T11:32:58.175Z"
+    },
+    {
+      "taskId": "D001",
+      "modelId": "claude-sonnet-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": [\"Product Y\", \"Product Z\"],\n  \"confidence\": 1.0,\n  \"working\": [\n    \"Machine P produces Part X → Part X is now unavailable\",\n    \"Product Y requires Part X → Product Y cannot be assembled\",\n    \"Product Z requires Product Y → Product Z cannot be assembled\",\n    \"Both Product Y and Product Z are affected\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": [
+          "Product Y",
+          "Product Z"
+        ],
+        "confidence": 1,
+        "working": [
+          "Machine P produces Part X → Part X is now unavailable",
+          "Product Y requires Part X → Product Y cannot be assembled",
+          "Product Z requires Product Y → Product Z cannot be assembled",
+          "Both Product Y and Product Z are affected"
+        ]
+      },
+      "latencyMs": 4389,
+      "inputTokens": 2603,
+      "outputTokens": 103,
+      "timestamp": "2026-07-16T11:33:02.564Z"
+    },
+    {
+      "taskId": "E001",
+      "modelId": "claude-sonnet-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"@ # # # # #\",\n  \"confidence\": 0.99,\n  \"working\": [\n    \"Identify the pattern: each group starts with @ followed by increasing # symbols\",\n    \"Group 1: @ # (1 hash)\",\n    \"Group 2: @ # # (2 hashes)\",\n    \"Group 3: @ # # # (3 hashes)\",\n    \"Group 4: @ # # # # (4 hashes)\",\n    \"Group 5 (next): @ # # # # # (5 hashes)\",\n    \"The next complete group is @ followed by 5 # symbols\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": "@ # # # # #",
+        "confidence": 0.99,
+        "working": [
+          "Identify the pattern: each group starts with @ followed by increasing # symbols",
+          "Group 1: @ # (1 hash)",
+          "Group 2: @ # # (2 hashes)",
+          "Group 3: @ # # # (3 hashes)",
+          "Group 4: @ # # # # (4 hashes)",
+          "Group 5 (next): @ # # # # # (5 hashes)",
+          "The next complete group is @ followed by 5 # symbols"
+        ]
+      },
+      "latencyMs": 4080,
+      "inputTokens": 2632,
+      "outputTokens": 168,
+      "timestamp": "2026-07-16T11:33:06.644Z"
+    },
+    {
+      "taskId": "F001",
+      "modelId": "claude-sonnet-5",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "```json\n{\n  \"final_answer\": \"Task B starts at hour 0 (ends hour 1), Task A starts at hour 1 (ends hour 3), Task C starts at hour 3 (ends hour 6). All deadlines met.\",\n  \"confidence\": 1.0,\n  \"working\": [\n    \"List tasks with their durations and deadlines: A(2h, deadline 5), B(1h, deadline 3), C(3h, deadline 8)\",\n    \"Apply Earliest Deadline First (EDF) heuristic: sort by deadline → B(3), A(5), C(8)\",\n    \"Schedule Task B first: start=0, end=0+1=1. Check: 1 ≤ 3 (deadline). PASS\",\n    \"Schedule Task A next: start=1, end=1+2=3. Check: 3 ≤ 5 (deadline). PASS\",\n    \"Schedule Task C next: start=3, end=3+3=6. Check: 6 ≤ 8 (deadline). PASS\",\n    \"No overlaps: [0,1), [1,3), [3,6) are disjoint. PASS\",\n    \"Valid schedule found: B@0, A@1, C@3\"\n  ]\n}\n```",
+      "parsedOutput": {
+        "final_answer": "Task B starts at hour 0 (ends hour 1), Task A starts at hour 1 (ends hour 3), Task C starts at hour 3 (ends hour 6). All deadlines met.",
+        "confidence": 1,
+        "working": [
+          "List tasks with their durations and deadlines: A(2h, deadline 5), B(1h, deadline 3), C(3h, deadline 8)",
+          "Apply Earliest Deadline First (EDF) heuristic: sort by deadline → B(3), A(5), C(8)",
+          "Schedule Task B first: start=0, end=0+1=1. Check: 1 ≤ 3 (deadline). PASS",
+          "Schedule Task A next: start=1, end=1+2=3. Check: 3 ≤ 5 (deadline). PASS",
+          "Schedule Task C next: start=3, end=3+3=6. Check: 6 ≤ 8 (deadline). PASS",
+          "No overlaps: [0,1), [1,3), [3,6) are disjoint. PASS",
+          "Valid schedule found: B@0, A@1, C@3"
+        ]
+      },
+      "latencyMs": 8347,
+      "inputTokens": 2668,
+      "outputTokens": 656,
+      "timestamp": "2026-07-16T11:33:14.991Z"
+    }
+  ],
+  "score": {
+    "itemScores": [
+      {
+        "taskId": "A001",
+        "category": "A",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.985,
+        "traceConsistencyScore": 0.8999999999999999,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "B001",
+        "category": "B",
+        "chcFactor": "Gwm",
+        "chcPrimaryWeight": 1,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.955,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "C001",
+        "category": "C",
+        "chcFactor": "Gc",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 1,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "D001",
+        "category": "D",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.955,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "E001",
+        "category": "E",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.955,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "F001",
+        "category": "F",
+        "chcFactor": "Gs",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.955,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      }
+    ],
+    "categoryScores": [
+      {
+        "category": "A",
+        "label": "Deduction & Elimination",
+        "itemCount": 1,
+        "correctCount": 1,
+        "accuracy": 1,
+        "weightedScore": 0.985
+      },
+      {
+        "category": "B",
+        "label": "Stateful Process Reasoning",
+        "itemCount": 1,
+        "correctCount": 1,
+        "accuracy": 1,
+        "weightedScore": 0.955
+      },
+      {
+        "category": "C",
+        "label": "Rule Application",
+        "itemCount": 1,
+        "correctCount": 1,
+        "accuracy": 1,
+        "weightedScore": 1
+      },
+      {
+        "category": "D",
+        "label": "Causal & Counterfactual",
+        "itemCount": 1,
+        "correctCount": 1,
+        "accuracy": 1,
+        "weightedScore": 0.955
+      },
+      {
+        "category": "E",
+        "label": "Abstraction & Transformation",
+        "itemCount": 1,
+        "correctCount": 1,
+        "accuracy": 1,
+        "weightedScore": 0.955
+      },
+      {
+        "category": "F",
+        "label": "Planning Under Constraints",
+        "itemCount": 1,
+        "correctCount": 1,
+        "accuracy": 1,
+        "weightedScore": 0.955
+      }
+    ],
+    "factorScores": [
+      {
+        "factor": "Gc",
+        "factorLabel": "Comprehension-Knowledge",
+        "theta": {
+          "theta": 0.25528391213701634,
+          "se": 0.926700378164177,
+          "information": 0.17259742018794907,
+          "method": "EAP",
+          "converged": true,
+          "iterations": 41
+        },
+        "itemCount": 1,
+        "iqEquivalent": 103.82925868205524,
+        "confidenceInterval": {
+          "lower": 77,
+          "upper": 131,
+          "level": 0.95
+        },
+        "itemBreakdown": [
+          {
+            "taskId": "C001",
+            "correct": true,
+            "partialCredit": 1
+          }
+        ]
+      },
+      {
+        "factor": "Gf",
+        "factorLabel": "Fluid Reasoning",
+        "theta": {
+          "theta": 0.8199844082687234,
+          "se": 0.7878723075637898,
+          "information": 0.5999670859575141,
+          "method": "EAP",
+          "converged": true,
+          "iterations": 41
+        },
+        "itemCount": 5,
+        "iqEquivalent": 112.29976612403085,
+        "confidenceInterval": {
+          "lower": 89,
+          "upper": 135,
+          "level": 0.95
+        },
+        "itemBreakdown": [
+          {
+            "taskId": "A001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "C001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "D001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "E001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "F001",
+            "correct": true,
+            "partialCredit": 1
+          }
+        ]
+      },
+      {
+        "factor": "Gs",
+        "factorLabel": "Processing Speed",
+        "theta": {
+          "theta": 0.25528391213701634,
+          "se": 0.926700378164177,
+          "information": 0.17259742018794907,
+          "method": "EAP",
+          "converged": true,
+          "iterations": 41
+        },
+        "itemCount": 1,
+        "iqEquivalent": 103.82925868205524,
+        "confidenceInterval": {
+          "lower": 77,
+          "upper": 131,
+          "level": 0.95
+        },
+        "itemBreakdown": [
+          {
+            "taskId": "F001",
+            "correct": true,
+            "partialCredit": 1
+          }
+        ]
+      },
+      {
+        "factor": "Gwm",
+        "factorLabel": "Working Memory",
+        "theta": {
+          "theta": 0.25528391213701634,
+          "se": 0.926700378164177,
+          "information": 0.17259742018794907,
+          "method": "EAP",
+          "converged": true,
+          "iterations": 41
+        },
+        "itemCount": 1,
+        "iqEquivalent": 103.82925868205524,
+        "confidenceInterval": {
+          "lower": 77,
+          "upper": 131,
+          "level": 0.95
+        },
+        "itemBreakdown": [
+          {
+            "taskId": "B001",
+            "correct": true,
+            "partialCredit": 1
+          }
+        ]
+      }
+    ],
+    "compositeIQ": {
+      "fullScaleIQ": 114,
+      "confidenceInterval": {
+        "lower": 91,
+        "upper": 136,
+        "level": 0.95
+      },
+      "percentile": 85.6,
+      "classification": "High Average"
+    }
+  },
+  "usage": {
+    "totalInputTokens": 36753,
+    "totalOutputTokens": 1553,
+    "estimatedCostUsd": 0.133554
+  },
+  "antiContamination": {
+    "taskSetHash": "5832fcbd7db51df8d4045f471cc69e081d95d0f8b44325aeea85cb878ee49427",
+    "holdoutItemsUsed": 0,
+    "variantRotation": []
+  }
+}

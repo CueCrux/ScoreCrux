@@ -1,0 +1,1058 @@
+{
+  "runId": "bcc4c291",
+  "benchmarkVersion": "1.0",
+  "modelId": "claude-opus-4-8",
+  "runMode": "closed_prompt_only",
+  "taskSetId": "a604f3ef3a8a13956e4c149af34cb1c492c5825104acffc4ab4f14f80d867523",
+  "startedAt": "2026-07-16T11:53:29.616Z",
+  "completedAt": "2026-07-16T11:56:08.730Z",
+  "responses": [
+    {
+      "taskId": "A001",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": [\"Kael: tea\", \"Mira: coffee\", \"Tobin: juice\"], \"confidence\": 1.0, \"working\": [\"Clue 3: Tobin ordered juice.\", \"Remaining drinks for Kael and Mira: tea and coffee.\", \"Clue 2: Mira did not order tea, so Mira ordered coffee.\", \"That leaves tea for Kael, which satisfies clue 1 (Kael did not order coffee).\"]}",
+      "parsedOutput": {
+        "final_answer": [
+          "Kael: tea",
+          "Mira: coffee",
+          "Tobin: juice"
+        ],
+        "confidence": 1,
+        "working": [
+          "Clue 3: Tobin ordered juice.",
+          "Remaining drinks for Kael and Mira: tea and coffee.",
+          "Clue 2: Mira did not order tea, so Mira ordered coffee.",
+          "That leaves tea for Kael, which satisfies clue 1 (Kael did not order coffee)."
+        ]
+      },
+      "latencyMs": 5137,
+      "inputTokens": 2487,
+      "outputTokens": 201,
+      "timestamp": "2026-07-16T11:53:34.760Z"
+    },
+    {
+      "taskId": "A002",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"Wren: 1, Joss: 2, Mira: 3, Kael: 4\", \"confidence\": 1.0, \"working\": [\"Clue 1: Wren immediately left of Joss, so (Wren,Joss) is (1,2), (2,3), or (3,4).\", \"Clue 4: Joss not at desk 4, eliminating (3,4). So (1,2) or (2,3).\", \"Clue 2: Kael at desk 3 or 4.\", \"Case (2,3): Wren=2, Joss=3. Remaining desks 1,4 for Kael,Mira. Kael must be 4, so Mira=1, but clue 5 forbids Mira at 1. Rejected.\", \"Case (1,2): Wren=1, Joss=2. Remaining desks 3,4 for Kael,Mira. Clue 3: Mira<Kael, so Mira=3, Kael=4. Clue 5 satisfied (Mira not 1). Clue 2 satisfied (Kael=4).\", \"All clues satisfied: Wren=1, Joss=2, Mira=3, Kael=4.\"]}",
+      "parsedOutput": {
+        "final_answer": "Wren: 1, Joss: 2, Mira: 3, Kael: 4",
+        "confidence": 1,
+        "working": [
+          "Clue 1: Wren immediately left of Joss, so (Wren,Joss) is (1,2), (2,3), or (3,4).",
+          "Clue 4: Joss not at desk 4, eliminating (3,4). So (1,2) or (2,3).",
+          "Clue 2: Kael at desk 3 or 4.",
+          "Case (2,3): Wren=2, Joss=3. Remaining desks 1,4 for Kael,Mira. Kael must be 4, so Mira=1, but clue 5 forbids Mira at 1. Rejected.",
+          "Case (1,2): Wren=1, Joss=2. Remaining desks 3,4 for Kael,Mira. Clue 3: Mira<Kael, so Mira=3, Kael=4. Clue 5 satisfied (Mira not 1). Clue 2 satisfied (Kael=4).",
+          "All clues satisfied: Wren=1, Joss=2, Mira=3, Kael=4."
+        ]
+      },
+      "latencyMs": 8527,
+      "inputTokens": 2487,
+      "outputTokens": 691,
+      "timestamp": "2026-07-16T11:53:43.287Z"
+    },
+    {
+      "taskId": "A003",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"Kael: floor 1, dog. Mira: floor 2, cat. Tobin: floor 3, fish. Joss: floor 4, bird. Wren: floor 5, lizard.\", \"confidence\": 0.99, \"working\": [\"Clue 7: Wren is on floor 5.\", \"Clue 8: Tobin = Kael + 2, and clue 3 says Tobin not on 1 or 5, so Kael=1/Tobin=3 or Kael=2/Tobin=4.\", \"Try Kael=2/Tobin=4: remaining floors 1,3 for Mira and Joss. Clue 1 needs Mira>Kael(2), so Mira=3, Joss=1. But clue 5 says floor 1 owns dog while clue 4 says Joss owns bird — contradiction. Rejected.\", \"So Kael=1, Tobin=3. Remaining floors 2,4 for Mira and Joss.\", \"Clue 9: Joss not on floor 2, so Joss=4, Mira=2. Clue 1 satisfied (1<2<5).\", \"Clue 5: floor 1 owns dog → Kael owns dog (consistent with clue 6, Kael not cat).\", \"Clue 2: floor 3 owns fish → Tobin owns fish.\", \"Clue 4: Joss owns bird (floor 4).\", \"Remaining pets cat, lizard for Mira(2) and Wren(5). Clue 10: floor 5 not cat → Wren lizard, Mira cat.\", \"All ten clues verified.\"]}",
+      "parsedOutput": {
+        "final_answer": "Kael: floor 1, dog. Mira: floor 2, cat. Tobin: floor 3, fish. Joss: floor 4, bird. Wren: floor 5, lizard.",
+        "confidence": 0.99,
+        "working": [
+          "Clue 7: Wren is on floor 5.",
+          "Clue 8: Tobin = Kael + 2, and clue 3 says Tobin not on 1 or 5, so Kael=1/Tobin=3 or Kael=2/Tobin=4.",
+          "Try Kael=2/Tobin=4: remaining floors 1,3 for Mira and Joss. Clue 1 needs Mira>Kael(2), so Mira=3, Joss=1. But clue 5 says floor 1 owns dog while clue 4 says Joss owns bird — contradiction. Rejected.",
+          "So Kael=1, Tobin=3. Remaining floors 2,4 for Mira and Joss.",
+          "Clue 9: Joss not on floor 2, so Joss=4, Mira=2. Clue 1 satisfied (1<2<5).",
+          "Clue 5: floor 1 owns dog → Kael owns dog (consistent with clue 6, Kael not cat).",
+          "Clue 2: floor 3 owns fish → Tobin owns fish.",
+          "Clue 4: Joss owns bird (floor 4).",
+          "Remaining pets cat, lizard for Mira(2) and Wren(5). Clue 10: floor 5 not cat → Wren lizard, Mira cat.",
+          "All ten clues verified."
+        ]
+      },
+      "latencyMs": 11490,
+      "inputTokens": 2487,
+      "outputTokens": 979,
+      "timestamp": "2026-07-16T11:53:54.777Z"
+    },
+    {
+      "taskId": "B001",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"8\", \"confidence\": 1.0, \"working\": [\"Start at 0.\", \"Add 5: 0 + 5 = 5.\", \"Double: 5 * 2 = 10.\", \"Subtract 3: 10 - 3 = 7.\", \"Add 1: 7 + 1 = 8.\"]}",
+      "parsedOutput": {
+        "final_answer": "8",
+        "confidence": 1,
+        "working": [
+          "Start at 0.",
+          "Add 5: 0 + 5 = 5.",
+          "Double: 5 * 2 = 10.",
+          "Subtract 3: 10 - 3 = 7.",
+          "Add 1: 7 + 1 = 8."
+        ]
+      },
+      "latencyMs": 5669,
+      "inputTokens": 2487,
+      "outputTokens": 149,
+      "timestamp": "2026-07-16T11:54:00.446Z"
+    },
+    {
+      "taskId": "B002",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"3\", \"confidence\": 1.0, \"working\": [\"Start at cell 1.\", \"Move right 3: 1+3=4 (valid). Now at 4.\", \"Move left 1: 4-1=3 (valid). Now at 3.\", \"Move right 4: 3+4=7 (valid). Now at 7.\", \"Move left 2: 7-2=5 (valid). Now at 5.\", \"Move right 3: 5+3=8 (valid, on grid). Now at 8.\", \"Move left 5: 8-5=3 (valid). Now at 3.\", \"Final position: cell 3.\"]}",
+      "parsedOutput": {
+        "final_answer": "3",
+        "confidence": 1,
+        "working": [
+          "Start at cell 1.",
+          "Move right 3: 1+3=4 (valid). Now at 4.",
+          "Move left 1: 4-1=3 (valid). Now at 3.",
+          "Move right 4: 3+4=7 (valid). Now at 7.",
+          "Move left 2: 7-2=5 (valid). Now at 5.",
+          "Move right 3: 5+3=8 (valid, on grid). Now at 8.",
+          "Move left 5: 8-5=3 (valid). Now at 3.",
+          "Final position: cell 3."
+        ]
+      },
+      "latencyMs": 5002,
+      "inputTokens": 2487,
+      "outputTokens": 337,
+      "timestamp": "2026-07-16T11:54:05.448Z"
+    },
+    {
+      "taskId": "B003",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"A=8, B=12, C=20\", \"confidence\": 1.0, \"working\": [\"Init: A=2, B=5, C=1\", \"Op1: A = B - A = 5 - 2 = 3 -> A=3, B=5, C=1\", \"Op2: C = A + C = 3 + 1 = 4 -> A=3, B=5, C=4\", \"Op3: B = A * C = 3 * 4 = 12 -> A=3, B=12, C=4\", \"Op4: A = B - C = 12 - 4 = 8 -> A=8, B=12, C=4\", \"Op5: C = A + B = 8 + 12 = 20 -> A=8, B=12, C=20\", \"Op6: B = C - A = 20 - 8 = 12 -> A=8, B=12, C=20\", \"Final: A=8, B=12, C=20\"]}",
+      "parsedOutput": {
+        "final_answer": "A=8, B=12, C=20",
+        "confidence": 1,
+        "working": [
+          "Init: A=2, B=5, C=1",
+          "Op1: A = B - A = 5 - 2 = 3 -> A=3, B=5, C=1",
+          "Op2: C = A + C = 3 + 1 = 4 -> A=3, B=5, C=4",
+          "Op3: B = A * C = 3 * 4 = 12 -> A=3, B=12, C=4",
+          "Op4: A = B - C = 12 - 4 = 8 -> A=8, B=12, C=4",
+          "Op5: C = A + B = 8 + 12 = 20 -> A=8, B=12, C=20",
+          "Op6: B = C - A = 20 - 8 = 12 -> A=8, B=12, C=20",
+          "Final: A=8, B=12, C=20"
+        ]
+      },
+      "latencyMs": 6216,
+      "inputTokens": 2487,
+      "outputTokens": 508,
+      "timestamp": "2026-07-16T11:54:11.664Z"
+    },
+    {
+      "taskId": "C001",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"Yes. Rules 2 and 3 determine the answer (Rule 4 does not apply).\", \"confidence\": 0.95, \"working\": [\"Kael is a premium member, so Rule 2 applies: limit is 7 books at a time.\", \"Kael currently has 5 checked out and wants 2 more, totaling 7, which is within the premium limit of 7 (Rule 2 satisfied).\", \"Rule 3: Kael has no overdue books, so borrowing is not blocked.\", \"Rule 4 applies only to children age 12 or under; Kael is 15, so it does not apply and the adult-section restriction is irrelevant to him.\", \"Rule 1 applies only to standard members, not premium, so it is not relevant.\", \"All conditions met: the answer is yes, determined by Rule 2 (limit) and Rule 3 (no overdue), with Rule 4 confirmed non-applicable due to age.\"]}",
+      "parsedOutput": {
+        "final_answer": "Yes. Rules 2 and 3 determine the answer (Rule 4 does not apply).",
+        "confidence": 0.95,
+        "working": [
+          "Kael is a premium member, so Rule 2 applies: limit is 7 books at a time.",
+          "Kael currently has 5 checked out and wants 2 more, totaling 7, which is within the premium limit of 7 (Rule 2 satisfied).",
+          "Rule 3: Kael has no overdue books, so borrowing is not blocked.",
+          "Rule 4 applies only to children age 12 or under; Kael is 15, so it does not apply and the adult-section restriction is irrelevant to him.",
+          "Rule 1 applies only to standard members, not premium, so it is not relevant.",
+          "All conditions met: the answer is yes, determined by Rule 2 (limit) and Rule 3 (no overdue), with Rule 4 confirmed non-applicable due to age."
+        ]
+      },
+      "latencyMs": 8198,
+      "inputTokens": 2487,
+      "outputTokens": 487,
+      "timestamp": "2026-07-16T11:54:19.862Z"
+    },
+    {
+      "taskId": "C002",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"Total reimbursable = 305 credits. Breakdown: Day 1 meals = 75 (within doubled 80/day limit); Day 1 travel = 150 (300 km × 0.5); Day 2 meals = 80 (90 capped at doubled 80/day limit); Day 2 equipment = 0 (210 credits exceeds 200 and requires manager approval, which was not provided, so not reimbursable as submitted).\", \"confidence\": 0.83, \"working\": [\"Rule 5 applies: Tobin is on an approved international assignment, so the Rule 1 meal limit is doubled from 40 to 80 credits/day.\", \"Rule 4 check: expenses submitted 10 days after occurring, well within the 30-day limit, so all items are eligible on timing.\", \"Rule 6 check: receipts required for expenses over 25 credits; all receipts provided, so no item is disqualified for lack of receipt.\", \"Day 1 meals: 75 credits vs 80/day cap → fully reimbursed = 75.\", \"Day 1 travel: 300 km × 0.5 credits/km (Rule 2) = 150.\", \"Day 2 meals: 90 credits vs 80/day cap → capped at 80.\", \"Day 2 equipment: 210 credits exceeds 200 (Rule 3), so it requires manager approval before reimbursement. No approval was given, so it is not currently reimbursable = 0.\", \"Total = 75 + 150 + 80 + 0 = 305 credits.\"]}",
+      "parsedOutput": {
+        "final_answer": "Total reimbursable = 305 credits. Breakdown: Day 1 meals = 75 (within doubled 80/day limit); Day 1 travel = 150 (300 km × 0.5); Day 2 meals = 80 (90 capped at doubled 80/day limit); Day 2 equipment = 0 (210 credits exceeds 200 and requires manager approval, which was not provided, so not reimbursable as submitted).",
+        "confidence": 0.83,
+        "working": [
+          "Rule 5 applies: Tobin is on an approved international assignment, so the Rule 1 meal limit is doubled from 40 to 80 credits/day.",
+          "Rule 4 check: expenses submitted 10 days after occurring, well within the 30-day limit, so all items are eligible on timing.",
+          "Rule 6 check: receipts required for expenses over 25 credits; all receipts provided, so no item is disqualified for lack of receipt.",
+          "Day 1 meals: 75 credits vs 80/day cap → fully reimbursed = 75.",
+          "Day 1 travel: 300 km × 0.5 credits/km (Rule 2) = 150.",
+          "Day 2 meals: 90 credits vs 80/day cap → capped at 80.",
+          "Day 2 equipment: 210 credits exceeds 200 (Rule 3), so it requires manager approval before reimbursement. No approval was given, so it is not currently reimbursable = 0.",
+          "Total = 75 + 150 + 80 + 0 = 305 credits."
+        ]
+      },
+      "latencyMs": 13683,
+      "inputTokens": 2487,
+      "outputTokens": 896,
+      "timestamp": "2026-07-16T11:54:33.545Z"
+    },
+    {
+      "taskId": "C003",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"Proposals B (Mira) and C (Tobin) are funded. Adjusted scores — A: Impact 28, Feasibility 22, Novelty 21 (total 71); B: Impact 35, Feasibility 25, Novelty 15 (total 75); C: Impact 30, Feasibility 20, Novelty 21 (total 71); D: Impact 25, Feasibility 21, Novelty 24 (total 70). All four meet Rule 2 eligibility, but Rule 6 caps funding at 2: B is funded first (75), then C wins the 71-point tie with A via Rule 5 (Impact 30 > 28).\", \"confidence\": 0.9, \"working\": [\"Proposal A (Kael, new applicant): Rule 4 adds +3 to lowest criterion. Lowest is Novelty=18 → 21. Adjusted: Impact 28, Feasibility 22, Novelty 21. Total = 71.\", \"Proposal B (Mira, grant 1 cycle ago): Rule 3 reduces Novelty by 5. Novelty 20 → 15. Adjusted: Impact 35, Feasibility 25, Novelty 15. Total = 75.\", \"Proposal C (Tobin, no recent grants, not new): no adjustments. Impact 30, Feasibility 20, Novelty 21. Total = 71.\", \"Proposal D (Wren, new applicant): Rule 4 adds +3 to lowest criterion. Lowest is Feasibility=18 → 21. Adjusted: Impact 25, Feasibility 21, Novelty 24. Total = 70.\", \"Rule 2 eligibility (total ≥70 AND no criterion below 15): A total 71, min 21 → eligible. B total 75, min 15 (15 is not below 15) → eligible. C total 71, min 20 → eligible. D total 70, min 21 → eligible. All four eligible.\", \"Rank by total: B=75, A=71, C=71, D=70.\", \"Rule 6 caps funding at 2. B (75) is funded first.\", \"Second spot: A and C tie at 71. Rule 5 tiebreak on higher Impact: C=30 vs A=28 → C funded.\", \"Funded proposals: B and C.\"]}",
+      "parsedOutput": {
+        "final_answer": "Proposals B (Mira) and C (Tobin) are funded. Adjusted scores — A: Impact 28, Feasibility 22, Novelty 21 (total 71); B: Impact 35, Feasibility 25, Novelty 15 (total 75); C: Impact 30, Feasibility 20, Novelty 21 (total 71); D: Impact 25, Feasibility 21, Novelty 24 (total 70). All four meet Rule 2 eligibility, but Rule 6 caps funding at 2: B is funded first (75), then C wins the 71-point tie with A via Rule 5 (Impact 30 > 28).",
+        "confidence": 0.9,
+        "working": [
+          "Proposal A (Kael, new applicant): Rule 4 adds +3 to lowest criterion. Lowest is Novelty=18 → 21. Adjusted: Impact 28, Feasibility 22, Novelty 21. Total = 71.",
+          "Proposal B (Mira, grant 1 cycle ago): Rule 3 reduces Novelty by 5. Novelty 20 → 15. Adjusted: Impact 35, Feasibility 25, Novelty 15. Total = 75.",
+          "Proposal C (Tobin, no recent grants, not new): no adjustments. Impact 30, Feasibility 20, Novelty 21. Total = 71.",
+          "Proposal D (Wren, new applicant): Rule 4 adds +3 to lowest criterion. Lowest is Feasibility=18 → 21. Adjusted: Impact 25, Feasibility 21, Novelty 24. Total = 70.",
+          "Rule 2 eligibility (total ≥70 AND no criterion below 15): A total 71, min 21 → eligible. B total 75, min 15 (15 is not below 15) → eligible. C total 71, min 20 → eligible. D total 70, min 21 → eligible. All four eligible.",
+          "Rank by total: B=75, A=71, C=71, D=70.",
+          "Rule 6 caps funding at 2. B (75) is funded first.",
+          "Second spot: A and C tie at 71. Rule 5 tiebreak on higher Impact: C=30 vs A=28 → C funded.",
+          "Funded proposals: B and C."
+        ]
+      },
+      "latencyMs": 17749,
+      "inputTokens": 2487,
+      "outputTokens": 1595,
+      "timestamp": "2026-07-16T11:54:51.294Z"
+    },
+    {
+      "taskId": "D001",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": [\"Product Y\", \"Product Z\"], \"confidence\": 0.97, \"working\": [\"Dependency chain: Machine P -> Part X -> Product Y -> Product Z.\", \"Machine P breaks down, so Part X can no longer be produced.\", \"Product Y requires Part X; with Part X unavailable, Product Y cannot be assembled.\", \"Product Z requires Product Y; with Product Y unavailable, Product Z cannot be assembled.\", \"The question asks for affected products. Part X is a part, not a product, so the affected products are Product Y and Product Z.\"]}",
+      "parsedOutput": {
+        "final_answer": [
+          "Product Y",
+          "Product Z"
+        ],
+        "confidence": 0.97,
+        "working": [
+          "Dependency chain: Machine P -> Part X -> Product Y -> Product Z.",
+          "Machine P breaks down, so Part X can no longer be produced.",
+          "Product Y requires Part X; with Part X unavailable, Product Y cannot be assembled.",
+          "Product Z requires Product Y; with Product Y unavailable, Product Z cannot be assembled.",
+          "The question asks for affected products. Part X is a part, not a product, so the affected products are Product Y and Product Z."
+        ]
+      },
+      "latencyMs": 6252,
+      "inputTokens": 2487,
+      "outputTokens": 311,
+      "timestamp": "2026-07-16T11:54:57.546Z"
+    },
+    {
+      "taskId": "D002",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": [\"No, the sprinklers do not run this cycle — the tank is at 15%, which is 20% or below, so the pump diverts to the refill valve.\", \"Yes, the refill valve activates because the tank level (15%) is at or below 20%.\", \"The timer activates the pump regardless of rain. Since the tank is still at 15% (≤20%), the pump activates the refill valve and no water goes to the sprinklers — the same outcome as questions 1 and 2 (refill valve on, sprinklers off).\"], \"confidence\": 0.98, \"working\": [\"Q1: No rain in last 24h, so the timer activates the pump at 6 AM. Pump draws from tank. Tank is at 15%, which is not above 20% — it is 20% or below. Rule: at/below 20%, pump activates refill valve instead and sends no water to sprinklers. Therefore sprinklers do NOT run.\", \"Q2: Same condition — tank 15% ≤ 20% — means the pump activates the refill valve. So the refill valve DOES activate.\", \"Q3: Removing the rain sensor means the timer always fires the pump at 6 AM. Rain status is now irrelevant, so the fact that it rained doesn't stop the pump. Tank is still 15% ≤ 20%, so the pump again diverts to the refill valve and no water reaches the sprinklers. Outcome: refill valve activates, sprinklers stay off — identical to the current scenario because the tank level, not the rain, drives the sprinkler-vs-refill decision.\"]}",
+      "parsedOutput": {
+        "final_answer": [
+          "No, the sprinklers do not run this cycle — the tank is at 15%, which is 20% or below, so the pump diverts to the refill valve.",
+          "Yes, the refill valve activates because the tank level (15%) is at or below 20%.",
+          "The timer activates the pump regardless of rain. Since the tank is still at 15% (≤20%), the pump activates the refill valve and no water goes to the sprinklers — the same outcome as questions 1 and 2 (refill valve on, sprinklers off)."
+        ],
+        "confidence": 0.98,
+        "working": [
+          "Q1: No rain in last 24h, so the timer activates the pump at 6 AM. Pump draws from tank. Tank is at 15%, which is not above 20% — it is 20% or below. Rule: at/below 20%, pump activates refill valve instead and sends no water to sprinklers. Therefore sprinklers do NOT run.",
+          "Q2: Same condition — tank 15% ≤ 20% — means the pump activates the refill valve. So the refill valve DOES activate.",
+          "Q3: Removing the rain sensor means the timer always fires the pump at 6 AM. Rain status is now irrelevant, so the fact that it rained doesn't stop the pump. Tank is still 15% ≤ 20%, so the pump again diverts to the refill valve and no water reaches the sprinklers. Outcome: refill valve activates, sprinklers stay off — identical to the current scenario because the tank level, not the rain, drives the sprinkler-vs-refill decision."
+        ]
+      },
+      "latencyMs": 11591,
+      "inputTokens": 2487,
+      "outputTokens": 670,
+      "timestamp": "2026-07-16T11:55:09.137Z"
+    },
+    {
+      "taskId": "D003",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"Q1: N4 activates at T=2. Q2: N5 first activates at T=1. Q3: N3, N4, and N5 would never activate. Q4: N4 would activate at T=1.\", \"confidence\": 0.96, \"working\": [\"T=0: N1 sends to N2 and N3 simultaneously; both receive at T=0.\", \"N2 forwards to N4 with 2-step delay → message reaches N4 at T=2.\", \"N3 forwards to N4 and N5 with 1-step delay → messages reach N4 and N5 at T=1.\", \"Q2: N5 activates immediately on receiving N3's message at T=1, so N5 first activates at T=1.\", \"Q1: N4 needs both N2 (arrives T=2) and N3 (arrives T=1); the second/last arrival is at T=2, so N4 activates at T=2. (N4 also then sends to N5 at T=2, but that's N5's second activation.)\", \"Q3: Remove N1→N3. N3 never receives input → never activates. N4 requires messages from BOTH N2 and N3; N3's message never comes → N4 never activates. N5's only inputs are from N3 and from N4 (when N4 activates); both are now dead → N5 never activates. N2 still activates (from N1). So N3, N4, N5 never activate.\", \"Q4: N2 delay = 0. N2 receives at T=0, forwards instantly → N4 gets N2's message at T=0. N3's message still reaches N4 at T=1. Second/last arrival is T=1, so N4 activates at T=1.\"]}",
+      "parsedOutput": {
+        "final_answer": "Q1: N4 activates at T=2. Q2: N5 first activates at T=1. Q3: N3, N4, and N5 would never activate. Q4: N4 would activate at T=1.",
+        "confidence": 0.96,
+        "working": [
+          "T=0: N1 sends to N2 and N3 simultaneously; both receive at T=0.",
+          "N2 forwards to N4 with 2-step delay → message reaches N4 at T=2.",
+          "N3 forwards to N4 and N5 with 1-step delay → messages reach N4 and N5 at T=1.",
+          "Q2: N5 activates immediately on receiving N3's message at T=1, so N5 first activates at T=1.",
+          "Q1: N4 needs both N2 (arrives T=2) and N3 (arrives T=1); the second/last arrival is at T=2, so N4 activates at T=2. (N4 also then sends to N5 at T=2, but that's N5's second activation.)",
+          "Q3: Remove N1→N3. N3 never receives input → never activates. N4 requires messages from BOTH N2 and N3; N3's message never comes → N4 never activates. N5's only inputs are from N3 and from N4 (when N4 activates); both are now dead → N5 never activates. N2 still activates (from N1). So N3, N4, N5 never activate.",
+          "Q4: N2 delay = 0. N2 receives at T=0, forwards instantly → N4 gets N2's message at T=0. N3's message still reaches N4 at T=1. Second/last arrival is T=1, so N4 activates at T=1."
+        ]
+      },
+      "latencyMs": 13085,
+      "inputTokens": 2487,
+      "outputTokens": 1005,
+      "timestamp": "2026-07-16T11:55:22.222Z"
+    },
+    {
+      "taskId": "E001",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"@ # # # # #\", \"confidence\": 1.0, \"working\": [\"The sequence is groups of @ followed by increasing counts of #.\", \"Group 1: @ + 1 #, Group 2: @ + 2 #, Group 3: @ + 3 #, Group 4: @ + 4 #.\", \"The next group is group 5: @ followed by 5 # symbols.\", \"So the answer is @ # # # # #.\"]}",
+      "parsedOutput": {
+        "final_answer": "@ # # # # #",
+        "confidence": 1,
+        "working": [
+          "The sequence is groups of @ followed by increasing counts of #.",
+          "Group 1: @ + 1 #, Group 2: @ + 2 #, Group 3: @ + 3 #, Group 4: @ + 4 #.",
+          "The next group is group 5: @ followed by 5 # symbols.",
+          "So the answer is @ # # # # #."
+        ]
+      },
+      "latencyMs": 4658,
+      "inputTokens": 2487,
+      "outputTokens": 168,
+      "timestamp": "2026-07-16T11:55:26.880Z"
+    },
+    {
+      "taskId": "E002",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": [\"M L K\", \"P O N\", \"S R Q\"], \"confidence\": 0.99, \"working\": [\"Compare Example 1 input rows to output rows: 'A B C' becomes 'C B A', 'D E F' becomes 'F E D', 'G H I' becomes 'I H G'.\", \"Each row is reversed horizontally (mirror left-right); row order is preserved.\", \"Example 2 confirms: 'X Y Z' -> 'Z Y X', etc.\", \"Apply to test: 'K L M' -> 'M L K', 'N O P' -> 'P O N', 'Q R S' -> 'S R Q'.\"]}",
+      "parsedOutput": {
+        "final_answer": [
+          "M L K",
+          "P O N",
+          "S R Q"
+        ],
+        "confidence": 0.99,
+        "working": [
+          "Compare Example 1 input rows to output rows: 'A B C' becomes 'C B A', 'D E F' becomes 'F E D', 'G H I' becomes 'I H G'.",
+          "Each row is reversed horizontally (mirror left-right); row order is preserved.",
+          "Example 2 confirms: 'X Y Z' -> 'Z Y X', etc.",
+          "Apply to test: 'K L M' -> 'M L K', 'N O P' -> 'P O N', 'Q R S' -> 'S R Q'."
+        ]
+      },
+      "latencyMs": 4600,
+      "inputTokens": 2487,
+      "outputTokens": 228,
+      "timestamp": "2026-07-16T11:55:31.480Z"
+    },
+    {
+      "taskId": "E003",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"LSBQ\", \"confidence\": 1.0, \"working\": [\"T1 reverses the string: PARK → KRAP\", \"T2 shifts each letter forward by 1 (Caesar +1, wrapping Z→A)\", \"K→L, R→S, A→B, P→Q\", \"Result: LSBQ\"]}",
+      "parsedOutput": {
+        "final_answer": "LSBQ",
+        "confidence": 1,
+        "working": [
+          "T1 reverses the string: PARK → KRAP",
+          "T2 shifts each letter forward by 1 (Caesar +1, wrapping Z→A)",
+          "K→L, R→S, A→B, P→Q",
+          "Result: LSBQ"
+        ]
+      },
+      "latencyMs": 6848,
+      "inputTokens": 2487,
+      "outputTokens": 185,
+      "timestamp": "2026-07-16T11:55:38.328Z"
+    },
+    {
+      "taskId": "F001",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"B starts at hour 0, A starts at hour 1, C starts at hour 3\", \"confidence\": 0.99, \"working\": [\"Order tasks by earliest deadline first (EDF): B (deadline 3), A (deadline 5), C (deadline 8).\", \"Task B: start 0, finish 1 — meets deadline 3.\", \"Task A: start 1, finish 3 — meets deadline 5.\", \"Task C: start 3, finish 6 — meets deadline 8.\", \"No overlaps, total work 6 hours, all deadlines satisfied.\"]}",
+      "parsedOutput": {
+        "final_answer": "B starts at hour 0, A starts at hour 1, C starts at hour 3",
+        "confidence": 0.99,
+        "working": [
+          "Order tasks by earliest deadline first (EDF): B (deadline 3), A (deadline 5), C (deadline 8).",
+          "Task B: start 0, finish 1 — meets deadline 3.",
+          "Task A: start 1, finish 3 — meets deadline 5.",
+          "Task C: start 3, finish 6 — meets deadline 8.",
+          "No overlaps, total work 6 hours, all deadlines satisfied."
+        ]
+      },
+      "latencyMs": 5548,
+      "inputTokens": 2487,
+      "outputTokens": 378,
+      "timestamp": "2026-07-16T11:55:43.876Z"
+    },
+    {
+      "taskId": "F002",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"Minimum makespan = 6 hours. Schedule: Worker 1 does A (hours 0-3) then C (hours 3-5); Worker 2 does B (hours 0-2) then D (hours 2-6). All tasks complete at hour 6.\", \"confidence\": 0.99, \"working\": [\"Identify dependency chains: A->C (3+2=5 hours) and B->D (2+4=6 hours).\", \"Critical path is B->D = 6 hours, so makespan cannot be less than 6.\", \"Total work = 3+2+2+4 = 11 hours; two workers over 6 hours give 12 capacity, so 11 fits.\", \"Assign Worker 2 to the critical chain: B at 0-2, D at 2-6 (D starts right when B finishes).\", \"Assign Worker 1 to the other chain: A at 0-3, C at 3-5 (C starts right when A finishes).\", \"Check: dependencies respected, no worker overlaps, latest finish is D at hour 6.\", \"Makespan = 6, which equals the lower bound, so it is optimal.\"]}",
+      "parsedOutput": {
+        "final_answer": "Minimum makespan = 6 hours. Schedule: Worker 1 does A (hours 0-3) then C (hours 3-5); Worker 2 does B (hours 0-2) then D (hours 2-6). All tasks complete at hour 6.",
+        "confidence": 0.99,
+        "working": [
+          "Identify dependency chains: A->C (3+2=5 hours) and B->D (2+4=6 hours).",
+          "Critical path is B->D = 6 hours, so makespan cannot be less than 6.",
+          "Total work = 3+2+2+4 = 11 hours; two workers over 6 hours give 12 capacity, so 11 fits.",
+          "Assign Worker 2 to the critical chain: B at 0-2, D at 2-6 (D starts right when B finishes).",
+          "Assign Worker 1 to the other chain: A at 0-3, C at 3-5 (C starts right when A finishes).",
+          "Check: dependencies respected, no worker overlaps, latest finish is D at hour 6.",
+          "Makespan = 6, which equals the lower bound, so it is optimal."
+        ]
+      },
+      "latencyMs": 9005,
+      "inputTokens": 2487,
+      "outputTokens": 666,
+      "timestamp": "2026-07-16T11:55:52.881Z"
+    },
+    {
+      "taskId": "F003",
+      "modelId": "claude-opus-4-8",
+      "runMode": "closed_prompt_only",
+      "rawOutput": "{\"final_answer\": \"Minimum makespan = 9 hours. Schedule: M1: T1 (0–3), T3 (3–7), T5 (7–9). M2: T2 (0–2), T4 (2–3), T6 (3–6).\", \"confidence\": 0.98, \"working\": [\"Compute lower bounds. Critical path along dependencies: T1(3)->T3(4)->T5(2) = 9 hours; this is a hard lower bound since these must run in sequence.\", \"Total work = 3+2+4+1+2+3 = 15 hours; over 2 machines that gives 15/2 = 7.5 -> at least 8. The critical-path bound of 9 dominates, so makespan >= 9.\", \"Try to achieve 9. Put the critical chain on M1: T1 at 0–3, T3 at 3–7 (T1 done at 3), T5 at 7–9 (needs T3 done at 7 and T4 done).\", \"Schedule the rest on M2: T2 at 0–2, T4 at 2–3 (needs T2, 1h), T6 at 3–6 (needs T4 done at 3, 3h).\", \"Verify dependencies: T3 after T1(3) OK; T4 after T2(2) OK; T5 after T3(7) and T4(3) -> starts 7 OK; T6 after T4(3) OK.\", \"Verify no overlap: M1 has T1,T3,T5 sequential (0-3,3-7,7-9); M2 has T2,T4,T6 sequential (0-2,2-3,3-6). No conflicts.\", \"All tasks finish by hour 9, matching the lower bound, so 9 is optimal.\"]}",
+      "parsedOutput": {
+        "final_answer": "Minimum makespan = 9 hours. Schedule: M1: T1 (0–3), T3 (3–7), T5 (7–9). M2: T2 (0–2), T4 (2–3), T6 (3–6).",
+        "confidence": 0.98,
+        "working": [
+          "Compute lower bounds. Critical path along dependencies: T1(3)->T3(4)->T5(2) = 9 hours; this is a hard lower bound since these must run in sequence.",
+          "Total work = 3+2+4+1+2+3 = 15 hours; over 2 machines that gives 15/2 = 7.5 -> at least 8. The critical-path bound of 9 dominates, so makespan >= 9.",
+          "Try to achieve 9. Put the critical chain on M1: T1 at 0–3, T3 at 3–7 (T1 done at 3), T5 at 7–9 (needs T3 done at 7 and T4 done).",
+          "Schedule the rest on M2: T2 at 0–2, T4 at 2–3 (needs T2, 1h), T6 at 3–6 (needs T4 done at 3, 3h).",
+          "Verify dependencies: T3 after T1(3) OK; T4 after T2(2) OK; T5 after T3(7) and T4(3) -> starts 7 OK; T6 after T4(3) OK.",
+          "Verify no overlap: M1 has T1,T3,T5 sequential (0-3,3-7,7-9); M2 has T2,T4,T6 sequential (0-2,2-3,3-6). No conflicts.",
+          "All tasks finish by hour 9, matching the lower bound, so 9 is optimal."
+        ]
+      },
+      "latencyMs": 15843,
+      "inputTokens": 2487,
+      "outputTokens": 1053,
+      "timestamp": "2026-07-16T11:56:08.724Z"
+    }
+  ],
+  "score": {
+    "itemScores": [
+      {
+        "taskId": "A001",
+        "category": "A",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.97,
+        "traceConsistencyScore": 0.7999999999999999,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "A002",
+        "category": "A",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 2,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 1,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 0,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "A003",
+        "category": "A",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 3,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 1,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 1.5,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "B001",
+        "category": "B",
+        "chcFactor": "Gwm",
+        "chcPrimaryWeight": 1,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.955,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "B002",
+        "category": "B",
+        "chcFactor": "Gwm",
+        "chcPrimaryWeight": 1,
+        "tier": 2,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.955,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 0,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "B003",
+        "category": "B",
+        "chcFactor": "Gwm",
+        "chcPrimaryWeight": 1,
+        "tier": 3,
+        "correct": false,
+        "partialCredit": 0,
+        "weightedScore": 0.255,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 1.5,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "C001",
+        "category": "C",
+        "chcFactor": "Gc",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 1,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "C002",
+        "category": "C",
+        "chcFactor": "Gc",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 2,
+        "correct": false,
+        "partialCredit": 0.6,
+        "weightedScore": 0.72,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 0,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "C003",
+        "category": "C",
+        "chcFactor": "Gc",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 3,
+        "correct": false,
+        "partialCredit": 0,
+        "weightedScore": 0.255,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 1.5,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "D001",
+        "category": "D",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.985,
+        "traceConsistencyScore": 0.8999999999999999,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "D002",
+        "category": "D",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 2,
+        "correct": false,
+        "partialCredit": 0.75,
+        "weightedScore": 0.8099999999999999,
+        "traceConsistencyScore": 0.8999999999999999,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 0,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "D003",
+        "category": "D",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 3,
+        "correct": false,
+        "partialCredit": 0,
+        "weightedScore": 0.3,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 1.5,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "E001",
+        "category": "E",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 1,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.97,
+        "traceConsistencyScore": 0.7999999999999999,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "E002",
+        "category": "E",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 2,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.955,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 0,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "E003",
+        "category": "E",
+        "chcFactor": "Gf",
+        "chcPrimaryWeight": 1,
+        "tier": 3,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 0.955,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 1.5,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "F001",
+        "category": "F",
+        "chcFactor": "Gs",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 1,
+        "correct": false,
+        "partialCredit": 0,
+        "weightedScore": 0.255,
+        "traceConsistencyScore": 0.7,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": -1,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "F002",
+        "category": "F",
+        "chcFactor": "Gs",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 2,
+        "correct": true,
+        "partialCredit": 1,
+        "weightedScore": 1,
+        "traceConsistencyScore": 1,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 0,
+          "c": 0
+        }
+      },
+      {
+        "taskId": "F003",
+        "category": "F",
+        "chcFactor": "Gs",
+        "chcSecondaryFactor": "Gf",
+        "chcPrimaryWeight": 0.6,
+        "chcSecondaryWeight": 0.4,
+        "tier": 3,
+        "correct": false,
+        "partialCredit": 0,
+        "weightedScore": 0.285,
+        "traceConsistencyScore": 0.8999999999999999,
+        "constraintAdherenceScore": 1,
+        "outputComplianceScore": 1,
+        "irt": {
+          "model": "2PL",
+          "a": 1,
+          "b": 1.5,
+          "c": 0
+        }
+      }
+    ],
+    "categoryScores": [
+      {
+        "category": "A",
+        "label": "Deduction & Elimination",
+        "itemCount": 3,
+        "correctCount": 3,
+        "accuracy": 1,
+        "weightedScore": 0.9899999999999999
+      },
+      {
+        "category": "B",
+        "label": "Stateful Process Reasoning",
+        "itemCount": 3,
+        "correctCount": 2,
+        "accuracy": 0.6666666666666666,
+        "weightedScore": 0.7216666666666667
+      },
+      {
+        "category": "C",
+        "label": "Rule Application",
+        "itemCount": 3,
+        "correctCount": 1,
+        "accuracy": 0.3333333333333333,
+        "weightedScore": 0.6583333333333333
+      },
+      {
+        "category": "D",
+        "label": "Causal & Counterfactual",
+        "itemCount": 3,
+        "correctCount": 1,
+        "accuracy": 0.3333333333333333,
+        "weightedScore": 0.6983333333333333
+      },
+      {
+        "category": "E",
+        "label": "Abstraction & Transformation",
+        "itemCount": 3,
+        "correctCount": 3,
+        "accuracy": 1,
+        "weightedScore": 0.96
+      },
+      {
+        "category": "F",
+        "label": "Planning Under Constraints",
+        "itemCount": 3,
+        "correctCount": 1,
+        "accuracy": 0.3333333333333333,
+        "weightedScore": 0.5133333333333333
+      }
+    ],
+    "factorScores": [
+      {
+        "factor": "Gc",
+        "factorLabel": "Comprehension-Knowledge",
+        "theta": {
+          "theta": -0.710812962332893,
+          "se": 1.3425868984984248,
+          "information": 0.554772838879419,
+          "method": "MLE",
+          "converged": true,
+          "iterations": 4
+        },
+        "itemCount": 3,
+        "iqEquivalent": 89.3378055650066,
+        "confidenceInterval": {
+          "lower": 50,
+          "upper": 129,
+          "level": 0.95
+        },
+        "itemBreakdown": [
+          {
+            "taskId": "C001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "C002",
+            "correct": false,
+            "partialCredit": 0.6
+          },
+          {
+            "taskId": "C003",
+            "correct": false,
+            "partialCredit": 0
+          }
+        ]
+      },
+      {
+        "factor": "Gf",
+        "factorLabel": "Fluid Reasoning",
+        "theta": {
+          "theta": 0.6581860036472921,
+          "se": 0.592541506376575,
+          "information": 2.8481472949374513,
+          "method": "MLE",
+          "converged": true,
+          "iterations": 4
+        },
+        "itemCount": 15,
+        "iqEquivalent": 109.87279005470938,
+        "confidenceInterval": {
+          "lower": 92,
+          "upper": 127,
+          "level": 0.95
+        },
+        "itemBreakdown": [
+          {
+            "taskId": "A001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "A002",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "A003",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "C001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "C002",
+            "correct": false,
+            "partialCredit": 0.6
+          },
+          {
+            "taskId": "C003",
+            "correct": false,
+            "partialCredit": 0
+          },
+          {
+            "taskId": "D001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "D002",
+            "correct": false,
+            "partialCredit": 0.75
+          },
+          {
+            "taskId": "D003",
+            "correct": false,
+            "partialCredit": 0
+          },
+          {
+            "taskId": "E001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "E002",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "E003",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "F001",
+            "correct": false,
+            "partialCredit": 0
+          },
+          {
+            "taskId": "F002",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "F003",
+            "correct": false,
+            "partialCredit": 0
+          }
+        ]
+      },
+      {
+        "factor": "Gs",
+        "factorLabel": "Processing Speed",
+        "theta": {
+          "theta": -0.710812962332893,
+          "se": 1.3425868984984248,
+          "information": 0.554772838879419,
+          "method": "MLE",
+          "converged": true,
+          "iterations": 4
+        },
+        "itemCount": 3,
+        "iqEquivalent": 89.3378055650066,
+        "confidenceInterval": {
+          "lower": 50,
+          "upper": 129,
+          "level": 0.95
+        },
+        "itemBreakdown": [
+          {
+            "taskId": "F001",
+            "correct": false,
+            "partialCredit": 0
+          },
+          {
+            "taskId": "F002",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "F003",
+            "correct": false,
+            "partialCredit": 0
+          }
+        ]
+      },
+      {
+        "factor": "Gwm",
+        "factorLabel": "Working Memory",
+        "theta": {
+          "theta": 1.0198021214069544,
+          "se": 1.3680054089728912,
+          "information": 0.5343482247699057,
+          "method": "MLE",
+          "converged": true,
+          "iterations": 4
+        },
+        "itemCount": 3,
+        "iqEquivalent": 115.29703182110431,
+        "confidenceInterval": {
+          "lower": 75,
+          "upper": 156,
+          "level": 0.95
+        },
+        "itemBreakdown": [
+          {
+            "taskId": "B001",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "B002",
+            "correct": true,
+            "partialCredit": 1
+          },
+          {
+            "taskId": "B003",
+            "correct": false,
+            "partialCredit": 0
+          }
+        ]
+      }
+    ],
+    "compositeIQ": {
+      "fullScaleIQ": 111,
+      "confidenceInterval": {
+        "lower": 95,
+        "upper": 127,
+        "level": 0.95
+      },
+      "percentile": 80.4,
+      "classification": "High Average"
+    }
+  },
+  "usage": {
+    "totalInputTokens": 44766,
+    "totalOutputTokens": 10507,
+    "estimatedCostUsd": 0.48650499999999997
+  },
+  "antiContamination": {
+    "taskSetHash": "a604f3ef3a8a13956e4c149af34cb1c492c5825104acffc4ab4f14f80d867523",
+    "holdoutItemsUsed": 0,
+    "variantRotation": []
+  }
+}

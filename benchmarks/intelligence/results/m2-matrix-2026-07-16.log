@@ -1,0 +1,73 @@
+=== RUN claude-sonnet-5 r1 11:38:07Z ===
+  Results saved to: results/m2-claude-sonnet-5-20260716-r1.json
+
+  Submitting to https://scorecrux.com...
+  Tagging model "claude-sonnet-5" (verified)
+  Submitted! IQ: 102, ID: 7f0722b0
+
+=== DONE claude-sonnet-5 r1 exit=0 ===
+=== RUN claude-sonnet-5 r2 11:41:30Z ===
+  Results saved to: results/m2-claude-sonnet-5-20260716-r2.json
+
+  Submitting to https://scorecrux.com...
+  Tagging model "claude-sonnet-5" (verified)
+  Submitted! IQ: 106, ID: c4370578
+
+=== DONE claude-sonnet-5 r2 exit=0 ===
+=== RUN claude-sonnet-5 r3 11:44:33Z ===
+  Results saved to: results/m2-claude-sonnet-5-20260716-r3.json
+
+  Submitting to https://scorecrux.com...
+  Tagging model "claude-sonnet-5" (verified)
+  Submitted! IQ: 106, ID: db8792cf
+
+=== DONE claude-sonnet-5 r3 exit=0 ===
+=== RUN claude-opus-4-8 r1 11:47:50Z ===
+  Results saved to: results/m2-claude-opus-4-8-20260716-r1.json
+
+  Submitting to https://scorecrux.com...
+  Tagging model "claude-opus-4-8" (verified)
+  Submitted! IQ: 106, ID: 6a7138ab
+
+=== DONE claude-opus-4-8 r1 exit=0 ===
+=== RUN claude-opus-4-8 r2 11:50:39Z ===
+  Results saved to: results/m2-claude-opus-4-8-20260716-r2.json
+
+  Submitting to https://scorecrux.com...
+  Tagging model "claude-opus-4-8" (verified)
+  Submitted! IQ: 106, ID: 8158ae08
+
+=== DONE claude-opus-4-8 r2 exit=0 ===
+=== RUN claude-opus-4-8 r3 11:53:29Z ===
+  Results saved to: results/m2-claude-opus-4-8-20260716-r3.json
+
+  Submitting to https://scorecrux.com...
+  Tagging model "claude-opus-4-8" (verified)
+  Submitted! IQ: 111, ID: bcc4c291
+
+=== DONE claude-opus-4-8 r3 exit=0 ===
+=== RUN claude-fable-5 r1 11:56:08Z ===
+  Results saved to: results/m2-claude-fable-5-20260716-r1.json
+
+  Submitting to https://scorecrux.com...
+  Tagging model "claude-fable-5" (verified)
+  Submitted! IQ: 106, ID: 48254614
+
+=== DONE claude-fable-5 r1 exit=0 ===
+=== RUN claude-fable-5 r2 11:59:34Z ===
+  Results saved to: results/m2-claude-fable-5-20260716-r2.json
+
+  Submitting to https://scorecrux.com...
+  Tagging model "claude-fable-5" (verified)
+  Submitted! IQ: 111, ID: f4eb19f5
+
+=== DONE claude-fable-5 r2 exit=0 ===
+=== RUN claude-fable-5 r3 12:02:48Z ===
+  Results saved to: results/m2-claude-fable-5-20260716-r3.json
+
+  Submitting to https://scorecrux.com...
+  Tagging model "claude-fable-5" (verified)
+  Submitted! IQ: 115, ID: 7f844207
+
+=== DONE claude-fable-5 r3 exit=0 ===
+MATRIX COMPLETE 12:06:15Z

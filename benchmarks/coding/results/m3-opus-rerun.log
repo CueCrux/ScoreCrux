@@ -1,0 +1,36 @@
+  ScoreCrux Coding Benchmark v1.0
+  Run ID: b42996fe
+  Model: claude-opus-4-8
+  Mode: C-A
+  Tasks: bugfix-01, extension-01, greenfield-01, refactor-01, test-quality-01
+
+  [bugfix-01] Fix Broken Rate Limiter (bugfix)
+    Running sandbox...
+    Score: C1=87% C2=95% C3=63% → 84.9%
+  [extension-01] Add Pipeline Filtering (extension)
+    Running sandbox...
+    Score: C1=87% C2=97% C3=91% → 91.3%
+  [greenfield-01] Cron Expression Parser (greenfield)
+    Running sandbox...
+    Score: C1=87% C2=72% C3=92% → 82.8%
+  [refactor-01] Refactor Monolithic Handler (refactor)
+    Running sandbox...
+    Score: C1=87% C2=71% C3=100% → 83.9%
+  [test-quality-01] Write Tests for deepMerge (test-quality)
+    Running sandbox...
+    Score: C1=21% C2=85% C3=54% → 49.9%
+
+  ━━━ Results ━━━
+  Tasks: 5
+  Composite: 78.5%
+  Test pass rate: 80%
+  Quality: 84%
+  Design: 80%
+  Cost: $0.6867
+  Time: 224.9s
+
+  Results saved to: /home/myles/CueCrux/ScoreCrux/benchmarks/coding/results/coding-b42996fe.json
+
+  Submitting to https://scorecrux.com...
+  Tagging model "claude-opus-4-8" (verified)
+  Submitted! Score: 78.5%, ID: b42996fe
